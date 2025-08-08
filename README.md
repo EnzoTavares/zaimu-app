@@ -3,7 +3,7 @@
 ### ***💸 Zaimu***
 
 * **📊 Financial Dashboard:** Clearly visualize your finances.
-* **💸 Transaction Logging:** Easily add expenses and income.
+* **💸 Transaction Logging:** Easily add expenses and income
 * **🎯 Budgeting Goals:** Create and track monthly goals.
 * **📈 Investment Tracking:** Monitor the performance of your assets.
 
