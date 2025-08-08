@@ -29,8 +29,6 @@ This repository contains all the projects that make up the Zaimu platform.
 * **Infrastructure:** Docker, AWS (S3, EC2, RDS), Terraform
 * **Testing:** JUnit 5 (Backend), Jest & Testing Library (Mobile)
 
-<br>
-
 ##
 
 ### Get in touch!  
