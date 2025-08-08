@@ -1,14 +1,35 @@
-### ***Welcome! <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30">*** 
+# ***Welcome! <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30">*** 
 
----
+### ***💸 Zaimu***
 
-### ***💸Zaimu💸***  
-- **Zaimu** is a mobile application for personal financial management. It allows users to record income and expenses, categorize transactions, set monthly goals, monitor their progress through charts and reports and also use some investments features. The goal is to help users manage their finances more effectively with a simple and intuitive interface.
+* **📊 Financial Dashboard:** Clearly visualize your finances.
+* **💸 Transaction Logging:** Easily add expenses and income.
+* **🎯 Budgeting Goals:** Create and track monthly goals.
+* **📈 Investment Tracking:** Monitor the performance of your assets.
 
 <br>
 
-### ***Get More Information...***
-ℹ️ [Wiki](https://github.com/EnzoTavares/zaimu/wiki)
+### ***🏛️ Repository Structure***
+
+This repository contains all the projects that make up the Zaimu platform.
+
+| Project | Description |
+|---|---|
+| 📁 `zaimu-backend` | The main REST API that serves data to the clients. |
+| 📁 `zaimu-mobile` | The mobile application for iOS and Android. |
+| 📁 `zaimu-infra` | Infrastructure scripts and configurations (IaC). |
+| 📚 `Wiki` | **Our complete documentation! ([Link](https://github.com/EnzoTavares/zaimu/wiki))** |
+
+<br>
+
+### ***💻 Tech Stack***
+
+* **Backend:** Java 21, Spring Boot 3.5.4, PostgreSQL, Maven
+* **Mobile:** React Native, TypeScript, Expo, Zustand
+* **Infrastructure:** Docker, AWS (S3, EC2, RDS), Terraform
+* **Testing:** JUnit 5 (Backend), Jest & Testing Library (Mobile)
+
+<br>
 
 ##
 
