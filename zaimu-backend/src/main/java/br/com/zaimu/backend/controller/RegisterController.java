@@ -1,15 +1,16 @@
 package br.com.zaimu.backend.controller;
 
+import br.com.zaimu.backend.model.security.RequestUser;
+import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.http.HttpResponse;
 import java.time.Instant;
 import java.util.Date;
 
@@ -25,7 +26,7 @@ public class RegisterController {
             @RequestBody RegisterParameters registerParameters
     ) {
         try {
-            registerService.registerUser(registerParameters);
+
             return HttpResponse.newBuilder().statusCode(200).build();
         } catch (Exception ex) {
             return HttpResponse.newBuilder().statusCode(500).build();
@@ -42,7 +43,10 @@ public class RegisterController {
 
 
         RequestUser requestUser = new RequestUser();
-        LoginSSORequest loginSSORequest = loginService.getLoginSSORequestFromLoginParameters(loginParameters);
+        registerService.registerUser(registerParameters);
+
+
+
         SsoAppTokenClaims ssoAppTokenClaims = loginService.getSsoAppTokenClaims(loginSSORequest);
         String ssoAppToken = loginService.getSsoAppToken(ssoAppTokenClaims);
         requestUser.setUserId(ssoAppTokenClaims.getPersonId());
