@@ -1,7 +1,7 @@
 package br.com.zaimu.backend.controller.enums;
 
 public enum HttpStatusEnum {
-    OK(0),
+    SUCCESS(0),
     FAIL(1);
     private final Integer status;
 
@@ -9,9 +9,7 @@ public enum HttpStatusEnum {
         this.status = status;
     }
 
-    public static Integer sucess(){
-        return OK.value();
-    }
+    public static Integer success(){return SUCCESS.value();}
 
     public static Integer fail(){
         return FAIL.value();

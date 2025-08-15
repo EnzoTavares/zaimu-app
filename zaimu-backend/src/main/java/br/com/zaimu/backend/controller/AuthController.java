@@ -35,7 +35,7 @@ public class AuthController {
         Object response;
         try{
             response = authService.registerUser(registerParameters);
-            reponseStatus = HttpStatusEnum.sucess();
+            reponseStatus = HttpStatusEnum.success();
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
