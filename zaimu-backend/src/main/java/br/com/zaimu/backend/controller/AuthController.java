@@ -1,19 +1,18 @@
 package br.com.zaimu.backend.controller;
 
-import br.com.zaimu.backend.model.security.RequestUser;
+import br.com.zaimu.backend.controller.enums.HttpStatusEnum;
+import br.com.zaimu.backend.model.exception.ValidationExceptionHandler;
 import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Instant;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,9 +31,20 @@ public class AuthController {
     public HttpResponse register(
             @Valid @RequestBody RegisterParameters registerParameters
     ) {
-        RequestUser requestUser = authService.registerUser(registerParameters);
-        authService.registerUser(registerParameters);
+        Integer reponseStatus;
+        Object response;
+        try{
+            response = authService.registerUser(registerParameters);
+            reponseStatus = HttpStatusEnum.sucess();
+        } catch (ValidationExceptionHandler e) {
+            response = e.getMessage();
+            reponseStatus = HttpStatusEnum.fail();
+        }
+        return new HttpResponse(reponseStatus, response);
+    }
 
-        return new HttpResponse(0, requestUser);
+    @GetMapping("/test")
+    public HttpResponse test() {
+        return new HttpResponse(0, "Hello World!");
     }
 }
