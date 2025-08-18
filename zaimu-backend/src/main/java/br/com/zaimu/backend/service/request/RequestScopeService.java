@@ -1,14 +1,30 @@
-//package br.com.zaimu.backend.service.request;
-//
-//import jakarta.servlet.http.Cookie;
-//import jakarta.servlet.http.HttpServletRequest;
-//
-//import java.util.Arrays;
-//import java.util.Map;
-//import java.util.Optional;
-//
-//public class RequestScope {
-//
+package br.com.zaimu.backend.service.request;
+
+import br.com.zaimu.backend.model.entity.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+
+import java.time.Instant;
+
+public class RequestScopeService {
+
+    @Autowired
+    private JwtEncoder jwtEncoder;
+
+    public String generateToken(UserEntity user) {
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("zaimu-api")
+                .issuedAt(Instant.now())
+                .expiresAt(Instant.now().plusSeconds(3600)) // 1 hora
+                .subject(user.getId().toString())
+                .claim("username", user.getUsername())
+                .build();
+
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
 //    public Cookie getCookie(String key) {
 //        HttpServletRequest request = RequestContext.getCurrentInstance().getRequest();
 //        Cookie[] cookies = request.getCookies();
@@ -32,7 +48,7 @@
 //
 //        return jwt;
 //    }
-//
+
 //    public Long getUserId()  {
 //        try {
 //            String jwt = getJwt();
@@ -51,4 +67,4 @@
 //            throw new (e.getMessage(), e);
 //        }
 //    }
-//}
+}

@@ -1,20 +1,25 @@
 package br.com.zaimu.backend.service.impl;
 
 import br.com.zaimu.backend.model.security.RequestUser;
+import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
+import br.com.zaimu.backend.repository.hibernate.UserRepository;
 import br.com.zaimu.backend.service.AuthService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ExplicitAuthFlowsType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
@@ -25,6 +30,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl extends RequestUser implements AuthService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     private final CognitoIdentityProviderClient cognitoClient;
 
@@ -77,6 +88,31 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         return requestUser;
     }
 
+    public RequestUser signInUser (LoginParameters loginParameters) {
+        RequestUser requestUser = new RequestUser();
+
+        Map<String, String> authParameters = new HashMap<>();
+        authParameters.put("USERNAME", loginParameters.getEmail());
+        authParameters.put("PASSWORD", loginParameters.getPassword());
+
+
+        InitiateAuthRequest authRequest = InitiateAuthRequest.builder()
+                .clientId(clientId)
+                .authFlow(AuthFlowType.ADMIN_USER_PASSWORD_AUTH)
+                .authParameters(authParameters)
+                .build();
+
+        try {
+            InitiateAuthResponse response = cognitoClient.initiateAuth(authRequest);
+            System.out.println("Login bem-sucedido para o usuário: " + loginParameters.getEmail());
+            // return response.authenticationResult();
+        } catch (Exception e) {
+            System.err.println("Erro ao fazer login do usuário: " + e.getMessage());
+            throw new RuntimeException("Falha no login do usuário", e);
+        }
+        return requestUser;
+    }
+
     public void confirmEmail (String nickname, String code) {
         ConfirmSignUpRequest confirmSignUpRequest = ConfirmSignUpRequest.builder()
                 .clientId(clientId)
@@ -86,11 +122,10 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         try {
             ConfirmSignUpResponse response = cognitoClient.confirmSignUp(confirmSignUpRequest);
-            System.out.println("User " + getNickname() + " confirmed successfully.");
+            System.out.println("User " + nickname + " confirmed successfully.");
         } catch (Exception e) {
             System.err.println("Error confirming user: " + e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
         }
     }
-
 }

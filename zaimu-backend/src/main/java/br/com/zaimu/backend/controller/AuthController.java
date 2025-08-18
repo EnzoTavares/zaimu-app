@@ -6,14 +6,9 @@ import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.service.AuthService;
-import br.com.zaimu.backend.service.AuthenticatorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +22,6 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-    /**
-     * Endpoint to register a new user.
-     *
-     * @param registerParameters the parameters for registration
-     * @return HttpResponse containing the status and user information
-     */
     @PostMapping("/register")
     public HttpResponse register(
             @Valid @RequestBody RegisterParameters registerParameters
@@ -50,6 +39,45 @@ public class AuthController {
         return new HttpResponse(reponseStatus, response);
     }
 
+    @PostMapping("/login")
+    public HttpResponse login(
+            @Valid @RequestBody LoginParameters loginParameters
+    ) {
+        Integer reponseStatus;
+        Object response;
+        try{
+            response = authService.signInUser(loginParameters);
+            reponseStatus = HttpStatusEnum.success();
+
+//            String token = response.
+
+        } catch (ValidationExceptionHandler e) {
+            response = e.getMessage();
+            reponseStatus = HttpStatusEnum.fail();
+        }
+        return new HttpResponse(reponseStatus, response);
+    }
+
+    /*
+    @PostMapping("/login")
+public HttpResponse login(@RequestBody LoginParameters loginParameters) {
+    Integer reponseStatus;
+    Object response;
+    try {
+        AuthenticationResultType authResult = authService.signInUser(loginParameters.getUsername(), loginParameters.getPassword());
+
+        // Aqui você pode retornar os tokens ou um objeto simplificado
+        response = authResult.idToken(); // ou um DTO mais completo
+        reponseStatus = HttpStatusEnum.success();
+
+    } catch (RuntimeException e) {
+        response = e.getMessage();
+        reponseStatus = HttpStatusEnum.fail();
+    }
+    return new HttpResponse(reponseStatus, response);
+}
+     */
+
     @PostMapping("/confirm-email/{nickname}/{code}")
     public HttpResponse confirmEmail(
             @PathVariable String nickname,
@@ -66,19 +94,5 @@ public class AuthController {
             reponseStatus = HttpStatusEnum.fail();
         }
         return new HttpResponse(reponseStatus, response);
-    }
-
-    @Autowired
-    private AuthenticatorService authenticatorService;
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginParameters loginParameters) {
-        try {
-            String token = authenticatorService.authenticateUser(loginParameters);
-            return ResponseEntity.ok(token);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(e.getMessage());
-        }
     }
 }
