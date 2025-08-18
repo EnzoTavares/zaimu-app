@@ -20,24 +20,24 @@ public class AuthenticatorService {
     @Autowired
     private GenerateJwtService jwtService;
 
-    public UserEntity registerUser(RegisterParameters params) {
-        if(userRepository.findByEmail(params.getEmail()).isPresent()) {
+    public UserEntity registerUser(RegisterParameters registerParameters) {
+        if(userRepository.findByEmail(registerParameters.getEmail()).isPresent()) {
             throw new RuntimeException("Email já cadastrado");
         }
 
         UserEntity user = new UserEntity();
-        user.setEmail(params.getEmail());
-        user.setUsername(params.getUsername());
-        user.setPassword(passwordEncoder.encode(params.getPassword()));
+        user.setEmail(registerParameters.getEmail());
+        user.setUsername(registerParameters.getUsername());
+        user.setPassword(passwordEncoder.encode(registerParameters.getPassword()));
 
         return userRepository.save(user);
     }
 
-    public String authenticateUser(LoginParameters params) {
-        UserEntity user = userRepository.findByEmail(params.getEmail())
+    public String authenticateUser(LoginParameters registerParameters) {
+        UserEntity user = userRepository.findByEmail(registerParameters.getEmail())
                 .orElseThrow(() -> new RuntimeException("Credenciais inválidas"));
 
-        if(!passwordEncoder.matches(params.getPassword(), user.getPassword())) {
+        if(!passwordEncoder.matches(registerParameters.getPassword(), user.getPassword())) {
             throw new RuntimeException("Credenciais inválidas");
         }
 

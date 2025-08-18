@@ -1,4 +1,4 @@
-package br.com.zaimu.backend.model.to;
+package br.com.zaimu.backend.model.entity;
 
 import jakarta.persistence.*;
 import java.util.UUID;
