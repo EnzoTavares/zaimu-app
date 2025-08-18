@@ -2,6 +2,9 @@ package br.com.zaimu.backend.model.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,13 +19,14 @@ import java.util.Map;
 @Getter
 @Setter
 public class RequestUser {
-    private String authorizationToken;
-    private Long userId;
-    private String uuid;
-    private String email;
-    private String name;
-    private String username;
-    private List<String> scopes;
+    String authorizationToken;
+    Long userId;
+    String uuid;
+    String email;
+    String givenName;
+    String familyName;
+    String nickname;
+    List<String> scopes;
 //    Customization customization;
 
     public RequestUser(String token, String tokenSigningKey) {
@@ -30,11 +34,11 @@ public class RequestUser {
         this.userId = claims.get("id", Long.class);
         this.uuid = claims.get("uuid", String.class);
         this.email = claims.get("email", String.class);
-        this.name = claims.get("name", String.class);
-        this.username = claims.get("username", String.class);
+        this.givenName = claims.get("givenName", String.class);
+        this.familyName = claims.get("familyName", String.class);
+        this.nickname = claims.get("nickname", String.class);
         this.authorizationToken = token;
     }
-
 
     private enum ScopeENUM {
         USER("ZAIMU.USER", 1),
@@ -60,8 +64,9 @@ public class RequestUser {
                 "\"id\": " + userId + "," +
                 "\"uuid\": \"" + uuid + "\"," +
                 "\"email\": \"" + email + "\"," +
-                "\"name\": \"" + name + "\"," +
-                "\"username\": \"" + username + "\"" +
+                "\"givenName\": \"" + givenName + "\"," +
+                "\"familyName\": \"" + familyName + "\"," +
+                "\"nickname\": \"" + nickname + "\"" +
                 "}";
     }
 }

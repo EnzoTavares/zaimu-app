@@ -16,16 +16,19 @@ public class RegisterParameters {
     @Email(message = "O email deve ser válido")
     private String email;
 
-    @NotBlank(message = "O nome é obrigatório")
-    private String name;
+    @NotBlank(message = "O primeiro nome é obrigatório")
+    private String givenName;
 
-    @NotBlank(message = "O username é obrigatório")
-    private String username;
+    @NotBlank(message = "O último nome é obrigatório")
+    private String familyName;
+
+    @NotBlank(message = "O nickname é obrigatório")
+    private String nickname;
 
     @NotBlank(message = "A senha é obrigatória")
     @Pattern(
-            regexp = "^(?=.*[0-9])(?=.*[@#$%^&+=!])(?=\\\\S+$).{8,16}$",
-            message = "A senha deve conter entre 8 e 16 caracteres, incluindo um número, uma letra e um caractere especial"
+            regexp = "^(?!^ |.* $)(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\^\\$\\*\\.\\[\\]\\{\\}\\(\\)\\?\\-!\"@#%&/\\\\,><' ;:|~`_+=]).{8,}$",
+            message = "A senha deve conter pelo menos 8 caracteres, incluindo um número, uma letra minúscula, uma letra maiúscula e um caractere especial. Não pode conter espaços no início ou no fim."
     )
     private String password;
 }

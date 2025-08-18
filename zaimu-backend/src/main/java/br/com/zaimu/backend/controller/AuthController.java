@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,9 @@ public class AuthController {
         Integer reponseStatus;
         Object response;
         try{
-            response = authService.registerUser(registerParameters);
+            response = authService.signUpUser(registerParameters);
             reponseStatus = HttpStatusEnum.success();
+
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
@@ -43,8 +45,21 @@ public class AuthController {
         return new HttpResponse(reponseStatus, response);
     }
 
-    @GetMapping("/test")
-    public HttpResponse test() {
-        return new HttpResponse(0, "Hello World!");
+    @PostMapping("/confirm-email/{nickname}/{code}")
+    public HttpResponse confirmEmail(
+            @PathVariable String nickname,
+            @PathVariable String code
+    ) {
+        Integer reponseStatus;
+        Object response;
+        try{
+            authService.confirmEmail(nickname, code);
+            response = "Email confirmed successfully.";
+            reponseStatus = HttpStatusEnum.success();
+        } catch (ValidationExceptionHandler e) {
+            response = e.getMessage();
+            reponseStatus = HttpStatusEnum.fail();
+        }
+        return new HttpResponse(reponseStatus, response);
     }
 }
