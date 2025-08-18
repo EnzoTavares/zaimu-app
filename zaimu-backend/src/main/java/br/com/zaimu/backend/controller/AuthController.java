@@ -4,9 +4,14 @@ import br.com.zaimu.backend.controller.enums.HttpStatusEnum;
 import br.com.zaimu.backend.model.exception.ValidationExceptionHandler;
 import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
+import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.service.AuthService;
+import br.com.zaimu.backend.service.AuthenticatorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,5 +66,19 @@ public class AuthController {
             reponseStatus = HttpStatusEnum.fail();
         }
         return new HttpResponse(reponseStatus, response);
+    }
+
+    @Autowired
+    private AuthenticatorService authenticatorService;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginParameters loginParameters) {
+        try {
+            String token = authenticatorService.authenticateUser(loginParameters);
+            return ResponseEntity.ok(token);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(e.getMessage());
+        }
     }
 }
