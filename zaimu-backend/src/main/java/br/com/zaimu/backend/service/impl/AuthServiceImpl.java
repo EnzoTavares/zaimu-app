@@ -98,7 +98,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         InitiateAuthRequest authRequest = InitiateAuthRequest.builder()
                 .clientId(clientId)
-                .authFlow(AuthFlowType.ADMIN_USER_PASSWORD_AUTH)
+                .authFlow(AuthFlowType.USER_PASSWORD_AUTH)
                 .authParameters(authParameters)
                 .build();
 
