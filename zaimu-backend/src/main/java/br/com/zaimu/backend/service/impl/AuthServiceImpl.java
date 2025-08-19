@@ -89,10 +89,19 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
     }
 
     public RequestUser signInUser (LoginParameters loginParameters) {
+
+        loginParameters.isValid();
         RequestUser requestUser = new RequestUser();
 
         Map<String, String> authParameters = new HashMap<>();
-        authParameters.put("USERNAME", loginParameters.getEmail());
+        String credentialType;
+        if (loginParameters.getEmail() == null || loginParameters.getEmail().isBlank()) {
+            authParameters.put("USERNAME", loginParameters.getUsername());
+            credentialType = loginParameters.getUsername();
+        } else {
+            authParameters.put("USERNAME", loginParameters.getEmail());
+            credentialType = loginParameters.getEmail();
+        }
         authParameters.put("PASSWORD", loginParameters.getPassword());
 
 
@@ -104,7 +113,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         try {
             InitiateAuthResponse response = cognitoClient.initiateAuth(authRequest);
-            System.out.println("Login bem-sucedido para o usuário: " + loginParameters.getEmail());
+            System.out.println("Login bem-sucedido para o usuário: " + credentialType);
             // return response.authenticationResult();
         } catch (Exception e) {
             System.err.println("Erro ao fazer login do usuário: " + e.getMessage());
