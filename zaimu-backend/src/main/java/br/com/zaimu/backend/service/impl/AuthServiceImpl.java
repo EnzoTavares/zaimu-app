@@ -89,15 +89,14 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
     }
 
     public RequestUser signInUser (LoginParameters loginParameters) {
-
         loginParameters.isValid();
         RequestUser requestUser = new RequestUser();
 
         Map<String, String> authParameters = new HashMap<>();
         String credentialType;
         if (loginParameters.getEmail() == null || loginParameters.getEmail().isBlank()) {
-            authParameters.put("USERNAME", loginParameters.getUsername());
-            credentialType = loginParameters.getUsername();
+            authParameters.put("USERNAME", loginParameters.getNickname());
+            credentialType = loginParameters.getNickname();
         } else {
             authParameters.put("USERNAME", loginParameters.getEmail());
             credentialType = loginParameters.getEmail();

@@ -10,17 +10,17 @@ public class LoginParameters {
     @Email(message = "O email deve ser válido.")
     private String email;
 
-    private String username;
+    private String nickname;
 
     @NotBlank(message = "A senha é obrigatória")
     private String password;
 
     public void isValid() {
-        if ((email == null || email.isBlank()) && (username == null || username.isBlank())) {
-            throw new IllegalArgumentException("Informe o email ou o username para login.");
+        if ((email == null || email.isBlank()) && (nickname == null || nickname.isBlank())) {
+            throw new IllegalArgumentException("Informe o email ou o nickname para login.");
         }
-        if((email != null && !email.isBlank()) && (username != null && !username.isBlank())) {
-            throw new IllegalArgumentException("Informe apenas o email ou o username.");
+        if((email != null && !email.isBlank()) && (nickname != null && !nickname.isBlank())) {
+            throw new IllegalArgumentException("Informe apenas o email ou o nickname.");
         }
     }
 }
