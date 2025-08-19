@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -58,26 +59,6 @@ public class AuthController {
         return new HttpResponse(reponseStatus, response);
     }
 
-    /*
-    @PostMapping("/login")
-public HttpResponse login(@RequestBody LoginParameters loginParameters) {
-    Integer reponseStatus;
-    Object response;
-    try {
-        AuthenticationResultType authResult = authService.signInUser(loginParameters.getUsername(), loginParameters.getPassword());
-
-        // Aqui você pode retornar os tokens ou um objeto simplificado
-        response = authResult.idToken(); // ou um DTO mais completo
-        reponseStatus = HttpStatusEnum.success();
-
-    } catch (RuntimeException e) {
-        response = e.getMessage();
-        reponseStatus = HttpStatusEnum.fail();
-    }
-    return new HttpResponse(reponseStatus, response);
-}
-     */
-
     @PostMapping("/confirm-email/{nickname}/{code}")
     public HttpResponse confirmEmail(
             @PathVariable String nickname,
@@ -90,6 +71,24 @@ public HttpResponse login(@RequestBody LoginParameters loginParameters) {
             response = "Email confirmed successfully.";
             reponseStatus = HttpStatusEnum.success();
         } catch (ValidationExceptionHandler e) {
+            response = e.getMessage();
+            reponseStatus = HttpStatusEnum.fail();
+        }
+        return new HttpResponse(reponseStatus, response);
+    }
+
+    @PostMapping("/reset-password/{credential}")
+    public HttpResponse resetPassword(
+            @PathVariable String credential,
+            @RequestParam (required = false) String code,
+            @RequestParam (required = false) String newPassword
+    ) {
+        Integer reponseStatus;
+        Object response;
+        try{
+            response = authService.resetPassword(credential, code, newPassword);
+            reponseStatus = HttpStatusEnum.success();
+        } catch (IllegalArgumentException e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
         }

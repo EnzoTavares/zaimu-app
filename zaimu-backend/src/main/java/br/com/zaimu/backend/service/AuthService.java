@@ -10,4 +10,6 @@ public interface AuthService {
     RequestUser signInUser (LoginParameters registerParameters);
 
     void confirmEmail (String nickname, String code);
+
+    String resetPassword (String credential, String code, String newPassword);
 }
