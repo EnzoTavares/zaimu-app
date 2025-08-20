@@ -31,6 +31,8 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpReque
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +94,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             user.setFirstName(registerParameters.getGivenName());
             user.setLastName(registerParameters.getFamilyName());
             user.setNickname(registerParameters.getNickname());
-            user.setCreateDate(Date.valueOf(LocalDate.now()));
+            user.setCreateDate(Timestamp.from(Instant.now()));
 
             Long userId = userRepository.create(user);
 

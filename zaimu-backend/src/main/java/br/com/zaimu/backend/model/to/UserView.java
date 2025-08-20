@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
@@ -21,9 +22,9 @@ public class UserView {
     private String givenName;
     private String familyName;
     private String nickname;
-    private String dateCreated;
-    private String dateUpdated;
-    private String dateLastLogin;
+    private Timestamp dateCreated;
+    private Timestamp dateUpdated;
+    private Timestamp dateLastLogin;
     private Long idCustomization;
     private String profilePicUrl;
     private Character status;
@@ -38,9 +39,9 @@ public class UserView {
             this.givenName = rs.getString("NM_FIRST_NAME");
             this.familyName = rs.getString("NM_LAST_NAME");
             this.nickname = rs.getString("CD_NICKNAME");
-            this.dateCreated = rs.getString("DT_CREATED");
-            this.dateUpdated = rs.getString("DT_UPDATED");
-            this.dateLastLogin = rs.getString("DT_LAST_LOGIN");
+            this.dateCreated = rs.getTimestamp("DT_CREATED");
+            this.dateUpdated = rs.getTimestamp("DT_UPDATED");
+            this.dateLastLogin = rs.getTimestamp("DT_LAST_LOGIN");
             this.profilePicUrl = rs.getString("VL_LINK_PROFILE_PIC");
             this.idCustomization = rs.getLong("ID_CUSTOMIZATION");
             this.status = rs.getString("FL_STATUS").charAt(0);

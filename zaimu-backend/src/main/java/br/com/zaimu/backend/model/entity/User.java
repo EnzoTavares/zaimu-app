@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -54,15 +55,15 @@ public class User implements Serializable {
 
     @NotNull
     @Column(name = "DT_CREATED")
-    private Date createDate;
+    private Timestamp createDate;
 
     @Column(name = "DT_UPDATED")
     @Nullable
-    private Date updateDate;
+    private Timestamp updateDate;
 
     @Column(name = "DT_LAST_LOGIN")
     @Nullable
-    private Date lastLoginDate;
+    private Timestamp lastLoginDate;
 
     @Column(name = "VL_LINK_PROFILE_PIC")
     @Nullable
