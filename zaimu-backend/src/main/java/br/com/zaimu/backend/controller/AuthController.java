@@ -49,9 +49,6 @@ public class AuthController {
         try{
             response = authService.signInUser(loginParameters);
             reponseStatus = HttpStatusEnum.success();
-
-//            String token = response.
-
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
