@@ -1,8 +1,10 @@
 package br.com.zaimu.backend.service.impl;
 
+import br.com.zaimu.backend.model.entity.User;
 import br.com.zaimu.backend.model.security.RequestUser;
 import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
+import br.com.zaimu.backend.model.to.UserView;
 import br.com.zaimu.backend.repository.hibernate.UserRepository;
 import br.com.zaimu.backend.service.AuthService;
 import org.slf4j.Logger;
@@ -28,15 +30,18 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfi
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl extends RequestUser implements AuthService {
 
-    static final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -45,6 +50,9 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
     @Value("${aws.cognito.client-id}")
     private String clientId;
+
+    @Value ("${aws.cognito.user-pool-id}")
+    private String userPoolId;
 
     public AuthServiceImpl(@Value("${aws.region}") String region) {
         this.cognitoClient = CognitoIdentityProviderClient.builder()
@@ -77,20 +85,27 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         try {
             SignUpResponse response = cognitoClient.signUp(signUpRequest);
-            System.out.println("User " + registerParameters.getEmail() + " signed up successfully. User confirmed: " + response.userConfirmed());
-//            requestUser.setUserId();
-            requestUser.setUuid(response.userSub());
+            logger.info("User {} signed up successfully. User confirmed: {}", registerParameters.getEmail(), response.userConfirmed());
+            User user = new User();
+            user.setUuid(UUID.fromString(response.userSub()));
+            user.setEmail(registerParameters.getEmail());
+            user.setFirstName(registerParameters.getGivenName());
+            user.setLastName(registerParameters.getFamilyName());
+            user.setNickname(registerParameters.getNickname());
+            user.setCreateDate(Date.valueOf(LocalDate.now()));
+
+            Long userId = userRepository.create(user);
+
+            requestUser.setUserId(userId);
+            requestUser.setUuid(UUID.fromString(response.userSub()));
             requestUser.setEmail(registerParameters.getEmail());
             requestUser.setGivenName(registerParameters.getGivenName());
             requestUser.setFamilyName(registerParameters.getFamilyName());
             requestUser.setNickname(registerParameters.getNickname());
         } catch (Exception e) {
-            System.err.println("Error signing up user: " + e.getMessage());
+            logger.error("Error signing up user: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
-        }
-
-//        logger.info();
-
+        };
         return requestUser;
     }
 
@@ -118,9 +133,18 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         try {
             InitiateAuthResponse response = cognitoClient.initiateAuth(authRequest);
-            System.out.println("Login bem-sucedido para o usuário: " + credentialType);
+            logger.info("Login bem-sucedido para o usuário: {}", credentialType);
+
+            requestUser.setAuthorizationToken(response.authenticationResult().accessToken());
+            UserView user = userRepository.getUserByNicknameOrEmail(credentialType);
+            requestUser.setUserId(user.getUserId());
+            requestUser.setUuid(user.getUuid());
+            requestUser.setEmail(user.getEmail());
+            requestUser.setGivenName(user.getGivenName());
+            requestUser.setFamilyName(user.getFamilyName());
+            requestUser.setNickname(user.getNickname());
         } catch (Exception e) {
-            System.err.println("Erro ao fazer login do usuário: " + e.getMessage());
+            logger.error("Erro ao fazer login do usuário: {}", e.getMessage());
             throw new RuntimeException("Falha no login do usuário", e);
         }
         return requestUser;
@@ -135,9 +159,9 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         try {
             ConfirmSignUpResponse response = cognitoClient.confirmSignUp(confirmSignUpRequest);
-            System.out.println("User " + nickname + " confirmed successfully.");
+            logger.info("User {} confirmed successfully.", nickname);
         } catch (Exception e) {
-            System.err.println("Error confirming user: " + e.getMessage());
+            logger.error("Error confirming user: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
         }
     }
@@ -151,11 +175,10 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
             try {
                 ForgotPasswordResponse response = cognitoClient.forgotPassword(forgotPasswordRequest);
-                System.out.println(response);
-                System.out.println("Verifique seu e-mail para redefinir sua senha.");
+                logger.info("Verifique seu e-mail para redefinir sua senha.");
                 return "Verifique seu e-mail para redefinir sua senha.";
             } catch (Exception e) {
-                System.err.println("Error confirming user: " + e.getMessage());
+                logger.error("Erro ao validar a credencial: {}. Erro: {}",credential, e.getMessage());
                 throw new RuntimeException("Failed to sign up user", e);
             }
         } else {
@@ -176,10 +199,10 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
             try {
                 cognitoClient.confirmForgotPassword(confirmForgotPasswordRequest);
-                System.out.println("Senha redefinida!");
+                logger.info("Senha redefinida!");
                 return "Senha redefinida!";
             } catch (Exception e) {
-                System.err.println("Erro ao resetar a senha: " + e.getMessage());
+                logger.error("Erro ao resetar a senha: {}", e.getMessage());
                 throw new RuntimeException("Failed to confirm password reset", e);
             }
         }
@@ -193,9 +216,9 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         try {
             ResendConfirmationCodeResponse response = cognitoClient.resendConfirmationCode(resendConfirmationCodeRequest);
-            System.out.println("Código reenviado. Verifique seu e-mail.");
+            logger.info("Código reenviado. Verifique seu e-mail.");
         } catch (Exception e) {
-            System.err.println("Error confirming user: " + e.getMessage());
+            logger.error("Erro ao reenviar o código: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
         }
     }

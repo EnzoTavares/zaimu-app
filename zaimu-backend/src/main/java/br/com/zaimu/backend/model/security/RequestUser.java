@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -21,7 +22,7 @@ import java.util.Map;
 public class RequestUser {
     String authorizationToken;
     Long userId;
-    String uuid;
+    UUID uuid;
     String email;
     String givenName;
     String familyName;
@@ -32,7 +33,7 @@ public class RequestUser {
     public RequestUser(String token, String tokenSigningKey) {
         Claims claims = Jwts.parser().setSigningKey(tokenSigningKey).parseClaimsJws(token).getBody();
         this.userId = claims.get("id", Long.class);
-        this.uuid = claims.get("uuid", String.class);
+        this.uuid = claims.get("uuid", UUID.class);
         this.email = claims.get("email", String.class);
         this.givenName = claims.get("givenName", String.class);
         this.familyName = claims.get("familyName", String.class);

@@ -1,6 +1,5 @@
 package br.com.zaimu.backend.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,10 +14,9 @@ import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table( name = "USER", schema = "ZADM" )
 @SequenceGenerator( name = "ZADM.SQ_USER_ID", sequenceName = "ZADM.SQ_USER_ID", allocationSize = 1 )
@@ -36,7 +34,7 @@ public class User implements Serializable {
 
     @NotNull
     @Column(name = "CD_COGNITO_SUB")
-    private BigDecimal uuid;
+    private UUID uuid;
 
     @NotNull
     @Column(name = "DS_EMAIL")
@@ -68,11 +66,11 @@ public class User implements Serializable {
 
     @Column(name = "VL_LINK_PROFILE_PIC")
     @Nullable
-    private Float profilePicUrl;
+    private String profilePicUrl;
 
     @Column(name = "ID_CUSTOMIZATION")
     @Nullable
-    private Float idCustomization;
+    private Long idCustomization;
 
     @Override
     public String toString() {
