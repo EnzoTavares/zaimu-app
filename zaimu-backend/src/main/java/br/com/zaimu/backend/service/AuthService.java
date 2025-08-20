@@ -12,4 +12,6 @@ public interface AuthService {
     void confirmEmail (String nickname, String code);
 
     String resetPassword (String credential, String code, String newPassword);
+
+    void resendSignUpCode (String nickname);
 }

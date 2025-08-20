@@ -5,6 +5,8 @@ import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.repository.hibernate.UserRepository;
 import br.com.zaimu.backend.service.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPassw
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
@@ -31,6 +35,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl extends RequestUser implements AuthService {
+
+    static final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -82,6 +88,8 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             System.err.println("Error signing up user: " + e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
         }
+
+//        logger.info();
 
         return requestUser;
     }
@@ -174,6 +182,21 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                 System.err.println("Erro ao resetar a senha: " + e.getMessage());
                 throw new RuntimeException("Failed to confirm password reset", e);
             }
+        }
+    }
+
+    public void resendSignUpCode (String nickname) {
+        ResendConfirmationCodeRequest resendConfirmationCodeRequest = ResendConfirmationCodeRequest.builder()
+                .clientId(clientId)
+                .username(nickname)
+                .build();
+
+        try {
+            ResendConfirmationCodeResponse response = cognitoClient.resendConfirmationCode(resendConfirmationCodeRequest);
+            System.out.println("Código reenviado. Verifique seu e-mail.");
+        } catch (Exception e) {
+            System.err.println("Error confirming user: " + e.getMessage());
+            throw new RuntimeException("Failed to sign up user", e);
         }
     }
 }

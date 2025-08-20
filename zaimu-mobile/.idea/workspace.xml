@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +37,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "005-feature",
     "last_opened_file_path": "D:/Programming/Development Projects/zaimu-app/zaimu-mobile",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -73,6 +73,7 @@
       <updated>1754663590235</updated>
       <workItem from="1754663591594" duration="1979000" />
       <workItem from="1754676679082" duration="1235000" />
+      <workItem from="1755629259423" duration="678000" />
     </task>
     <servers />
   </component>

@@ -94,4 +94,21 @@ public class AuthController {
         }
         return new HttpResponse(reponseStatus, response);
     }
+
+    @PostMapping("/resend-code/{nickname}")
+    public HttpResponse resendCode(
+            @PathVariable String nickname
+    ) {
+        Integer reponseStatus;
+        Object response;
+        try{
+            authService.resendSignUpCode(nickname);
+            response = "Código reenviado.";
+            reponseStatus = HttpStatusEnum.success();
+        } catch (ValidationExceptionHandler e) {
+            response = e.getMessage();
+            reponseStatus = HttpStatusEnum.fail();
+        }
+        return new HttpResponse(reponseStatus, response);
+    }
 }
