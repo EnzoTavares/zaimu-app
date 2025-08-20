@@ -5,7 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/fonts/SpaceMono-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Collapsible.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ExternalLink.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HapticTab.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HelloWave.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ParallaxScrollView.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ThemedText.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ThemedView.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/IconSymbol.ios.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/IconSymbol.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/TabBarBackground.ios.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/TabBarBackground.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/themes/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/themes/colors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/themes/dimensions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/themes/dimensions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/themes/typography.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/themes/typography.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,17 +34,26 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="310akodDGlPCgyhJM2jJfpZlLEE" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -37,24 +65,25 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "005-feature",
+    "git-widget-placeholder": "F-007-feature",
     "last_opened_file_path": "D:/Programming/Development Projects/zaimu-app/zaimu-mobile",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
-    "ts.external.directory.path": "D:\\Programming\\Development Projects\\zaimu\\zaimu-mobile\\node_modules\\typescript\\lib",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src\assets\fonts" />
+      <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src" />
       <recent name="D:\Programming\Development Projects\zaimu\zaimu-mobile\src\lib" />
       <recent name="D:\Programming\Development Projects\zaimu\zaimu-mobile" />
       <recent name="D:\Programming\Development Projects\zaimu\zaimu-mobile\src\styles" />
-      <recent name="D:\Programming\Development Projects\zaimu\zaimu-mobile\src" />
     </key>
   </component>
   <component name="SharedIndexes">
