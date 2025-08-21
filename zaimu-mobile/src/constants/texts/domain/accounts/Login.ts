@@ -1,8 +1,8 @@
 const loginTexts = {
     login: 'Login',
     forgotPassword: 'Esqueceu a senha?',
-    dontHaveAccount: 'Não tem uma conta?',
-    register: 'Cadastre-se',
+    signIn: 'Entrar',
+    signUp: 'Cadastrar',
     invalidAuthParams: 'O Email ou a senha estaão incorretos',
 }
 

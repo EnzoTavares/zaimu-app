@@ -20,7 +20,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class RequestUser {
-    String authorizationToken;
     Long userId;
     UUID uuid;
     String email;
@@ -38,7 +37,6 @@ public class RequestUser {
         this.givenName = claims.get("givenName", String.class);
         this.familyName = claims.get("familyName", String.class);
         this.nickname = claims.get("nickname", String.class);
-        this.authorizationToken = token;
     }
 
     private enum ScopeENUM {

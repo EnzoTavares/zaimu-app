@@ -1,7 +1,7 @@
 const passwordConstants = {
     label: 'Senha',
     labelConfirm: 'Confirmar Senha',
-    placeholder: 'Digite sua senha',
+    placeholder: 'Senha',
 
     rules: {
         length: 'Mínimo 8 caracteres',

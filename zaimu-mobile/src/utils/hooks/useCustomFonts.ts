@@ -8,15 +8,15 @@ export function useCustomFonts() {
 
     useEffect(() => {
         Font.loadAsync({
-            [fontFamily.thin]: require("@/assets/fonts/LeagueSpartan-Thin.ttf"),
-            [fontFamily.extraLight]: require("@/assets/fonts/LeagueSpartan-ExtraLight.ttf"),
-            [fontFamily.light]: require("@/assets/fonts/LeagueSpartan-Light.ttf"),
-            [fontFamily.regular]: require("@/assets/fonts/LeagueSpartan-Regular.ttf"),
-            [fontFamily.medium]: require("@/assets/fonts/LeagueSpartan-Medium.ttf"),
-            [fontFamily.semiBold]: require("@/assets/fonts/LeagueSpartan-SemiBold.ttf"),
-            [fontFamily.bold]: require("@/assets/fonts/LeagueSpartan-Bold.ttf"),
-            [fontFamily.extraBold]: require("@/assets/fonts/LeagueSpartan-ExtraBold.ttf"),
-            [fontFamily.black]: require("@/assets/fonts/LeagueSpartan-Black.ttf"),
+            [fontFamily.thin]: require("@/src/assets/fonts/LeagueSpartan-Thin.ttf"),
+            [fontFamily.extraLight]: require("@/src/assets/fonts/LeagueSpartan-ExtraLight.ttf"),
+            [fontFamily.light]: require("@/src/assets/fonts/LeagueSpartan-Light.ttf"),
+            [fontFamily.regular]: require("@/src/assets/fonts/LeagueSpartan-Regular.ttf"),
+            [fontFamily.medium]: require("@/src/assets/fonts/LeagueSpartan-Medium.ttf"),
+            [fontFamily.semiBold]: require("@/src/assets/fonts/LeagueSpartan-SemiBold.ttf"),
+            [fontFamily.bold]: require("@/src/assets/fonts/LeagueSpartan-Bold.ttf"),
+            [fontFamily.extraBold]: require("@/src/assets/fonts/LeagueSpartan-ExtraBold.ttf"),
+            [fontFamily.black]: require("@/src/assets/fonts/LeagueSpartan-Black.ttf"),
         }).then(() => setLoaded(true))
     }, [])
 

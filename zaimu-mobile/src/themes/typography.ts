@@ -17,17 +17,29 @@ export const fontStyles = {
     mark: {
         fontFamily: fontFamily.bold,
     },
+    lightCallout: {
+        fontFamily: fontFamily.light,
+        fontSize: fontSizes.xl,
+        lineHeight: lineHeights.loose,
+        color: colors.black,
+    },
     callout: {
         fontFamily: fontFamily.regular,
         fontSize: fontSizes.xl,
         lineHeight: lineHeights.loose,
         color: colors.black,
     },
+    semiBoldCallout: {
+        fontFamily: fontFamily.semiBold,
+        fontSize: fontSizes.xl,
+        // lineHeight: lineHeights.loose,
+        color: colors.black,
+    },
     main: {
         fontFamily: fontFamily.medium,
         fontSize: fontSizes.lg,
         lineHeight: lineHeights.relaxed,
-        color: colors.darkGrey,
+        color: colors.black,
     },
     assistanceMedium: {
         fontFamily: fontFamily.medium,
@@ -37,9 +49,8 @@ export const fontStyles = {
     },
     assistanceRegular: {
         fontFamily: fontFamily.regular,
-        fontSize: fontSizes.sm,
-        lineHeight: lineHeights.snug,
-        color: colors.darkGrey,
+        fontSize: fontSizes.md,
+        color: colors.greyMiddle,
     },
     example: {
         fontFamily: fontFamily.regular,

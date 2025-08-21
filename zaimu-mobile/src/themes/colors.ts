@@ -4,10 +4,12 @@ const colors = {
     primaryDisabled: 'rgba(255, 124, 31, 0.5)',
     primaryBackground: 'rgba(255, 124, 31, 0.2)',
 
-    darkGrey: '#838383',
+    darkGrey: '#616161',
     greyMiddle: '#A9A9A9',
     greyLight: '#D3D3D3',
     greyExtraLight: '#E6E6E6',
+
+    shadow: '#B4B4B4',
 
     black: '#000000',
     white: '#FFFFFF',
