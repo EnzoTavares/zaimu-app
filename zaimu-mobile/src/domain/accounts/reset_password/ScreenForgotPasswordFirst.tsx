@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, ScrollView} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
@@ -9,6 +9,7 @@ import emailOrNicknameTexts from "@/src/constants/texts/inputs/EmailOrNickname";
 import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
 
 const ScreenForgotPasswordFirst = () => {
+    const [credential, setCredential] = useState("");
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
@@ -16,7 +17,12 @@ const ScreenForgotPasswordFirst = () => {
 
             <TitleWithSubtitle title={forgotPasswordTexts.reset} subtitle={forgotPasswordTexts.user} />
 
-            <CustomTextInput icon={"greyPersonFill"} placeholder={emailOrNicknameTexts.placeholder} />
+            <CustomTextInput
+                icon={"greyPersonFill"}
+                placeholder={emailOrNicknameTexts.placeholder}
+                setValue={setCredential}
+                value={credential}
+            />
 
             <ThickFilledButton label={forgotPasswordTexts.send} />
         </ScrollView>

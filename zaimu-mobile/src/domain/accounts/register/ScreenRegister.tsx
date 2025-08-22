@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {View, ScrollView, StyleSheet, Text} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
@@ -18,6 +18,13 @@ import nameTexts from "@/src/constants/texts/inputs/Name";
 import emailTexts from "@/src/constants/texts/inputs/Email";
 
 const ScreenRegister = () => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [nickname, setNickname] = useState("");
+    const [email, setEmail] = useState("");
+    const [passwordText, setPasswordText] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <AppIcon />
@@ -41,12 +48,16 @@ const ScreenRegister = () => {
                         label={nameTexts.labelFirstName}
                         placeholder={nameTexts.placeholderFirstName}
                         style={styles.firstAndLastNameInput}
+                        setValue={setFirstName}
+                        value={firstName}
                     />
 
                     <CustomTextInput
                         label={nameTexts.labelLastName}
                         placeholder={nameTexts.placeholderLastName}
                         style={styles.firstAndLastNameInput}
+                        setValue={setLastName}
+                        value={lastName}
                     />
                 </View>
 
@@ -54,12 +65,16 @@ const ScreenRegister = () => {
                     icon={'greyPersonFill'}
                     label={nameTexts.labelNickName}
                     placeholder={nameTexts.placeholderNickname}
+                    setValue={setNickname}
+                    value={nickname}
                 />
 
                 <CustomTextInput
                     icon={'greyEnvelopeFill'}
                     label={emailTexts.label}
                     placeholder={emailTexts.placeholder}
+                    setValue={setEmail}
+                    value={email}
                 />
 
                 <CustomTextInput
@@ -67,6 +82,8 @@ const ScreenRegister = () => {
                     label={password.label}
                     placeholder={password.placeholder}
                     isPassword={true}
+                    setValue={setPasswordText}
+                    value={passwordText}
                 />
 
                 <CustomTextInput
@@ -74,11 +91,13 @@ const ScreenRegister = () => {
                     label={password.labelConfirm}
                     placeholder={password.placeholder}
                     isPassword={true}
+                    setValue={setConfirmPassword}
+                    value={confirmPassword}
                 />
 
                 <ThinFilledButton label={registerTexts.finish}/>
 
-                <OrHorizontalRule color={colors.black} height={spacing.xxs} />
+                <OrHorizontalRule color={colors.black} />
 
                 <ThinOutlinedButton label={registerTexts.login} />
 
