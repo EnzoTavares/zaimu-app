@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, ScrollView, View, Text, TouchableOpacity} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
@@ -10,6 +10,8 @@ import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
 
 const ScreenConfirmEmail = () => {
+    const [code, setCode] = useState("");
+
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
@@ -20,6 +22,7 @@ const ScreenConfirmEmail = () => {
 
                 <CustomOtpInput
                     numberOfDigits={6}
+                    setValue={setCode}
                 />
             </View>
 

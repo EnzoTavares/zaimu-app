@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, ScrollView, View, Text, TouchableOpacity} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
@@ -12,6 +12,8 @@ import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 
 const ScreenForgotPasswordSecond = () => {
+    const [code, setCode] = useState("");
+    const [passwordText, setPasswordText] = useState("");
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
@@ -22,6 +24,7 @@ const ScreenForgotPasswordSecond = () => {
 
                 <CustomOtpInput
                     numberOfDigits={6}
+                    setValue={setCode}
                 />
 
                 <View style={styles.textButtonsContainer}>
@@ -47,6 +50,8 @@ const ScreenForgotPasswordSecond = () => {
                 placeholder={password.placeholder}
                 label={password.labelNew}
                 isPassword={true}
+                setValue={setPasswordText}
+                value={passwordText}
             />
 
             <ThickFilledButton label={forgotPasswordTexts.reset} />

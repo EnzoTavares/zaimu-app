@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet} from "react-native";
 import {OtpInput} from "react-native-otp-entry";
 import colors from "@/src/themes/colors";
@@ -6,17 +6,16 @@ import {fontSizes} from "@/src/themes/dimensions";
 
 type CustomOtpInputProps = {
     numberOfDigits: number;
+    setValue: (text: string) => void;
 }
 
 const CustomOtpInput = (props: CustomOtpInputProps) => {
-    const [otp, setOtp] = useState('');
-
     return(
         <OtpInput
             numberOfDigits={props.numberOfDigits}
             focusColor={colors.primary}
-            onTextChange={(text) => console.log(text)}
-            onFilled={(text) => console.log(`Código preenchido: ${text}`)}
+            onTextChange={(text) => text}
+            onFilled={(text) => props.setValue(text)}
             theme={{
                 containerStyle: styles.container,
                 pinCodeContainerStyle: styles.pinCodeContainer,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {View, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
@@ -17,6 +17,9 @@ import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
 
 const ScreenLogin = () => {
+    const [credential, setCredential] = useState("");
+    const [passwordText, setPasswordText] = useState("");
+
     return (
         <ScrollView contentContainerStyle={styles.container} >
             <AppIcon />
@@ -38,6 +41,8 @@ const ScreenLogin = () => {
                 <CustomTextInput
                     icon={'greyPersonFill'}
                     placeholder={emailOrNicknameTexts.placeholder}
+                    setValue={setCredential}
+                    value={credential}
                 />
 
                 <View>
@@ -45,6 +50,8 @@ const ScreenLogin = () => {
                         icon={'greyLockFill'}
                         placeholder={password.placeholder}
                         isPassword={true}
+                        setValue={setPasswordText}
+                        value={passwordText}
                     />
 
                     <TouchableOpacity>
