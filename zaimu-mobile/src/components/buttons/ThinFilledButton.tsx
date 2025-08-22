@@ -7,6 +7,7 @@ import {fontStyles} from "@/src/themes/typography";
 type ThinFilledButtonProps = {
     label: string;
     color?: string;
+    onPressedButton?: ()=>void;
 }
 
 const ThinFilledButton = (props: ThinFilledButtonProps) => {

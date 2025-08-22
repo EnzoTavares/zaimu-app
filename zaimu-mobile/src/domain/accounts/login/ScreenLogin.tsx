@@ -20,6 +20,10 @@ const ScreenLogin = () => {
     const [credential, setCredential] = useState("");
     const [passwordText, setPasswordText] = useState("");
 
+    function test(){
+        console.log(loginUser(credential, passwordText));
+        }
+
     return (
         <ScrollView contentContainerStyle={styles.container} >
             <AppIcon />
@@ -60,7 +64,7 @@ const ScreenLogin = () => {
                         </Text>
                     </TouchableOpacity>
 
-                    <ThinFilledButton label={loginTexts.signIn}/>
+                    <ThinFilledButton label={loginTexts.signIn} onPressedButton={test}/>
                 </View>
 
                 <OrHorizontalRule color={colors.black}/>
