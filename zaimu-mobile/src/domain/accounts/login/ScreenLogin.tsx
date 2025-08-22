@@ -15,14 +15,16 @@ import ThinFilledButton from "@/src/components/buttons/ThinFilledButton";
 import OrHorizontalRule from "@/src/components/common/OrHorizontalRule";
 import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
+import { loginUser } from '@/src/api/accounts/login/LoginApi';
 
 const ScreenLogin = () => {
     const [credential, setCredential] = useState("");
     const [passwordText, setPasswordText] = useState("");
 
-    function test(){
-        console.log(loginUser(credential, passwordText));
-        }
+     async function test(){
+        // const result = await loginUser(credential, passwordText);
+        console.log( await loginUser(credential, passwordText));
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
@@ -45,7 +47,7 @@ const ScreenLogin = () => {
                 <CustomTextInput
                     icon={'greyPersonFill'}
                     placeholder={emailOrNicknameTexts.placeholder}
-                    setValue={setCredential}
+                    onChangeText={setCredential}
                     value={credential}
                 />
 
@@ -54,7 +56,7 @@ const ScreenLogin = () => {
                         icon={'greyLockFill'}
                         placeholder={password.placeholder}
                         isPassword={true}
-                        setValue={setPasswordText}
+                        onChangeText={setPasswordText}
                         value={passwordText}
                     />
 
@@ -64,7 +66,7 @@ const ScreenLogin = () => {
                         </Text>
                     </TouchableOpacity>
 
-                    <ThinFilledButton label={loginTexts.signIn} onPressedButton={test}/>
+                    <ThinFilledButton label={loginTexts.signIn} onPressed={test}/>
                 </View>
 
                 <OrHorizontalRule color={colors.black}/>
