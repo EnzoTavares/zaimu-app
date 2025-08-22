@@ -18,7 +18,7 @@ import OAuthButton from "@/src/components/buttons/OAuth";
 
 const ScreenLogin = () => {
     const [credential, setCredential] = useState("");
-    const [password, setPassword] = useState("");
+    const [passwordText, setPasswordText] = useState("");
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
@@ -50,8 +50,8 @@ const ScreenLogin = () => {
                         icon={'greyLockFill'}
                         placeholder={password.placeholder}
                         isPassword={true}
-                        setValue={setPassword}
-                        value={password}
+                        setValue={setPasswordText}
+                        value={passwordText}
                     />
 
                     <TouchableOpacity>

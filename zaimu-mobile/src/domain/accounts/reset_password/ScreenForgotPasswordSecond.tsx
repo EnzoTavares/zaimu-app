@@ -13,6 +13,7 @@ import colors from "@/src/themes/colors";
 
 const ScreenForgotPasswordSecond = () => {
     const [code, setCode] = useState("");
+    const [passwordText, setPasswordText] = useState("");
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
@@ -49,6 +50,8 @@ const ScreenForgotPasswordSecond = () => {
                 placeholder={password.placeholder}
                 label={password.labelNew}
                 isPassword={true}
+                setValue={setPasswordText}
+                value={passwordText}
             />
 
             <ThickFilledButton label={forgotPasswordTexts.reset} />
