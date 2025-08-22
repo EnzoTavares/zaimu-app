@@ -4,7 +4,7 @@ import themes from '@/src/themes/theme'
 import ScreenLogin from "@/src/domain/accounts/login/ScreenLogin";
 
 export default function StartupPage() {
-    // router.replace('/access')
+    router.replace('/access')
 
     return (
 

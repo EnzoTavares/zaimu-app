@@ -76,6 +76,6 @@ const styles = StyleSheet.create({
         ...fontStyles.assistanceRegular,
         color: colors.black,
         height: "100%",
-        width: "100%"
+        width: "85%"
     }
 });
