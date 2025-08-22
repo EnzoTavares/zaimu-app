@@ -1,9 +1,7 @@
 const registerTexts = {
-    register: 'Registrar',
-    haveAnAccount: 'Ja tem uma conta?',
+    register: 'Registro',
     login: 'Entrar',
-    lastStep: 'Antes de entrar na ToGo, crie um nome de usuario e nos diga seu nome',
-    finish: 'Concluir',
+    finish: 'Cadastrar',
 }
 
 export default registerTexts

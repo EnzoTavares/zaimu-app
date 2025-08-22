@@ -1,6 +1,7 @@
 const passwordConstants = {
     label: 'Senha',
     labelConfirm: 'Confirmar Senha',
+    labelNew: 'Nova Senha',
     placeholder: 'Senha',
 
     rules: {

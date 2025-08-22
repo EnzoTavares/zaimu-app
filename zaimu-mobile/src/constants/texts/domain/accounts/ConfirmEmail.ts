@@ -1,12 +1,13 @@
-const textsConfirmEmail = {
+const confirmEmailTexts = {
     check: 'Verifique seu email',
-    sentCode: 'Nós enviamos um código de para ',
+    sentCode: 'Digite o código de 6 dígitos enviado para ',
     resendCodeIn: 'Reenviar código em ',
     resendCode: 'Reenviar código',
+    changeEmail: 'Alterar Email',
     seconds: 'segundos',
-    send: 'Enviar',
+    send: 'Confirmar',
     invalidCode: 'Código Inválido',
     successfulConfirm: 'Email confirmado com sucesso!',
 }
 
-export default textsConfirmEmail
+export default confirmEmailTexts

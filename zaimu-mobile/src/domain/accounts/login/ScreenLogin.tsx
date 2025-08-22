@@ -17,34 +17,35 @@ import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
 
 const ScreenLogin = () => {
-
     return (
-        <ScrollView contentContainerStyle={{flexGrow: 1}} >
-            <View style={styles.container}>
-                <AppIcon />
+        <ScrollView contentContainerStyle={styles.container} >
+            <AppIcon />
 
-                <Text style={styles.welcomeText}>
-                    {brandTexts.welcome}
-                    <Text style={styles.brandName}>
-                        {brandTexts.name}
-                    </Text>
+            <Text style={styles.welcomeText}>
+                {brandTexts.welcome}
+                <Text style={styles.brandName}>
+                    {brandTexts.name}
                 </Text>
+            </Text>
 
-                <HorizontalRule color={colors.greyExtraLight} height={spacing.xxs} />
+            <HorizontalRule color={colors.greyExtraLight} height={spacing.xxs} />
 
-                <Text style={styles.loginText}>
-                    {loginTexts.login}
-                </Text>
+            <Text style={styles.loginText}>
+                {loginTexts.login}
+            </Text>
 
-                <Card shadowed={true}>
+            <Card shadowed={true} style={{gap: spacing.xx}}>
+                <CustomTextInput
+                    icon={'greyPersonFill'}
+                    placeholder={emailOrNicknameTexts.placeholder}
+                />
+
+                <View>
                     <CustomTextInput
-                        icon={'greyPersonFill'}
-                        placeholder={emailOrNicknameTexts.placeholder}
+                        icon={'greyLockFill'}
+                        placeholder={password.placeholder}
+                        isPassword={true}
                     />
-
-                    <View style={styles.box}></View>
-
-                    <CustomTextInput icon={'greyLockFill'} placeholder={password.placeholder} />
 
                     <TouchableOpacity>
                         <Text style={styles.forgotPassword}>
@@ -53,21 +54,18 @@ const ScreenLogin = () => {
                     </TouchableOpacity>
 
                     <ThinFilledButton label={loginTexts.signIn}/>
+                </View>
 
-                    <OrHorizontalRule color={colors.black} height={spacing.xxs} />
+                <OrHorizontalRule color={colors.black}/>
 
-                    <ThinOutlinedButton label={loginTexts.signUp} />
+                <ThinOutlinedButton label={loginTexts.signUp} />
 
-                    <View style={styles.box}></View>
-
-                    <View style={styles.oAuthContainer}>
-                        <OAuthButton icon={"googleLogo"}/>
-                        <OAuthButton icon={"appleLogo"}/>
-                        <OAuthButton icon={"facebookLogo"}/>
-                    </View>
-
-                </Card>
-            </View>
+                <View style={styles.oAuthContainer}>
+                    <OAuthButton icon={"googleLogo"}/>
+                    <OAuthButton icon={"appleLogo"}/>
+                    <OAuthButton icon={"facebookLogo"}/>
+                </View>
+            </Card>
         </ScrollView>
     );
 }
@@ -85,9 +83,10 @@ const styles = StyleSheet.create({
         ...fontStyles.main
     },
     container: {
-        flex: 1,
-        justifyContent: 'center',
+        flexGrow: 1,
+
         alignItems: 'center',
+        justifyContent: 'center',
         gap: spacing.md,
         width: "100%",
     },
@@ -95,9 +94,6 @@ const styles = StyleSheet.create({
         ...fontStyles.example,
         color: colors.darkGrey,
         textAlign: "right",
-        marginVertical: spacing.md
-    },
-    box: {
         marginVertical: spacing.md
     },
     oAuthContainer: {

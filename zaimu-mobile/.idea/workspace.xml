@@ -5,7 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Changes on auth screens">
+      <change afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/icons/grey-lock-fill.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/icons/grey-person-fill.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/icons/grey-person-fill.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/icons/grey-shield-fill.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/ThickFilledButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/ThickFilledButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/ThinFilledButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/ThinFilledButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Card.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/OrHorizontalRule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/OrHorizontalRule.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/inputs/TextInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inputs/TextInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inputs/a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/icons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/icons.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/domain/accounts/ConfirmEmail.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/domain/accounts/ConfirmEmail.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/domain/accounts/Register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/domain/accounts/Register.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/inputs/Email.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/inputs/Email.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/inputs/Name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/inputs/Name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/inputs/Password.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/inputs/Password.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/AccessStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/AccessStack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPassword.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/themes/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/themes/colors.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +59,13 @@
     &quot;assignee&quot;: &quot;EnzoTavares&quot;
   }
 }</component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/EnzoTavares/zaimu-app.git&quot;,
@@ -60,19 +92,23 @@
     "RunOnceActivity.git.unshallow": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "F-007-feature",
-    "last_opened_file_path": "D:/Programming/Development Projects/zaimu-app/zaimu-mobile/src/constants/texts/inputs",
+    "last_opened_file_path": "D:/Programming/Development Projects/zaimu-app/zaimu-mobile/src/domain/accounts/confirm_email",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "terminal",
-    "ts.external.directory.path": "/home/enzo-tavares/Documents/Programming/UFU/PDS/zaimu-app/zaimu-mobile/node_modules/typescript/lib",
+    "ts.external.directory.path": "D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src\domain\accounts\confirm_email" />
+      <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src\domain\accounts\register" />
+      <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src\domain\accounts\reset_password" />
+      <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src\constants\texts\domain\accounts" />
       <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src\constants\texts\inputs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">

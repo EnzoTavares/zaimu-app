@@ -8,11 +8,13 @@ const colors = {
     greyMiddle: '#A9A9A9',
     greyLight: '#D3D3D3',
     greyExtraLight: '#E6E6E6',
+    greyExtraExtraLight: '#F5F5F5',
 
     shadow: '#B4B4B4',
 
     black: '#000000',
     white: '#FFFFFF',
+    grey: '#A4A4A4',
 
     backgroundFadeLighter: ['#60C043', '#B8C56C'] as const,
     backgroundFadeDarker: ['#85BE70', '#446E37'] as const,

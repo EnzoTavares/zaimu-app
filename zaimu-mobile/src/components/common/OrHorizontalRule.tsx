@@ -4,7 +4,6 @@ import colors from "@/src/themes/colors";
 
 type OrHorizontalRuleProps = {
     color?: string;
-    height?: number;
 };
 
 const OrHorizontalRule = (props: OrHorizontalRuleProps) => {
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 30,
+        marginVertical: 0,
     },
     line: {
         flex: 1,

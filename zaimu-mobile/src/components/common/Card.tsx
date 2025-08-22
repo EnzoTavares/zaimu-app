@@ -1,19 +1,20 @@
 import React from 'react'
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native'
 import {spacing} from "@/src/themes/dimensions";
 import colors from "@/src/themes/colors";
 
 type CardProps = {
     shadowed: boolean;
     children?: React.ReactNode;
+    style?: StyleProp<ViewStyle>;
 }
 
 const Card = (props: CardProps) => {
-
     return (
         <View style={[
             styles.card,
             props.shadowed && styles.cardShadow,
+            props.style,
         ]}>
             {props.children}
         </View>
@@ -38,5 +39,6 @@ const styles = StyleSheet.create({
         // IOS
         shadowOpacity: 0.5,
         shadowRadius: 8,
-    }
+    },
+
 })

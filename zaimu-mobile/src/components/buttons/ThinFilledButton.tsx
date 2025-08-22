@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     container: {
         height: 40,
         borderRadius: 5,
+        width: "100%",
     },
     button: {
         alignItems: "center",
