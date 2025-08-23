@@ -26,8 +26,8 @@ This repository contains all the projects that make up the Zaimu platform.
 
 * **Backend:** Java 21, Spring Boot 3.5.4, PostgreSQL, Maven
 * **Mobile:** React Native, TypeScript, Expo, Zustand
-* **Infrastructure:** Docker, AWS (S3, EC2, RDS), Terraform
-* **Testing:** JUnit 5 (Backend), Jest & Testing Library (Mobile)
+* **Infrastructure:** Docker, AWS (EC2, RDS)
+* **Testing:** Jest & Testing Library (Mobile)
 
 ##
 
