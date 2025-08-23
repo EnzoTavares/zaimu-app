@@ -23,6 +23,7 @@ public class RegisterParameters {
     private String familyName;
 
     @NotBlank(message = "O nickname é obrigatório")
+    @Pattern(regexp = "^[^@]+$", message = "O nickname não pode conter o caractere '@'.")
     private String nickname;
 
     @NotBlank(message = "A senha é obrigatória")
