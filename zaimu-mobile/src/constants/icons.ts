@@ -5,6 +5,8 @@ const icons = {
     greyEyeFill: require('../assets/icons/grey-eye-fill.svg'),
     greyEyeSlashFill: require('../assets/icons/grey-eye-slash-fill.svg'),
 
+    blackChevronLeft: require('../assets/icons/black-chevron-left.svg'),
+
     darkGreenShieldFill: require('../assets/icons/dark-green-shield-fill.svg'),
     darkGreenMailFill: require('../assets/icons/dark-green-mail-fill.svg'),
 

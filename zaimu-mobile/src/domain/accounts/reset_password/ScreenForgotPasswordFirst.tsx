@@ -8,16 +8,25 @@ import CustomTextInput from "@/src/components/inputs/TextInput";
 import emailOrNicknameTexts from "@/src/constants/texts/inputs/EmailOrNickname";
 import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
 import { resetPasswordCode } from '@/src/api/accounts/reset_password/ResetPasswordApi';
+import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
+import {useNavigation} from "@react-navigation/native";
 
 const ScreenForgotPasswordFirst = () => {
     const [credential, setCredential] = useState("");
 
+    const navigation = useNavigation<NavigationProp>();
 
     async function submitResetPasswordCode() {
         console.log(await resetPasswordCode(credential))
     }
     return (
         <ScrollView contentContainerStyle={styles.container} >
+            <BlackChevronLeft
+                icon={'blackChevronLeft'}
+                onPress={() => navigation.goBack()}
+                style={styles.chevronLeft}
+            />
+
             <IconBadge icon={"darkGreenShieldFill"} height={114} width={100}/>
 
             <TitleWithSubtitle title={forgotPasswordTexts.reset} subtitle={forgotPasswordTexts.user} />
@@ -44,5 +53,8 @@ const styles = StyleSheet.create({
         gap: spacing.xxl,
         width: "75%",
         marginHorizontal: "auto"
+    },
+    chevronLeft: {
+        position: "sticky",
     }
 })

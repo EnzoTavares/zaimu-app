@@ -78,7 +78,13 @@ const ScreenLogin = () => {
 
                 <OrHorizontalRule color={colors.black}/>
 
-                <ThinOutlinedButton label={loginTexts.signUp} onPress={() => {2+2}}/>
+                <ThinOutlinedButton
+                    label={loginTexts.signUp}
+                    onPress={() => navigation.   reset({
+                        index: 0,
+                        routes: [{ name: 'StackRegister' }],
+                    })}
+                />
 
                 <View style={styles.oAuthContainer}>
                     <OAuthButton icon={"googleLogo"}/>

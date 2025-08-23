@@ -8,7 +8,6 @@ export type ParamList = {
     Login: undefined;
     ForgotPasswordFirst: undefined;
     ForgotPasswordSecond: { credential: string };
-    Register: undefined;
 };
 
 const Stack = createNativeStackNavigator<ParamList>();
