@@ -10,7 +10,7 @@ import password from "@/src/constants/texts/inputs/Password";
 import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
-import { resetPassword } from '@/src/api/accounts/reset_password/ResetPasswordApi';
+import {resendCode, resetPassword} from '@/src/api/accounts/reset_password/ResetPasswordApi';
 
 type ScreenForgotPasswordSecondProps = {
     credential:string
@@ -22,6 +22,10 @@ const ScreenForgotPasswordSecond = (props:ScreenForgotPasswordSecondProps) => {
 
     async function fetchResetPassword (){
         console.log(await resetPassword(props.credential, code, newPasswordText));
+    }
+
+    async function fetchResendResetPasswordCode (){
+        console.log(await resendCode(props.credential));
     }
 
     return (
@@ -37,7 +41,7 @@ const ScreenForgotPasswordSecond = (props:ScreenForgotPasswordSecondProps) => {
                 />
 
                 <View style={styles.textButtonsContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={fetchResendResetPasswordCode}>
                         <Text style={styles.textButtons}>
                             {forgotPasswordTexts.resendCode}
                         </Text>

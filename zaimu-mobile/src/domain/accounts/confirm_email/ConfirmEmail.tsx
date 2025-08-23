@@ -8,15 +8,19 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
+import { confirmEmail } from '@/src/api/accounts/confirm_email/ConfirmEmailApi';
 import {resetPasswordCode} from "@/src/api/accounts/reset_password/ResetPasswordApi";
 
 type ConfirmEmailProps = {
     nickname:string
 }
 
-const ScreenConfirmEmail = (props: ConfirmEmailProps) => {
+const ScreenConfirmEmail = (props:ConfirmEmailProps) => {
     const [code, setCode] = useState("");
 
+    async function fetchConfirmationCode(){
+    console.log(await confirmEmail(props.nickname, code))
+}
     async function handleResendCode() {
         console.log(await resetPasswordCode(props.nickname));
     }
@@ -35,7 +39,7 @@ const ScreenConfirmEmail = (props: ConfirmEmailProps) => {
             </View>
 
             <View style={styles.confirmContainer}>
-                <ThickFilledButton label={confirmEmailTexts.send} />
+                <ThickFilledButton label={confirmEmailTexts.send} onPressed={fetchConfirmationCode}/>
 
                 <View style={styles.textButtonsContainer}>
                     <TouchableOpacity>
