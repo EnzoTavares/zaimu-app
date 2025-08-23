@@ -75,7 +75,7 @@ public class User implements Serializable {
 
     @NotNull
     @Column(name = "FL_STATUS")
-    private Long flStatus;
+    private Character flStatus;
 
     @Override
     public String toString() {

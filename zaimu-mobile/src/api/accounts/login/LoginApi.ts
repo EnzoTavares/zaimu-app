@@ -1,13 +1,18 @@
-export const loginUser = async (email:string, password:string) => {
+import login from "@/src/constants/texts/domain/accounts/Login";
+
+export const loginUser = async (credential:string, password:string) => {
     const loginData = {
+        credential
         email: email,
         password: password,
     };
 
     try {
-        const response = await fetch('http://10.14.83.142:8082/zaimu-app/service/auth/login', {
+        console.log(password);
+        const response = await fetch('https://zaimu.com.br/zaimu-app/services/auth/login', {
             method: 'POST',
             headers: {
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(loginData),
