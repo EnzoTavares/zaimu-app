@@ -7,6 +7,7 @@ import {fontStyles} from "@/src/themes/typography";
 type ThickFilledButtonProps = {
     label: string;
     color?: string;
+    onPressed: () => void;
 }
 
 const ThickFilledButton = (props: ThickFilledButtonProps) => {
@@ -19,8 +20,7 @@ const ThickFilledButton = (props: ThickFilledButtonProps) => {
         >
             <TouchableOpacity
                 style={styles.button}
-                onPress={() => {/* login */
-                }}>
+                onPress={props.onPressed}>
                 <Text style={styles.label}>
                     {props.label}
                 </Text>

@@ -18,8 +18,8 @@ export default function StartupPage() {
             {/*<ScreenLogin />*/}
             {/*<ScreenForgotPasswordFirst/>*/}
             {/*<ScreenForgotPasswordSecond />*/}
-            <ScreenRegister />
-            {/*<ScreenConfirmEmail />*/}
+            {/*<ScreenRegister />*/}
+            <ScreenConfirmEmail />
         </View>
     )
 }

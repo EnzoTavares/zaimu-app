@@ -7,10 +7,15 @@ import forgotPasswordTexts from "@/src/constants/texts/domain/accounts/ForgotPas
 import CustomTextInput from "@/src/components/inputs/TextInput";
 import emailOrNicknameTexts from "@/src/constants/texts/inputs/EmailOrNickname";
 import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
+import { resetPasswordCode } from '@/src/api/accounts/reset_password/ResetPasswordApi';
 
 const ScreenForgotPasswordFirst = () => {
     const [credential, setCredential] = useState("");
 
+
+    async function fetchResetPasswordCode() {
+        console.log(await resetPasswordCode(credential))
+    }
     return (
         <ScrollView contentContainerStyle={styles.container} >
             <IconBadge icon={"darkGreenShieldFill"} height={114} width={100}/>
@@ -24,7 +29,7 @@ const ScreenForgotPasswordFirst = () => {
                 value={credential}
             />
 
-            <ThickFilledButton label={forgotPasswordTexts.send} />
+            <ThickFilledButton label={forgotPasswordTexts.send} onPressed={fetchResetPasswordCode} />
         </ScrollView>
     );
 }

@@ -16,6 +16,7 @@ import OAuthButton from "@/src/components/buttons/OAuth";
 import registerTexts from "@/src/constants/texts/domain/accounts/Register";
 import nameTexts from "@/src/constants/texts/inputs/Name";
 import emailTexts from "@/src/constants/texts/inputs/Email";
+import { registerUser } from '@/src/api/accounts/register/RegisterApi';
 
 const ScreenRegister = () => {
     const [firstName, setFirstName] = useState("");
@@ -24,6 +25,10 @@ const ScreenRegister = () => {
     const [email, setEmail] = useState("");
     const [passwordText, setPasswordText] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    async function fetchRegister(){
+        console.log( await registerUser(email, firstName, lastName, nickname, passwordText));
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -95,7 +100,7 @@ const ScreenRegister = () => {
                     value={confirmPassword}
                 />
 
-                <ThinFilledButton label={registerTexts.finish}/>
+                <ThinFilledButton label={registerTexts.finish} onPressed={fetchRegister}/>
 
                 <OrHorizontalRule color={colors.black} />
 

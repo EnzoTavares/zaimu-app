@@ -10,10 +10,19 @@ import password from "@/src/constants/texts/inputs/Password";
 import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
+import { resetPassword } from '@/src/api/accounts/reset_password/ResetPasswordApi';
 
-const ScreenForgotPasswordSecond = () => {
+type ScreenForgotPasswordSecondProps = {
+    credential:string
+}
+
+const ScreenForgotPasswordSecond = (props:ScreenForgotPasswordSecondProps) => {
     const [code, setCode] = useState("");
-    const [passwordText, setPasswordText] = useState("");
+    const [newPasswordText, setNewPasswordText] = useState("");
+
+    async function fetchResetPassword (){
+        console.log(await resetPassword(props.credential, code, newPasswordText));
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
@@ -50,11 +59,11 @@ const ScreenForgotPasswordSecond = () => {
                 placeholder={password.placeholder}
                 label={password.labelNew}
                 isPassword={true}
-                setValue={setPasswordText}
-                value={passwordText}
+                setValue={setNewPasswordText}
+                value={newPasswordText}
             />
 
-            <ThickFilledButton label={forgotPasswordTexts.reset} />
+            <ThickFilledButton label={forgotPasswordTexts.reset} onPressed={fetchResetPassword}/>
         </ScrollView>
     );
 }

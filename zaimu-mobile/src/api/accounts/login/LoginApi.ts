@@ -23,11 +23,9 @@ export const loginUser = async (credential:string, password:string) => {
 
         if (response.ok) {
             const data = await response.json();
-            return data;
             return { success: true, data: data };
         } else {
             const errorData = await response.json();
-            return errorData;
             return { success: false, message: errorData.message };
         }
     } catch (error) {

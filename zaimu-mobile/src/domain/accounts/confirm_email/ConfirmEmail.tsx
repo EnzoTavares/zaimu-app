@@ -9,6 +9,10 @@ import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
 
+type ConfirmEmailProps = {
+    nickname:string
+}
+
 const ScreenConfirmEmail = () => {
     const [code, setCode] = useState("");
 

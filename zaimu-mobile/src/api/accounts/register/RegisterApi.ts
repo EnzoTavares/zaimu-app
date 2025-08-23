@@ -1,4 +1,4 @@
-export const loginUser = async (email:string,firstName:string,lastName:string, nickname:string, password:string) => {
+export const registerUser = async (email:string,firstName:string,lastName:string, nickname:string, password:string) => {
 
     const registerData = {
         email: email,
@@ -21,11 +21,9 @@ export const loginUser = async (email:string,firstName:string,lastName:string, n
 
         if (response.ok) {
             const data = await response.json();
-            return data;
             return { success: true, data: data };
         } else {
             const errorData = await response.json();
-            return errorData;
             return { success: false, message: errorData.message };
         }
     } catch (error) {
