@@ -1,9 +1,13 @@
 import login from "@/src/constants/texts/domain/accounts/Login";
 
 export const loginUser = async (credential:string, password:string) => {
-    const loginData = {
-        credential
-        email: email,
+    var loginData;
+
+    credential.includes('@') ? loginData = {
+        email: credential,
+        password: password,
+    } : loginData = {
+        nickname: credential,
         password: password,
     };
 

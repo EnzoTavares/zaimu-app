@@ -21,7 +21,7 @@ const ScreenLogin = () => {
     const [credential, setCredential] = useState("");
     const [passwordText, setPasswordText] = useState("");
 
-     async function test(){
+     async function fetchLogin(){
         // const result = await loginUser(credential, passwordText);
         console.log( await loginUser(credential, passwordText));
     }
@@ -66,7 +66,7 @@ const ScreenLogin = () => {
                         </Text>
                     </TouchableOpacity>
 
-                    <ThinFilledButton label={loginTexts.signIn} onPressed={test}/>
+                    <ThinFilledButton label={loginTexts.signIn} onPressed={fetchLogin}/>
                 </View>
 
                 <OrHorizontalRule color={colors.black}/>
