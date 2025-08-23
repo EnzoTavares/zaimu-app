@@ -15,10 +15,10 @@ export default function StartupPage() {
 
         <View style={styles.container}>
             {/*<ActivityIndicator size="large" color={theme.colors.primary}/>*/}
-            <ScreenLogin />
+            {/*<ScreenLogin />*/}
             {/*<ScreenForgotPasswordFirst/>*/}
             {/*<ScreenForgotPasswordSecond />*/}
-            {/*<ScreenRegister />*/}
+            <ScreenRegister />
             {/*<ScreenConfirmEmail />*/}
         </View>
     )

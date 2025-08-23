@@ -47,7 +47,7 @@ const ScreenLogin = () => {
                 <CustomTextInput
                     icon={'greyPersonFill'}
                     placeholder={emailOrNicknameTexts.placeholder}
-                    onChangeText={setCredential}
+                    setValue={setCredential}
                     value={credential}
                 />
 
@@ -56,7 +56,7 @@ const ScreenLogin = () => {
                         icon={'greyLockFill'}
                         placeholder={password.placeholder}
                         isPassword={true}
-                        onChangeText={setPasswordText}
+                        setValue={setPasswordText}
                         value={passwordText}
                     />
 

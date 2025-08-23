@@ -14,7 +14,7 @@ type CustomTextInputProps = {
     isPassword?: boolean;
     style?: StyleProp<ViewStyle>;
     value: string;
-    onChangeText: (text: string) => void;
+    setValue: (text: string) => void;
 }
 
 const CustomTextInput = (props: CustomTextInputProps) => {
@@ -37,7 +37,7 @@ const CustomTextInput = (props: CustomTextInputProps) => {
                 <TextInput
                     placeholder={props.placeholder}
                     placeholderTextColor={colors.greyMiddle}
-                    onChangeText={(newText: string) => props.onChangeText(newText)}
+                    onChangeText={(newText: string) => props.setValue(newText)}
                     defaultValue={props.value}
                     style={[styles.input, props.isPassword && {width: "72%"}]}
                     secureTextEntry={props.isPassword && !isPasswordVisible}
