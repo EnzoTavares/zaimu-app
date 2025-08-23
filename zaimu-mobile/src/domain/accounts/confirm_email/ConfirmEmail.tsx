@@ -8,14 +8,18 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
+import {resetPasswordCode} from "@/src/api/accounts/reset_password/ResetPasswordApi";
 
 type ConfirmEmailProps = {
     nickname:string
 }
 
-const ScreenConfirmEmail = () => {
+const ScreenConfirmEmail = (props: ConfirmEmailProps) => {
     const [code, setCode] = useState("");
 
+    async function handleResendCode() {
+        console.log(await resetPasswordCode(props.nickname));
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container} >
