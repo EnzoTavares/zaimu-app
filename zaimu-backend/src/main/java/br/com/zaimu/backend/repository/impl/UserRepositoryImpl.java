@@ -59,7 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
                     ps.setString(parameterIndex++, user.getNickname());
                     ps.setTimestamp(parameterIndex++, user.getCreateDate());
 
-                    try (ResultSet rs = ps.executeQuery();) {
+                    try (ResultSet rs = ps.executeQuery()) {
                         return rs.next()
                                 ? rs.getLong(1)
                                 : null;

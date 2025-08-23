@@ -1,6 +1,7 @@
 package br.com.zaimu.backend.service.impl;
 
 import br.com.zaimu.backend.model.entity.User;
+import br.com.zaimu.backend.model.security.LoginResponseView;
 import br.com.zaimu.backend.model.security.RequestUser;
 import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
@@ -111,7 +112,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         return requestUser;
     }
 
-    public RequestUser signInUser (LoginParameters loginParameters) {
+    public LoginResponseView signInUser (LoginParameters loginParameters) {
         loginParameters.isValid();
         RequestUser requestUser = new RequestUser();
 
@@ -137,7 +138,6 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             InitiateAuthResponse response = cognitoClient.initiateAuth(authRequest);
             logger.info("Login bem-sucedido para o usuário: {}", credentialType);
 
-            requestUser.setAuthorizationToken(response.authenticationResult().accessToken());
             UserView user = userRepository.getUserByNicknameOrEmail(credentialType);
             requestUser.setUserId(user.getUserId());
             requestUser.setUuid(user.getUuid());
@@ -145,11 +145,16 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             requestUser.setGivenName(user.getGivenName());
             requestUser.setFamilyName(user.getFamilyName());
             requestUser.setNickname(user.getNickname());
+
+            return new LoginResponseView(
+                    response.authenticationResult().idToken(),
+                    response.authenticationResult().accessToken(),
+                    requestUser
+            );
         } catch (Exception e) {
             logger.error("Erro ao fazer login do usuário: {}", e.getMessage());
             throw new RuntimeException("Falha no login do usuário", e);
         }
-        return requestUser;
     }
 
     public void confirmEmail (String nickname, String code) {

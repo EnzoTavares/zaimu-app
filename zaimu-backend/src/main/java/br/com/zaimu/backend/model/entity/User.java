@@ -73,6 +73,10 @@ public class User implements Serializable {
     @Nullable
     private Long idCustomization;
 
+    @NotNull
+    @Column(name = "FL_STATUS")
+    private Character flStatus;
+
     @Override
     public String toString() {
         return "User{" +
@@ -87,6 +91,7 @@ public class User implements Serializable {
                 ", lastLoginDate=" + lastLoginDate +
                 ", profilePicUrl=" + profilePicUrl +
                 ", idCustomization=" + idCustomization +
+                ", flStaus=" + flStatus +
                 '}';
     }
 
