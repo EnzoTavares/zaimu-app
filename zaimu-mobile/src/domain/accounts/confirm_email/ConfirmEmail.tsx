@@ -18,7 +18,7 @@ type ConfirmEmailProps = {
 const ScreenConfirmEmail = (props:ConfirmEmailProps) => {
     const [code, setCode] = useState("");
 
-    async function fetchConfirmationCode(){
+    async function submitConfirmationCode(){
     console.log(await confirmEmail(props.nickname, code))
 }
     async function handleResendCode() {
@@ -39,7 +39,7 @@ const ScreenConfirmEmail = (props:ConfirmEmailProps) => {
             </View>
 
             <View style={styles.confirmContainer}>
-                <ThickFilledButton label={confirmEmailTexts.send} onPressed={fetchConfirmationCode}/>
+                <ThickFilledButton label={confirmEmailTexts.send} onPress={submitConfirmationCode}/>
 
                 <View style={styles.textButtonsContainer}>
                     <TouchableOpacity>

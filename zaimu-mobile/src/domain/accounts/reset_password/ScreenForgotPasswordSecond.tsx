@@ -11,21 +11,22 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import {resendCode, resetPassword} from '@/src/api/accounts/reset_password/ResetPasswordApi';
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 
-type ScreenForgotPasswordSecondProps = {
-    credential:string
-}
+type Props = NativeStackScreenProps<ParamList, 'ForgotPasswordSecond'>;
 
-const ScreenForgotPasswordSecond = (props:ScreenForgotPasswordSecondProps) => {
+export function ScreenForgotPasswordSecond ({ route }: Props) {
     const [code, setCode] = useState("");
     const [newPasswordText, setNewPasswordText] = useState("");
+    const { credential } = route.params;
 
-    async function fetchResetPassword (){
-        console.log(await resetPassword(props.credential, code, newPasswordText));
+    async function submitResetPassword (){
+        console.log(await resetPassword(credential, code, newPasswordText));
     }
 
-    async function fetchResendResetPasswordCode (){
-        console.log(await resendCode(props.credential));
+    async function submitResendResetPasswordCode (){
+        console.log(await resendCode(credential));
     }
 
     return (
@@ -41,7 +42,7 @@ const ScreenForgotPasswordSecond = (props:ScreenForgotPasswordSecondProps) => {
                 />
 
                 <View style={styles.textButtonsContainer}>
-                    <TouchableOpacity onPress={fetchResendResetPasswordCode}>
+                    <TouchableOpacity onPress={submitResendResetPasswordCode}>
                         <Text style={styles.textButtons}>
                             {forgotPasswordTexts.resendCode}
                         </Text>
@@ -67,12 +68,10 @@ const ScreenForgotPasswordSecond = (props:ScreenForgotPasswordSecondProps) => {
                 value={newPasswordText}
             />
 
-            <ThickFilledButton label={forgotPasswordTexts.reset} onPressed={fetchResetPassword}/>
+            <ThickFilledButton label={forgotPasswordTexts.reset} onPress={submitResetPassword}/>
         </ScrollView>
     );
 }
-
-export default ScreenForgotPasswordSecond;
 
 const styles = StyleSheet.create({
     container: {

@@ -13,7 +13,7 @@ const ScreenForgotPasswordFirst = () => {
     const [credential, setCredential] = useState("");
 
 
-    async function fetchResetPasswordCode() {
+    async function submitResetPasswordCode() {
         console.log(await resetPasswordCode(credential))
     }
     return (
@@ -29,7 +29,7 @@ const ScreenForgotPasswordFirst = () => {
                 value={credential}
             />
 
-            <ThickFilledButton label={forgotPasswordTexts.send} onPressed={fetchResetPasswordCode} />
+            <ThickFilledButton label={forgotPasswordTexts.send} onPress={submitResetPasswordCode} />
         </ScrollView>
     );
 }

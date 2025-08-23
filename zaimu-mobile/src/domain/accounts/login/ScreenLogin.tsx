@@ -16,12 +16,19 @@ import OrHorizontalRule from "@/src/components/common/OrHorizontalRule";
 import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
 import { loginUser } from '@/src/api/accounts/login/LoginApi';
+import {useNavigation} from '@react-navigation/native';
+import {ParamList} from "@/src/domain/accounts/login/StackLogin";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
 const ScreenLogin = () => {
+    const navigation = useNavigation<NavigationProp>();
+
     const [credential, setCredential] = useState("");
     const [passwordText, setPasswordText] = useState("");
 
-     async function fetchLogin(){
+     async function submitLogin(){
         // const result = await loginUser(credential, passwordText);
         console.log( await loginUser(credential, passwordText));
     }
@@ -60,18 +67,18 @@ const ScreenLogin = () => {
                         value={passwordText}
                     />
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordFirst')}>
                         <Text style={styles.forgotPassword}>
                             {loginTexts.forgotPassword}
                         </Text>
                     </TouchableOpacity>
 
-                    <ThinFilledButton label={loginTexts.signIn} onPressed={fetchLogin}/>
+                    <ThinFilledButton label={loginTexts.signIn} onPress={submitLogin}/>
                 </View>
 
                 <OrHorizontalRule color={colors.black}/>
 
-                <ThinOutlinedButton label={loginTexts.signUp} />
+                <ThinOutlinedButton label={loginTexts.signUp} onPress={() => {2+2}}/>
 
                 <View style={styles.oAuthContainer}>
                     <OAuthButton icon={"googleLogo"}/>

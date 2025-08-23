@@ -6,8 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Changes on getting input state auth screens">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/accounts/confirm_email/ConfirmEmailApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/accounts/confirm_email/ConfirmEmailApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/ThickFilledButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/ThickFilledButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/ThinFilledButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/ThinFilledButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/ThinOutlinedButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/ThinOutlinedButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/AccessStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/AccessStack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/StackLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/StackLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" afterDir="false" />
+    </list>
+    <list id="717e16cb-568f-4ed8-bbd0-355cdba46328" name="Changes by jpsiquierolli" comment="">
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ConfirmEmail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +64,38 @@
     &quot;accountId&quot;: &quot;869b872d-302f-4b2e-87b8-b01d40e3f674&quot;
   }
 }</component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx">
+      <ranges>
+        <range start1="18" end1="18" start2="18" end2="23" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="20" end1="20" start2="25" end2="27" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="23" end1="24" start2="30" end2="31" changelist="717e16cb-568f-4ed8-bbd0-355cdba46328" />
+        <range start1="62" end1="63" start2="69" end2="70" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="68" end1="69" start2="75" end2="76" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="73" end1="74" start2="80" end2="81" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx">
+      <ranges>
+        <range start1="13" end1="13" start2="13" end2="15" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="14" end1="17" start2="16" end2="17" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="18" end1="19" start2="18" end2="19" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="21" end1="21" start2="21" end2="22" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="22" end1="24" start2="23" end2="25" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="26" end1="28" start2="27" end2="29" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="43" end1="44" start2="44" end2="45" changelist="717e16cb-568f-4ed8-bbd0-355cdba46328" />
+        <range start1="69" end1="70" start2="70" end2="71" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+        <range start1="74" end1="76" start2="75" end2="75" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx">
+      <ranges>
+        <range start1="28" end1="29" start2="28" end2="29" changelist="717e16cb-568f-4ed8-bbd0-355cdba46328" />
+        <range start1="102" end1="103" start2="102" end2="103" changelist="717e16cb-568f-4ed8-bbd0-355cdba46328" />
+        <range start1="106" end1="107" start2="106" end2="107" changelist="969431d5-3125-4a3a-819e-4f504eb68c8d" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -116,7 +163,9 @@
       <workItem from="1755742981914" duration="64000" />
       <workItem from="1755743057539" duration="4302000" />
       <workItem from="1755780030677" duration="27689000" />
-      <workItem from="1755921252477" duration="2776000" />
+      <workItem from="1755921252477" duration="4352000" />
+      <workItem from="1755961257471" duration="2456000" />
+      <workItem from="1755963776624" duration="2211000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />
@@ -158,7 +207,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755897629555</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Changes on getting input state auth screens">
+      <option name="closed" value="true" />
+      <created>1755925553728</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1755925553728</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -26,7 +26,7 @@ const ScreenRegister = () => {
     const [passwordText, setPasswordText] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    async function fetchRegister(){
+    async function submitRegister(){
         console.log( await registerUser(email, firstName, lastName, nickname, passwordText));
     }
 
@@ -100,11 +100,11 @@ const ScreenRegister = () => {
                     value={confirmPassword}
                 />
 
-                <ThinFilledButton label={registerTexts.finish} onPressed={fetchRegister}/>
+                <ThinFilledButton label={registerTexts.finish} onPress={submitRegister}/>
 
                 <OrHorizontalRule color={colors.black} />
 
-                <ThinOutlinedButton label={registerTexts.login} />
+                <ThinOutlinedButton label={registerTexts.login} onPress={() => {2+2}}/>
 
                 <View style={styles.oAuthContainer}>
                     <OAuthButton icon={"googleLogo"}/>
