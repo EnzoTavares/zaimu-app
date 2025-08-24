@@ -10,6 +10,10 @@ import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
 import { resetPasswordCode } from '@/src/api/accounts/reset_password/ResetPasswordApi';
 import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {ParamList} from "@/src/domain/accounts/login/StackLogin";
+
+type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordFirst'>;
 
 const ScreenForgotPasswordFirst = () => {
     const [credential, setCredential] = useState("");

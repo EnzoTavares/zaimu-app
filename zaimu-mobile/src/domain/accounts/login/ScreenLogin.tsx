@@ -80,10 +80,7 @@ const ScreenLogin = () => {
 
                 <ThinOutlinedButton
                     label={loginTexts.signUp}
-                    onPress={() => navigation.   reset({
-                        index: 0,
-                        routes: [{ name: 'StackRegister' }],
-                    })}
+                    onPress={() => navigation.replace('StackRegister')}
                 />
 
                 <View style={styles.oAuthContainer}>

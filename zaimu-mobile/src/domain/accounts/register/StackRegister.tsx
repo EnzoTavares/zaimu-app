@@ -5,7 +5,8 @@ import ScreenRegister from "@/src/domain/accounts/register/ScreenRegister";
 
 export type ParamList = {
     Register: undefined;
-    ConfirmEmail: { credential: string };
+    ConfirmEmail: { nickname: string };
+    StackLogin: undefined;
 };
 
 const Stack = createNativeStackNavigator<ParamList>();

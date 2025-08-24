@@ -8,21 +8,23 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
-import { confirmEmail } from '@/src/api/accounts/confirm_email/ConfirmEmailApi';
-import {resetPasswordCode} from "@/src/api/accounts/reset_password/ResetPasswordApi";
+import {confirmEmail, resendCode} from '@/src/api/accounts/confirm_email/ConfirmEmailApi';
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {ParamList} from "@/src/domain/accounts/register/StackRegister";
+import {useNavigation} from "@react-navigation/native";
 
-type ConfirmEmailProps = {
-    nickname:string
-}
+type Props = NativeStackScreenProps<ParamList, 'ConfirmEmail'>;
 
-const ScreenConfirmEmail = (props:ConfirmEmailProps) => {
+const ScreenConfirmEmail = ({ route }: Props) => {
     const [code, setCode] = useState("");
+    const { nickname } = route.params;
+    const navigation = useNavigation<Props>();
 
     async function submitConfirmationCode(){
-    console.log(await confirmEmail(props.nickname, code))
+    console.log(await confirmEmail(nickname, code))
 }
     async function handleResendCode() {
-        console.log(await resetPasswordCode(props.nickname));
+        console.log(await resendCode(nickname));
     }
 
     return (
@@ -42,13 +44,14 @@ const ScreenConfirmEmail = (props:ConfirmEmailProps) => {
                 <ThickFilledButton label={confirmEmailTexts.send} onPress={submitConfirmationCode}/>
 
                 <View style={styles.textButtonsContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleResendCode}>
                         <Text style={styles.textButtons}>
                             {confirmEmailTexts.resendCode}
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    {/*// REMOVER O USUÁRIO CRIADO NO BANCO!!*/}
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Text style={[
                             styles.textButtons,
                             {textDecorationLine: "underline"}

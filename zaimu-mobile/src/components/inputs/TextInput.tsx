@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         height: 18,
         width: 18,
         marginRight: spacing.mmd,
-        marginLeft: spacing.xs,
+        marginLeft: spacing.xxs,
     },
     input: {
         ...fontStyles.assistanceRegular,

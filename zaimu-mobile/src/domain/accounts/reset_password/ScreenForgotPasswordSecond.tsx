@@ -16,7 +16,7 @@ import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 
 type Props = NativeStackScreenProps<ParamList, 'ForgotPasswordSecond'>;
 
-export function ScreenForgotPasswordSecond ({ route }: Props) {
+const ScreenForgotPasswordSecond = ({ route }: Props) => {
     const [code, setCode] = useState("");
     const [newPasswordText, setNewPasswordText] = useState("");
     const { credential } = route.params;
@@ -72,6 +72,8 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
         </ScrollView>
     );
 }
+
+export default ScreenForgotPasswordSecond
 
 const styles = StyleSheet.create({
     container: {

@@ -17,8 +17,15 @@ import registerTexts from "@/src/constants/texts/domain/accounts/Register";
 import nameTexts from "@/src/constants/texts/inputs/Name";
 import emailTexts from "@/src/constants/texts/inputs/Email";
 import { registerUser } from '@/src/api/accounts/register/RegisterApi';
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {ParamList} from "@/src/domain/accounts/register/StackRegister";
+import {useNavigation} from "@react-navigation/native";
+
+type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
 const ScreenRegister = () => {
+    const navigation = useNavigation<NavigationProp>();
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [nickname, setNickname] = useState("");
@@ -28,6 +35,8 @@ const ScreenRegister = () => {
 
     async function submitRegister(){
         console.log( await registerUser(email, firstName, lastName, nickname, passwordText));
+
+        navigation.navigate('ConfirmEmail', {nickname: nickname});
     }
 
     return (
@@ -104,7 +113,7 @@ const ScreenRegister = () => {
 
                 <OrHorizontalRule color={colors.black} />
 
-                <ThinOutlinedButton label={registerTexts.login} onPress={() => {2+2}}/>
+                <ThinOutlinedButton label={registerTexts.login} onPress={() => navigation.replace('StackLogin')}/>
 
                 <View style={styles.oAuthContainer}>
                     <OAuthButton icon={"googleLogo"}/>
