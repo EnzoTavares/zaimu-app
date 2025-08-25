@@ -1,7 +1,9 @@
+import { API_URL } from "@/src/config/env";
+
 export const resetPasswordCode = async (credential:string) => {
 
     try {
-        const response = await fetch(`https://zaimu.com.br/zaimu-app/services/auth/reset-password/${credential}`, {
+        const response = await fetch(`${API_URL}/auth/reset-password/${credential}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json'
@@ -23,7 +25,7 @@ export const resetPasswordCode = async (credential:string) => {
 export const resetPassword = async (credential:string, confirmationCode:string, newPassword:string) => {
 
     try {
-        const response = await fetch(`https://zaimu.com.br/zaimu-app/services/auth/reset-password/${credential}?code=${confirmationCode}&newPassword=${newPassword}`, {
+        const response = await fetch(`${API_URL}/auth/reset-password/${credential}?code=${confirmationCode}&newPassword=${newPassword}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -44,7 +46,7 @@ export const resetPassword = async (credential:string, confirmationCode:string, 
 
 export const resendCode = async (credential:string) => {
     try {
-        const response = await fetch(`https://zaimu.com.br/zaimu-app/services/auth/reset-password/${credential}`, {
+        const response = await fetch(`${API_URL}/auth/reset-password/${credential}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json'

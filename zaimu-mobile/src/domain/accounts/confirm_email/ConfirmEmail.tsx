@@ -20,15 +20,15 @@ type NavigationProp = NativeStackNavigationProp<ParamList, 'ConfirmEmail'>;
 
 const ScreenConfirmEmail = ({ route }: Props) => {
     const [code, setCode] = useState("");
-    const { nickname } = route.params;
+    const { user } = route.params;
     const navigation = useNavigation<NavigationProp>();
 
     async function submitConfirmationCode(){
-        console.log(await confirmEmail(nickname, code))
+        console.log(await confirmEmail(user, code))
     }
 
     async function handleResendCode() {
-        console.log(await resendCode(nickname));
+        console.log(await resendCode(user.nickname));
     }
 
     function handleNavigateBack () {

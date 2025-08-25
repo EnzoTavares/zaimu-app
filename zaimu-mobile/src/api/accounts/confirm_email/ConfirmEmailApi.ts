@@ -1,11 +1,20 @@
-export const confirmEmail = async (credential:string, code:string) => {
+import {API_URL} from "@/src/config/env";
+import {User} from "@/src/types/User";
+
+export const confirmEmail = async (user:User, code:string) => {
 
     try {
-        const response = await fetch(`https://zaimu.com.br/zaimu-app/services/auth/confirm-email/${credential}/${code}`, {
+        const response = await fetch(`${API_URL}/auth/confirm-email/${user.nickname}/${code}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json'
             },
+            body: JSON.stringify({
+
+
+                email: user.email,
+                nickname: user.nickname,
+            }),
         });
 
         if (response.ok) {
@@ -21,7 +30,7 @@ export const confirmEmail = async (credential:string, code:string) => {
 };
 export const resendCode = async (nickname:string) => {
     try {
-        const response = await fetch(`https://zaimu.com.br/zaimu-app/services/auth/resend-code/${nickname}`, {
+        const response = await fetch(`${API_URL}/auth/resend-code/${nickname}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

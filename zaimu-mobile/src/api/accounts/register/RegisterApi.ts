@@ -1,3 +1,5 @@
+import { API_URL } from "@/src/config/env";
+
 export const registerUser = async (email:string,firstName:string,lastName:string, nickname:string, password:string) => {
 
     const registerData = {
@@ -10,7 +12,7 @@ export const registerUser = async (email:string,firstName:string,lastName:string
     }
 
     try {
-        const response = await fetch('https://zaimu.com.br/zaimu-app/services/auth/register', {
+        const response = await fetch(`${API_URL}/auth/register`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
