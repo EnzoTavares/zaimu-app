@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, ScrollView, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, Text} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import {fontStyles} from "@/src/themes/typography";
@@ -20,6 +20,7 @@ import { registerUser } from '@/src/api/accounts/register/RegisterApi';
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -39,8 +40,17 @@ const ScreenRegister = () => {
         navigation.navigate('ConfirmEmail', {nickname: nickname});
     }
 
+    function handleNavigateToLogin () {
+        navigation.replace('StackLogin');
+    }
+
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <KeyboardAwareScrollView
+            contentContainerStyle={styles.container}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled={true}
+            keyboardShouldPersistTaps="handled"
+        >
             <AppIcon />
 
             <Text style={styles.welcomeText}>
@@ -50,13 +60,19 @@ const ScreenRegister = () => {
                 </Text>
             </Text>
 
-            <HorizontalRule color={colors.greyExtraLight} height={spacing.xxs} />
+            <HorizontalRule
+                color={colors.greyExtraLight}
+                height={spacing.xxs}
+            />
 
             <Text style={styles.registerText}>
                 {registerTexts.register}
             </Text>
 
-            <Card shadowed={true} style={{gap: spacing.lg}}>
+            <Card
+                shadowed={true}
+                style={{gap: spacing.lg}}
+            >
                 <View style={styles.firstAndLastNameInputContainer}>
                     <CustomTextInput
                         label={nameTexts.labelFirstName}
@@ -109,19 +125,25 @@ const ScreenRegister = () => {
                     value={confirmPassword}
                 />
 
-                <ThinFilledButton label={registerTexts.finish} onPress={submitRegister}/>
-
-                <OrHorizontalRule color={colors.black} />
-
-                <ThinOutlinedButton label={registerTexts.login} onPress={() => navigation.replace('StackLogin')}/>
+                <ThinFilledButton
+                    label={registerTexts.finish}
+                    onPress={submitRegister}
+                />
 
                 <View style={styles.oAuthContainer}>
                     <OAuthButton icon={"googleLogo"}/>
                     <OAuthButton icon={"appleLogo"}/>
                     <OAuthButton icon={"facebookLogo"}/>
                 </View>
+
+                <OrHorizontalRule color={colors.black} />
+
+                <ThinOutlinedButton
+                    label={registerTexts.login}
+                    onPress={handleNavigateToLogin}
+                />
             </Card>
-        </ScrollView>
+        </KeyboardAwareScrollView>
     );
 }
 
@@ -139,11 +161,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flexGrow: 1,
-
         paddingVertical: spacing.xxxl,
-
         alignItems: 'center',
-
         gap: spacing.md,
         width: "100%",
     },

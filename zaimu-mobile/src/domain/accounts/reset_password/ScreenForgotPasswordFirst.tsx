@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, ScrollView} from "react-native";
+import {StyleSheet, View} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -12,6 +12,7 @@ import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordFirst'>;
 
@@ -22,35 +23,69 @@ const ScreenForgotPasswordFirst = () => {
 
     async function submitResetPasswordCode() {
         console.log(await resetPasswordCode(credential))
+
+        navigation.navigate('ForgotPasswordSecond', {credential: credential} );
     }
+
+    function handleNavigateBackToLogin () {
+        navigation.goBack();
+    }
+
     return (
-        <ScrollView contentContainerStyle={styles.container} >
-            <BlackChevronLeft
-                icon={'blackChevronLeft'}
-                onPress={() => navigation.goBack()}
-                style={styles.chevronLeft}
-            />
+        <View style={styles.rootContainer}>
+            <View style={styles.header}>
+                <BlackChevronLeft
+                    icon={'blackChevronLeft'}
+                    onPress={handleNavigateBackToLogin}
+                />
+            </View>
 
-            <IconBadge icon={"darkGreenShieldFill"} height={114} width={100}/>
+            <KeyboardAwareScrollView
+                contentContainerStyle={styles.scrollContainer}
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+                keyboardShouldPersistTaps="handled"
+            >
+                <IconBadge
+                    icon={"darkGreenShieldFill"}
+                    height={114}
+                    width={100}
+                />
 
-            <TitleWithSubtitle title={forgotPasswordTexts.reset} subtitle={forgotPasswordTexts.user} />
+                <TitleWithSubtitle
+                    title={forgotPasswordTexts.reset}
+                    subtitle={forgotPasswordTexts.user}
+                />
 
-            <CustomTextInput
-                icon={"greyPersonFill"}
-                placeholder={emailOrNicknameTexts.placeholder}
-                setValue={setCredential}
-                value={credential}
-            />
+                <CustomTextInput
+                    icon={"greyPersonFill"}
+                    placeholder={emailOrNicknameTexts.placeholder}
+                    setValue={setCredential}
+                    value={credential}
+                />
 
-            <ThickFilledButton label={forgotPasswordTexts.send} onPress={submitResetPasswordCode} />
-        </ScrollView>
+                <ThickFilledButton
+                    label={forgotPasswordTexts.send}
+                    onPress={submitResetPasswordCode}
+                />
+            </KeyboardAwareScrollView>
+        </View>
     );
 }
 
 export default ScreenForgotPasswordFirst;
 
 const styles = StyleSheet.create({
-    container: {
+    rootContainer: {
+        flex: 1,
+    },
+    header: {
+        position: 'absolute',
+        top: spacing.xxxl,
+        left: spacing.xx,
+        zIndex: 10,
+    },
+    scrollContainer: {
         flexGrow: 1,
         alignItems: "center",
         justifyContent: "center",
@@ -58,7 +93,4 @@ const styles = StyleSheet.create({
         width: "75%",
         marginHorizontal: "auto"
     },
-    chevronLeft: {
-        position: "sticky",
-    }
 })

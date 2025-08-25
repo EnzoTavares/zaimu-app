@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ScreenLogin from "@/src/domain/accounts/login/ScreenLogin";
 import ScreenForgotPasswordFirst from "@/src/domain/accounts/reset_password/ScreenForgotPasswordFirst";
-import ScreenForgotPasswordSecond from '@/src/domain/accounts/reset_password/ScreenForgotPasswordSecond';
+import { ScreenForgotPasswordSecond } from '@/src/domain/accounts/reset_password/ScreenForgotPasswordSecond';
 
 export type ParamList = {
     Login: undefined;
