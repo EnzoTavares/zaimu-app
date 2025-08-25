@@ -17,5 +17,5 @@ public interface AuthService {
 
     void resendSignUpCode (String nickname);
 
-    int cleanupUnconfirmedUsers(int daysThreshold);
+//    int cleanupUnconfirmedUsers(int daysThreshold);
 }
