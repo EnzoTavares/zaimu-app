@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
@@ -20,6 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {AuthContext} from "@/src/domain/accounts/AuthStack";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
@@ -29,9 +30,12 @@ const ScreenLogin = () => {
     const [credential, setCredential] = useState("");
     const [passwordText, setPasswordText] = useState("");
 
+    const { signIn } = useContext(AuthContext);
+
      async function submitLogin(){
         // const result = await loginUser(credential, passwordText);
         console.log( await loginUser(credential, passwordText));
+        signIn();
     }
 
     function handleNavigateToResetPassword () {

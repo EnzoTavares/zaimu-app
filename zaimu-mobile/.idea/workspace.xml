@@ -5,16 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Changes on auth screens&#10;Working with navigation">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/access.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/access.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/confirm_email/ConfirmEmailApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/accounts/confirm_email/ConfirmEmailApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/login/LoginApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/accounts/login/LoginApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/register/RegisterApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/accounts/register/RegisterApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/reset_password/ResetPasswordApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/accounts/reset_password/ResetPasswordApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/inputs/Email.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/inputs/Email.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/inputs/Name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/inputs/Name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/AccessStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/AccessStack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/AuthNavigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/AuthStack.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ConfirmEmail.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/StackLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/StackLogin.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/StackRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/StackRegister.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/User.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +36,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -126,7 +138,9 @@
       <workItem from="1755921252477" duration="4352000" />
       <workItem from="1755961257471" duration="2456000" />
       <workItem from="1755963776624" duration="3965000" />
-      <workItem from="1756089914227" duration="3571000" />
+      <workItem from="1756089914227" duration="3676000" />
+      <workItem from="1756146042729" duration="1025000" />
+      <workItem from="1756147090805" duration="8218000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />
@@ -184,7 +198,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755966130380</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Changes on auth screens&#10;Working with navigation">
+      <option name="closed" value="true" />
+      <created>1756093614115</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1756093614115</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

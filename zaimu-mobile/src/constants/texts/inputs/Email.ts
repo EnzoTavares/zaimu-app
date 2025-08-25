@@ -1,6 +1,6 @@
 const emailTexts = {
     label: 'Email',
-    placeholder: 'Ex: enzo@gmail.com',
+    placeholder: 'Ex: carlos@gmail.com',
     errors: {
         alreadyRegistered: 'Email já registrado',
         invalid: 'Email inválido',

@@ -1,17 +1,32 @@
 import {ActivityIndicator, StyleSheet, View} from 'react-native'
 import themes from '@/src/themes/theme'
 import {SafeAreaProvider} from "react-native-safe-area-context";
-import AuthStack from "@/src/domain/accounts/AccessStack";
+import { AuthContext } from "@/src/domain/accounts/AuthStack";
+import {useMemo, useState} from "react";
+import AccessPage from "@/app/access";
 
 export default function StartupPage() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    const authContext = useMemo(() => ({
+        signIn: () => {
+            setIsAuthenticated(true);
+        },
+        signOut: () => {
+            setIsAuthenticated(false);
+        }
+    }), []);
+
     return (
         <SafeAreaProvider>
-            <View style={styles.container}>
-                {/*<ActivityIndicator size="large" color={themes.colors.primary}/>*/}
-                <AuthStack />
-            </View>
+            <AuthContext.Provider value={authContext}>
+                <View style={styles.container}>
+                    {/*{!isAuthenticated ? <AuthStack /> : null <MainNavigator />}*/}
+                    <AccessPage />
+                </View>
+            </AuthContext.Provider>
         </SafeAreaProvider>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

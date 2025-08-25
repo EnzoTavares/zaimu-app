@@ -1,6 +1,7 @@
 package br.com.zaimu.backend.controller;
 
 import br.com.zaimu.backend.controller.enums.HttpStatusEnum;
+import br.com.zaimu.backend.model.entity.User;
 import br.com.zaimu.backend.model.exception.ValidationExceptionHandler;
 import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
@@ -9,6 +10,7 @@ import br.com.zaimu.backend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,15 +58,15 @@ public class AuthController {
         return new HttpResponse(reponseStatus, response);
     }
 
-    @PostMapping("/confirm-email/{nickname}/{code}")
+    @PostMapping("/confirm-email/{code}")
     public HttpResponse confirmEmail(
-            @PathVariable String nickname,
+            @RequestBody User user,
             @PathVariable String code
     ) {
         Integer reponseStatus;
         Object response;
         try{
-            authService.confirmEmail(nickname, code);
+            authService.confirmEmail(user, code);
             response = "Email confirmed successfully.";
             reponseStatus = HttpStatusEnum.success();
         } catch (ValidationExceptionHandler e) {
@@ -101,6 +103,23 @@ public class AuthController {
         try{
             authService.resendSignUpCode(nickname);
             response = "Código reenviado.";
+            reponseStatus = HttpStatusEnum.success();
+        } catch (ValidationExceptionHandler e) {
+            response = e.getMessage();
+            reponseStatus = HttpStatusEnum.fail();
+        }
+        return new HttpResponse(reponseStatus, response);
+    }
+
+    @GetMapping("/cleanup-unconfirmed-users")
+    public HttpResponse cleanupUnconfirmedUsers(
+//            @RequestParam (required = false, defaultValue = "7") Integer daysThreshold
+    ) {
+        Integer reponseStatus;
+        Object response;
+        try{
+            int deletedUsers = authService.cleanupUnconfirmedUsers(0);
+            response = String.format("Deleted %d unconfirmed users.", deletedUsers);
             reponseStatus = HttpStatusEnum.success();
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();

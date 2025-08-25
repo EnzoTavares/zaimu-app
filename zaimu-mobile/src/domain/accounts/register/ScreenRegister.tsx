@@ -21,6 +21,7 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {User} from "@/src/types/User";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -35,9 +36,19 @@ const ScreenRegister = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     async function submitRegister(){
-        console.log( await registerUser(email, firstName, lastName, nickname, passwordText));
+        const response = await registerUser(email, firstName, lastName, nickname, passwordText);
 
-        navigation.navigate('ConfirmEmail', {nickname: nickname});
+        console.log(response);
+
+        const newUser: User = {
+            uuid: await response.data.uuid,
+            email: await response.data.email,
+            givenName: await response.data.givenName,
+            familyName: await response.data.familyName,
+            nickname: await response.data.nickname,
+        };
+
+        navigation.navigate('ConfirmEmail', { user: newUser });
     }
 
     function handleNavigateToLogin () {
