@@ -1,11 +1,11 @@
 import { API_URL } from "@/src/config/env";
 
-export const registerUser = async (email:string,firstName:string,lastName:string, nickname:string, password:string) => {
+export const registerUser = async (email:string,givenName:string,familyName:string, nickname:string, password:string) => {
 
     const registerData = {
         email: email,
-        givenName: firstName,
-        familyName: lastName,
+        givenName: givenName,
+        familyName: familyName,
         nickname: nickname,
         password: password,
     }

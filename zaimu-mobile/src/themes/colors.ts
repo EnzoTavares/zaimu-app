@@ -1,6 +1,6 @@
 const colors = {
     primary: '#81B96D',
-    primaryActive: '#D55900',
+    primaryActive: '#60C043',
     primaryDisabled: 'rgba(255, 124, 31, 0.5)',
     primaryBackground: 'rgba(255, 124, 31, 0.2)',
 

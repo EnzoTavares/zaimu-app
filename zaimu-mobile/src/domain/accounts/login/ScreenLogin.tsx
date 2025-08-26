@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity, Alert} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import loginTexts from '@/src/constants/texts/domain/accounts/Login'
@@ -21,6 +21,7 @@ import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {AuthContext} from "@/src/domain/accounts/AuthStack";
+import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
@@ -30,12 +31,22 @@ const ScreenLogin = () => {
     const [credential, setCredential] = useState("");
     const [passwordText, setPasswordText] = useState("");
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const { signIn } = useContext(AuthContext);
 
      async function submitLogin(){
-        // const result = await loginUser(credential, passwordText);
-        console.log( await loginUser(credential, passwordText));
-        signIn();
+         setIsLoading(true);
+
+         try {
+             const response = await loginUser(credential, passwordText);
+             signIn();
+         } catch (error) {
+             console.error("Login error:", error);
+             Alert.alert("Login Failed", "Please try again later");
+         } finally {
+             setIsLoading(false);
+         }
     }
 
     function handleNavigateToResetPassword () {
@@ -47,73 +58,77 @@ const ScreenLogin = () => {
     }
 
     return (
-        <KeyboardAwareScrollView
-            contentContainerStyle={styles.container}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            scrollEnabled={true}
-            keyboardShouldPersistTaps="handled"
-        >
-            <AppIcon />
+        <View style={{flex: 1}}>
+            <KeyboardAwareScrollView
+                contentContainerStyle={styles.container}
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+                keyboardShouldPersistTaps="handled"
+            >
+                <AppIcon />
 
-            <Text style={styles.welcomeText}>
-                {brandTexts.welcome}
-                <Text style={styles.brandName}>
-                    {brandTexts.name}
+                <Text style={styles.welcomeText}>
+                    {brandTexts.welcome}
+                    <Text style={styles.brandName}>
+                        {brandTexts.name}
+                    </Text>
                 </Text>
-            </Text>
 
-            <HorizontalRule
-                color={colors.greyExtraLight}
-                height={spacing.xxs}
-            />
-
-            <Text style={styles.loginText}>
-                {loginTexts.login}
-            </Text>
-
-            <Card shadowed={true} style={{gap: spacing.xx}}>
-                <CustomTextInput
-                    icon={'greyPersonFill'}
-                    placeholder={emailOrNicknameTexts.placeholder}
-                    setValue={setCredential}
-                    value={credential}
+                <HorizontalRule
+                    color={colors.greyExtraLight}
+                    height={spacing.xxs}
                 />
 
-                <View>
+                <Text style={styles.loginText}>
+                    {loginTexts.login}
+                </Text>
+
+                <Card shadowed={true} style={{gap: spacing.xx}}>
                     <CustomTextInput
-                        icon={'greyLockFill'}
-                        placeholder={password.placeholder}
-                        isPassword={true}
-                        setValue={setPasswordText}
-                        value={passwordText}
+                        icon={'greyPersonFill'}
+                        placeholder={emailOrNicknameTexts.placeholder}
+                        setValue={setCredential}
+                        value={credential}
                     />
 
-                    <TouchableOpacity onPress={handleNavigateToResetPassword}>
-                        <Text style={styles.forgotPassword}>
-                            {loginTexts.forgotPassword}
-                        </Text>
-                    </TouchableOpacity>
+                    <View>
+                        <CustomTextInput
+                            icon={'greyLockFill'}
+                            placeholder={password.placeholder}
+                            isPassword={true}
+                            setValue={setPasswordText}
+                            value={passwordText}
+                        />
 
-                    <ThinFilledButton
-                        label={loginTexts.signIn}
-                        onPress={submitLogin}
+                        <TouchableOpacity onPress={handleNavigateToResetPassword}>
+                            <Text style={styles.forgotPassword}>
+                                {loginTexts.forgotPassword}
+                            </Text>
+                        </TouchableOpacity>
+
+                        <ThinFilledButton
+                            label={loginTexts.signIn}
+                            onPress={submitLogin}
+                        />
+                    </View>
+
+                    <OrHorizontalRule color={colors.black}/>
+
+                    <ThinOutlinedButton
+                        label={loginTexts.signUp}
+                        onPress={handleNavigateToRegister}
                     />
-                </View>
 
-                <OrHorizontalRule color={colors.black}/>
+                    <View style={styles.oAuthContainer}>
+                        <OAuthButton icon={"googleLogo"}/>
+                        <OAuthButton icon={"appleLogo"}/>
+                        <OAuthButton icon={"facebookLogo"}/>
+                    </View>
+                </Card>
+            </KeyboardAwareScrollView>
 
-                <ThinOutlinedButton
-                    label={loginTexts.signUp}
-                    onPress={handleNavigateToRegister}
-                />
-
-                <View style={styles.oAuthContainer}>
-                    <OAuthButton icon={"googleLogo"}/>
-                    <OAuthButton icon={"appleLogo"}/>
-                    <OAuthButton icon={"facebookLogo"}/>
-                </View>
-            </Card>
-        </KeyboardAwareScrollView>
+            <LoadingOverlay visible={isLoading} />
+        </View>
     );
 }
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Alert} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -14,25 +14,59 @@ import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
 import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {registerUser} from "@/src/api/accounts/register/RegisterApi";
+import {User} from "@/src/types/User";
+import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 type Props = NativeStackScreenProps<ParamList, 'ConfirmEmail'>;
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ConfirmEmail'>;
 
 const ScreenConfirmEmail = ({ route }: Props) => {
-    const [code, setCode] = useState("");
-    const { user } = route.params;
     const navigation = useNavigation<NavigationProp>();
 
+    const [code, setCode] = useState("");
+    const { user } = route.params;
+
+    const [isLoading, setIsLoading] = useState(false);
+
     async function submitConfirmationCode(){
-        console.log(await confirmEmail(user, code))
+        setIsLoading(true);
+
+        try {
+            const response = await confirmEmail(user, code);
+        } catch (error) {
+            console.error("Registration error:", error);
+            Alert.alert("Registration Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     async function handleResendCode() {
-        console.log(await resendCode(user.nickname));
+        setIsLoading(true);
+
+        try {
+            const response = await resendCode(user.nickname);
+        } catch (error) {
+            console.error("Registration error:", error);
+            Alert.alert("Registration Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function handleNavigateBack () {
-        navigation.goBack();
+        setIsLoading(true);
+
+        try {
+            navigation.goBack();
+            //
+        } catch (error) {
+            console.error("Registration error:", error);
+            Alert.alert("Registration Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -59,7 +93,7 @@ const ScreenConfirmEmail = ({ route }: Props) => {
                 <View style={{gap: spacing.xx}}>
                     <TitleWithSubtitle
                         title={confirmEmailTexts.check}
-                        subtitle={confirmEmailTexts.sentCode}
+                        subtitle={confirmEmailTexts.sentCode(user.email)}
                     />
 
                     <CustomOtpInput
@@ -92,6 +126,8 @@ const ScreenConfirmEmail = ({ route }: Props) => {
                     </View>
                 </View>
             </KeyboardAwareScrollView>
+
+            <LoadingOverlay visible={isLoading} />
         </View>
     );
 }

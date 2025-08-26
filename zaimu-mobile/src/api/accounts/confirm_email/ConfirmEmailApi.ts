@@ -2,12 +2,12 @@ import {API_URL} from "@/src/config/env";
 import {User} from "@/src/types/User";
 
 export const confirmEmail = async (user:User, code:string) => {
-
     try {
         const response = await fetch(`${API_URL}/auth/confirm-email/${code}`, {
             method: 'POST',
             headers: {
-                Accept: 'application/json'
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 uuid: user.uuid,

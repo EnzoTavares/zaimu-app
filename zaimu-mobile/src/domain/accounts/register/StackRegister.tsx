@@ -1,6 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ScreenConfirmEmail from "@/src/domain/accounts/confirm_email/ConfirmEmail";
+import ScreenConfirmEmail from "@/src/domain/accounts/confirm_email/ScreenConfirmEmail";
 import ScreenRegister from "@/src/domain/accounts/register/ScreenRegister";
 import {User} from "@/src/types/User";
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from "react-native";
+import {Alert, StyleSheet, View} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -13,18 +13,30 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordFirst'>;
 
 const ScreenForgotPasswordFirst = () => {
-    const [credential, setCredential] = useState("");
-
     const navigation = useNavigation<NavigationProp>();
 
-    async function submitResetPasswordCode() {
-        console.log(await resetPasswordCode(credential))
+    const [credential, setCredential] = useState("");
 
-        navigation.navigate('ForgotPasswordSecond', {credential: credential} );
+    const [isLoading, setIsLoading] = useState(false);
+
+    async function submitResetPasswordCode() {
+        setIsLoading(true);
+
+        try {
+            const response = await resetPasswordCode(credential);
+
+            navigation.navigate('ForgotPasswordSecond', {credential: credential} );
+        } catch (error) {
+            console.error("MENSAGEM!:", error);
+            Alert.alert("Login Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function handleNavigateBackToLogin () {
@@ -69,6 +81,8 @@ const ScreenForgotPasswordFirst = () => {
                     onPress={submitResetPasswordCode}
                 />
             </KeyboardAwareScrollView>
+
+            <LoadingOverlay visible={isLoading} />
         </View>
     );
 }

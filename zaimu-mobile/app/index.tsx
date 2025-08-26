@@ -4,6 +4,7 @@ import {SafeAreaProvider} from "react-native-safe-area-context";
 import { AuthContext } from "@/src/domain/accounts/AuthStack";
 import {useMemo, useState} from "react";
 import AccessPage from "@/app/access";
+import CustomActivityIndicator from "@/src/components/common/ActivityIndicatorCircleSnail";
 
 export default function StartupPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
