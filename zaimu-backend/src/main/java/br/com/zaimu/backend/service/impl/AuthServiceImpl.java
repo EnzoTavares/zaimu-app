@@ -33,10 +33,12 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfi
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.UsernameExistsException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,8 +64,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                 .build();
     }
 
-    public String signUpUser (RegisterParameters registerParameters) {
-        RequestUser requestUser = new RequestUser();
+    public RequestUser signUpUser (RegisterParameters registerParameters) {
         Map<String, String> userAttributes = new HashMap<>();
         userAttributes.put("email", registerParameters.getEmail());
         userAttributes.put("given_name", registerParameters.getGivenName());
@@ -87,10 +88,17 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         try {
             SignUpResponse response = cognitoClient.signUp(signUpRequest);
             logger.info("User {} signed up successfully. User confirmed: {}", registerParameters.getEmail(), response.userConfirmed());
-            return "Um código de confirmação foi enviado para o seu e-mail. Por favor, verifique sua caixa de entrada e confirme seu cadastro.";
-        } catch (Exception e) {
-            logger.error("Error signing up user: {}", e.getMessage());
-            throw new RuntimeException("Failed to sign up user", e);
+            return new RequestUser(
+                    null,
+                    UUID.fromString(response.userSub()),
+                    registerParameters.getEmail(),
+                    registerParameters.getGivenName(),
+                    registerParameters.getFamilyName(),
+                    registerParameters.getNickname()
+            );
+        } catch (UsernameExistsException uee) {
+            logger.error("Erro ao registrar usuário: {}", uee.getMessage());
+            throw new RuntimeException("Usuário já cadastrado", uee);
         }
     }
 

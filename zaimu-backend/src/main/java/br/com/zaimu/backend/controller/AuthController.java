@@ -33,7 +33,6 @@ public class AuthController {
         try{
             response = authService.signUpUser(registerParameters);
             reponseStatus = HttpStatusEnum.success();
-
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
