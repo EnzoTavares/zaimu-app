@@ -83,8 +83,8 @@ public class User implements Serializable {
                 "id=" + id +
                 ", uuid=" + uuid +
                 ", email='" + email + '\'' +
-                ", firstName='" + givenName + '\'' +
-                ", lastName='" + familyName + '\'' +
+                ", givenName='" + givenName + '\'' +
+                ", familyName='" + familyName + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +

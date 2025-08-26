@@ -36,8 +36,8 @@ public class UserView {
             this.userId = rs.getLong("ID_USER");
             this.uuid = UUID.fromString(rs.getString("CD_COGNITO_SUB"));
             this.email = rs.getString("DS_EMAIL");
-            this.givenName = rs.getString("NM_FIRST_NAME");
-            this.familyName = rs.getString("NM_LAST_NAME");
+            this.givenName = rs.getString("NM_GIVEN_NAME");
+            this.familyName = rs.getString("NM_FAMILY_NAME");
             this.nickname = rs.getString("CD_NICKNAME");
             this.dateCreated = rs.getTimestamp("DT_CREATED");
             this.dateUpdated = rs.getTimestamp("DT_UPDATED");
