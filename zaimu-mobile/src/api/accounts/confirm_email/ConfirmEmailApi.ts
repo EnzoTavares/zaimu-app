@@ -1,11 +1,21 @@
-export const confirmEmail = async (credential:string, code:string) => {
+import {API_URL} from "@/src/config/env";
+import {User} from "@/src/types/User";
+
+export const confirmEmail = async (user:User, code:string) => {
 
     try {
-        const response = await fetch(`https://zaimu.com.br/zaimu-app/services/auth/confirm-email/${credential}/${code}`, {
+        const response = await fetch(`${API_URL}/auth/confirm-email/${code}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json'
             },
+            body: JSON.stringify({
+                uuid: user.uuid,
+                email: user.email,
+                givenName: user.givenName,
+                familyName: user.familyName,
+                nickname: user.nickname,
+            }),
         });
 
         if (response.ok) {
@@ -19,9 +29,10 @@ export const confirmEmail = async (credential:string, code:string) => {
         return { success: false, message: 'Nao foi possivel se conectar com o servidor' };
     }
 };
+
 export const resendCode = async (nickname:string) => {
     try {
-        const response = await fetch(`https://zaimu.com.br/zaimu-app/services/auth/resend-code/${nickname}`, {
+        const response = await fetch(`${API_URL}/auth/resend-code/${nickname}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

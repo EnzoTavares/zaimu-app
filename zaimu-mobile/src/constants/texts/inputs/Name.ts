@@ -2,13 +2,11 @@ const nameTexts = {
     labelFirstName: 'Primeiro Nome',
     labelLastName: 'Último Nome',
     labelNickName: "Usuário",
-    placeholderFirstName: 'Ex: Enzo',
-    placeholderLastName: 'Ex: Tavares',
-    placeholderNickname: 'Ex: EnzoS84',
+    placeholderFirstName: 'Ex: Carlos',
+    placeholderLastName: 'Ex: Silva',
+    placeholderNickname: 'Ex: CarlosS84',
     errors: 'O campo nome deve estar preenchido',
-    rules: 'O nome deve seguir estas regras:\n' +
-        '- Apenas letras e espaços são permitidos\n' +
-        '- Mínimo de 2 caracteres\n',
+    rules: ''
 }
 
 export default nameTexts

@@ -1,20 +1,19 @@
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import {LinearGradient} from "expo-linear-gradient";
 import colors from "@/src/themes/colors";
 import {fontStyles} from "@/src/themes/typography";
 
 type ThinOutlinedButtonProps = {
     label: string;
     color?: string;
+    onPress: ()=>void;
 }
 
 const ThinOutlinedButton = (props: ThinOutlinedButtonProps) => {
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={() => {/* login */
-            }}>
+            onPress={props.onPress}>
             <Text style={styles.label}>
                 {props.label}
             </Text>

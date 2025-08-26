@@ -1,0 +1,117 @@
+Index: app/index.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {router} from 'expo-router'\nimport {ActivityIndicator, StyleSheet, View} from 'react-native'\nimport themes from '@/src/themes/theme'\nimport ScreenLogin from \"@/src/domain/accounts/login/ScreenLogin\";\nimport ScreenForgotPasswordFirst from \"@/src/domain/accounts/reset_password/ScreenForgotPasswordFirst\";\nimport ScreenForgotPasswordSecond from \"@/src/domain/accounts/reset_password/ScreenForgotPasswordSecond\";\nimport ScreenRegister from \"@/src/domain/accounts/register/ScreenRegister\";\nimport ScreenConfirmEmail from \"@/src/domain/accounts/confirm_email/ConfirmEmail\";\n\nexport default function StartupPage() {\n    // router.replace('/access')\n\n    return (\n\n\n        <View style={styles.container}>\n            {/*<ActivityIndicator size=\"large\" color={theme.colors.primary}/>*/}\n            <ScreenLogin />\n            {/*<ScreenForgotPasswordFirst/>*/}\n            {/*<ScreenForgotPasswordSecond />*/}\n            {/*<ScreenRegister />*/}\n            {/*<ScreenConfirmEmail />*/}\n        </View>\n    )\n}\n\nconst styles = StyleSheet.create({\n    container: {\n        flex: 1,\n        backgroundColor: themes.colors.backgroundDefault,\n    },\n})
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/index.tsx b/app/index.tsx
+--- a/app/index.tsx	(revision 9858bb60acc04e2b72cb5b246e028c2b0985e77a)
++++ b/app/index.tsx	(date 1755909153399)
+@@ -15,10 +15,10 @@
+ 
+         <View style={styles.container}>
+             {/*<ActivityIndicator size="large" color={theme.colors.primary}/>*/}
+-            <ScreenLogin />
++            {/*<ScreenLogin />*/}
+             {/*<ScreenForgotPasswordFirst/>*/}
+             {/*<ScreenForgotPasswordSecond />*/}
+-            {/*<ScreenRegister />*/}
++            <ScreenRegister />
+             {/*<ScreenConfirmEmail />*/}
+         </View>
+     )
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"969431d5-3125-4a3a-819e-4f504eb68c8d\" name=\"Changes\" comment=\"Changes on getting input state auth screens\">\n      <change beforePath=\"$PROJECT_DIR$/app/index.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/index.tsx\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"TypeScript File\" />\n        <option value=\"TypeScript JSX File\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$/..\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;EnzoTavares&quot;\n  }\n}</component>\n  <component name=\"GithubProjectSettings\">\n    <option name=\"branchProtectionPatterns\">\n      <list>\n        <option value=\"main\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/EnzoTavares/zaimu-app.git&quot;,\n    &quot;accountId&quot;: &quot;869b872d-302f-4b2e-87b8-b01d40e3f674&quot;\n  }\n}</component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"310akodDGlPCgyhJM2jJfpZlLEE\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\n    \"Node.js.dimensions.ts.executor\": \"Run\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"dart.analysis.tool.window.visible\": \"false\",\n    \"git-widget-placeholder\": \"F-007-feature\",\n    \"last_opened_file_path\": \"D:/Programming/Development Projects/zaimu-app/zaimu-mobile/src/domain/accounts/confirm_email\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"settings.editor.selected.configurable\": \"terminal\",\n    \"ts.external.directory.path\": \"D:\\\\Programming\\\\Development Projects\\\\zaimu-app\\\\zaimu-mobile\\\\node_modules\\\\typescript\\\\lib\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\domain\\accounts\\confirm_email\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\domain\\accounts\\register\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\domain\\accounts\\reset_password\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\constants\\texts\\domain\\accounts\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\constants\\texts\\inputs\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\assets\\icons\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\assets\\images\\svg\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\\assets\\fonts\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\src\" />\n      <recent name=\"D:\\Programming\\Development Projects\\zaimu\\zaimu-mobile\\src\\lib\" />\n    </key>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-WS-252.23892.411\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"969431d5-3125-4a3a-819e-4f504eb68c8d\" name=\"Changes\" comment=\"\" />\n      <created>1754663590235</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1754663590235</updated>\n      <workItem from=\"1754663591594\" duration=\"1979000\" />\n      <workItem from=\"1754676679082\" duration=\"1235000\" />\n      <workItem from=\"1755629259423\" duration=\"678000\" />\n      <workItem from=\"1755742981914\" duration=\"64000\" />\n      <workItem from=\"1755743057539\" duration=\"4302000\" />\n      <workItem from=\"1755780030677\" duration=\"27689000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Starting auth screens\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1755729244458</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1755729244458</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Starting auth screens\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1755729266685</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1755729266685</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Changes on auth screens\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1755809656598</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1755809656598</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"All auth screens\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1755892391252</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1755892391252</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Changes on getting input state auth screens\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1755897629553</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1755897629555</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"6\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Starting auth screens\" />\n    <MESSAGE value=\"Changes on auth screens\" />\n    <MESSAGE value=\"All auth screens\" />\n    <MESSAGE value=\"Changes on getting input state auth screens\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Changes on getting input state auth screens\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 9858bb60acc04e2b72cb5b246e028c2b0985e77a)
++++ b/.idea/workspace.xml	(date 1755910848882)
+@@ -4,9 +4,9 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Changes on getting input state auth screens">
++    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="More changes">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -42,12 +42,12 @@
+       </list>
+     </option>
+   </component>
+-  <component name="GithubPullRequestsUISettings">{
+-  &quot;selectedUrlAndAccountId&quot;: {
+-    &quot;url&quot;: &quot;https://github.com/EnzoTavares/zaimu-app.git&quot;,
+-    &quot;accountId&quot;: &quot;869b872d-302f-4b2e-87b8-b01d40e3f674&quot;
++  <component name="GithubPullRequestsUISettings"><![CDATA[{
++  "selectedUrlAndAccountId": {
++    "url": "https://github.com/EnzoTavares/zaimu-app.git",
++    "accountId": "3ce63737-de80-4e58-9d56-1ae2d07af317"
+   }
+-}</component>
++}]]></component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 2
+ }</component>
+@@ -59,26 +59,26 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ModuleVcsDetector.initialDetectionPerformed": "true",
+-    "Node.js.dimensions.ts.executor": "Run",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "dart.analysis.tool.window.visible": "false",
+-    "git-widget-placeholder": "F-007-feature",
+-    "last_opened_file_path": "D:/Programming/Development Projects/zaimu-app/zaimu-mobile/src/domain/accounts/confirm_email",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "settings.editor.selected.configurable": "terminal",
+-    "ts.external.directory.path": "D:\\Programming\\Development Projects\\zaimu-app\\zaimu-mobile\\node_modules\\typescript\\lib",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
++    &quot;Node.js.dimensions.ts.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;F-007-feature&quot;,
++    &quot;last_opened_file_path&quot;: &quot;D:/Programming/Development Projects/zaimu-app/zaimu-mobile/src/domain/accounts/confirm_email&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
++    &quot;ts.external.directory.path&quot;: &quot;/home/enzo-tavares/Documents/Programming/UFU/PDS/zaimu-app/zaimu-mobile/node_modules/typescript/lib&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src\domain\accounts\confirm_email" />
+@@ -115,6 +115,7 @@
+       <workItem from="1755742981914" duration="64000" />
+       <workItem from="1755743057539" duration="4302000" />
+       <workItem from="1755780030677" duration="27689000" />
++      <workItem from="1755910602236" duration="243000" />
+     </task>
+     <task id="LOCAL-00001" summary="Starting auth screens">
+       <option name="closed" value="true" />

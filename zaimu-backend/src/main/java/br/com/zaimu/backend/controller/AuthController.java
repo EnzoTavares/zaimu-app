@@ -1,6 +1,7 @@
 package br.com.zaimu.backend.controller;
 
 import br.com.zaimu.backend.controller.enums.HttpStatusEnum;
+import br.com.zaimu.backend.model.entity.User;
 import br.com.zaimu.backend.model.exception.ValidationExceptionHandler;
 import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
@@ -56,16 +57,15 @@ public class AuthController {
         return new HttpResponse(reponseStatus, response);
     }
 
-    @PostMapping("/confirm-email/{nickname}/{code}")
+    @PostMapping("/confirm-email/{code}")
     public HttpResponse confirmEmail(
-            @PathVariable String nickname,
+            @RequestBody User user,
             @PathVariable String code
     ) {
         Integer reponseStatus;
         Object response;
         try{
-            authService.confirmEmail(nickname, code);
-            response = "Email confirmed successfully.";
+            response = authService.confirmEmail(user, code);
             reponseStatus = HttpStatusEnum.success();
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();
@@ -108,4 +108,21 @@ public class AuthController {
         }
         return new HttpResponse(reponseStatus, response);
     }
+
+//    @GetMapping("/cleanup-unconfirmed-users")
+//    public HttpResponse cleanupUnconfirmedUsers(
+////            @RequestParam (required = false, defaultValue = "7") Integer daysThreshold
+//    ) {
+//        Integer reponseStatus;
+//        Object response;
+//        try{
+//            int deletedUsers = authService.cleanupUnconfirmedUsers(0);
+//            response = String.format("Deleted %d unconfirmed users.", deletedUsers);
+//            reponseStatus = HttpStatusEnum.success();
+//        } catch (ValidationExceptionHandler e) {
+//            response = e.getMessage();
+//            reponseStatus = HttpStatusEnum.fail();
+//        }
+//        return new HttpResponse(reponseStatus, response);
+//    }
 }

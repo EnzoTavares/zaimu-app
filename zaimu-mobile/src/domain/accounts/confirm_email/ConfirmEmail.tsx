@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, ScrollView, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -8,64 +8,107 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
-import { confirmEmail } from '@/src/api/accounts/confirm_email/ConfirmEmailApi';
-import {resetPasswordCode} from "@/src/api/accounts/reset_password/ResetPasswordApi";
+import {confirmEmail, resendCode} from '@/src/api/accounts/confirm_email/ConfirmEmailApi';
+import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
+import {ParamList} from "@/src/domain/accounts/register/StackRegister";
+import {useNavigation} from "@react-navigation/native";
+import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
-type ConfirmEmailProps = {
-    nickname:string
-}
+type Props = NativeStackScreenProps<ParamList, 'ConfirmEmail'>;
+type NavigationProp = NativeStackNavigationProp<ParamList, 'ConfirmEmail'>;
 
-const ScreenConfirmEmail = (props:ConfirmEmailProps) => {
+const ScreenConfirmEmail = ({ route }: Props) => {
     const [code, setCode] = useState("");
+    const { user } = route.params;
+    const navigation = useNavigation<NavigationProp>();
 
-    async function fetchConfirmationCode(){
-    console.log(await confirmEmail(props.nickname, code))
-}
+    async function submitConfirmationCode(){
+        console.log(await confirmEmail(user, code))
+    }
+
     async function handleResendCode() {
-        console.log(await resetPasswordCode(props.nickname));
+        console.log(await resendCode(user.nickname));
+    }
+
+    function handleNavigateBack () {
+        navigation.goBack();
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container} >
-            <IconBadge icon={"darkGreenMailFill"} height={108} width={123}/>
-
-            <View style={{gap: spacing.xx}}>
-                <TitleWithSubtitle title={confirmEmailTexts.check} subtitle={confirmEmailTexts.sentCode} />
-
-                <CustomOtpInput
-                    numberOfDigits={6}
-                    setValue={setCode}
+        <View style={styles.rootContainer}>
+            <View style={styles.header}>
+                <BlackChevronLeft
+                    icon={'blackChevronLeft'}
+                    onPress={handleNavigateBack}
                 />
             </View>
 
-            <View style={styles.confirmContainer}>
-                <ThickFilledButton label={confirmEmailTexts.send} onPressed={fetchConfirmationCode}/>
+            <KeyboardAwareScrollView
+                contentContainerStyle={styles.scrollContainer}
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+                keyboardShouldPersistTaps="handled"
+            >
+                <IconBadge
+                    icon={"darkGreenMailFill"}
+                    height={108}
+                    width={123}
+                />
 
-                <View style={styles.textButtonsContainer}>
-                    <TouchableOpacity>
-                        <Text style={styles.textButtons}>
-                            {confirmEmailTexts.resendCode}
-                        </Text>
-                    </TouchableOpacity>
+                <View style={{gap: spacing.xx}}>
+                    <TitleWithSubtitle
+                        title={confirmEmailTexts.check}
+                        subtitle={confirmEmailTexts.sentCode}
+                    />
 
-                    <TouchableOpacity>
-                        <Text style={[
-                            styles.textButtons,
-                            {textDecorationLine: "underline"}
-                        ]}>
-                            {confirmEmailTexts.changeEmail}
-                        </Text>
-                    </TouchableOpacity>
+                    <CustomOtpInput
+                        numberOfDigits={6}
+                        setValue={setCode}
+                    />
                 </View>
-            </View>
-        </ScrollView>
+
+                <View style={styles.confirmContainer}>
+                    <ThickFilledButton
+                        label={confirmEmailTexts.send}
+                        onPress={submitConfirmationCode}
+                    />
+
+                    <View style={styles.textButtonsContainer}>
+                        <TouchableOpacity onPress={handleResendCode}>
+                            <Text style={styles.textButtons}>
+                                {confirmEmailTexts.resendCode}
+                            </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={handleNavigateBack}>
+                            <Text style={[
+                                styles.textButtons,
+                                {textDecorationLine: "underline"}
+                            ]}>
+                                {confirmEmailTexts.changeEmail}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </KeyboardAwareScrollView>
+        </View>
     );
 }
 
 export default ScreenConfirmEmail;
 
 const styles = StyleSheet.create({
-    container: {
+    rootContainer: {
+        flex: 1,
+    },
+    header: {
+        position: 'absolute',
+        top: spacing.xxxl,
+        left: spacing.xx,
+        zIndex: 10,
+    },
+    scrollContainer: {
         flexGrow: 1,
         alignItems: "center",
         justifyContent: "center",

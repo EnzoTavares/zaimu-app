@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, ScrollView, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -11,71 +11,113 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import {resendCode, resetPassword} from '@/src/api/accounts/reset_password/ResetPasswordApi';
+import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
+import {ParamList} from "@/src/domain/accounts/login/StackLogin";
+import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
+import {useNavigation} from "@react-navigation/native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
-type ScreenForgotPasswordSecondProps = {
-    credential:string
-}
+type Props = NativeStackScreenProps<ParamList, 'ForgotPasswordSecond'>;
+type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordSecond'>;
 
-const ScreenForgotPasswordSecond = (props:ScreenForgotPasswordSecondProps) => {
+export function ScreenForgotPasswordSecond ({ route }: Props) {
     const [code, setCode] = useState("");
     const [newPasswordText, setNewPasswordText] = useState("");
+    const { credential } = route.params;
 
-    async function fetchResetPassword (){
-        console.log(await resetPassword(props.credential, code, newPasswordText));
+    const navigation = useNavigation<NavigationProp>();
+
+    async function submitResetPassword (){
+        console.log(await resetPassword(credential, code, newPasswordText));
     }
 
-    async function fetchResendResetPasswordCode (){
-        console.log(await resendCode(props.credential));
+    async function submitResendResetPasswordCode (){
+        console.log(await resendCode(credential));
+    }
+
+    function handleNavigateBack () {
+        navigation.goBack();
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container} >
-            <IconBadge icon={"darkGreenShieldFill"} height={114} width={100}/>
-
-            <View style={styles.codeContainer}>
-                <TitleWithSubtitle title={forgotPasswordTexts.check} subtitle={forgotPasswordTexts.sentCode} />
-
-                <CustomOtpInput
-                    numberOfDigits={6}
-                    setValue={setCode}
+        <View style={styles.rootContainer}>
+            <View style={styles.header}>
+                <BlackChevronLeft
+                    icon={'blackChevronLeft'}
+                    onPress={handleNavigateBack}
                 />
-
-                <View style={styles.textButtonsContainer}>
-                    <TouchableOpacity onPress={fetchResendResetPasswordCode}>
-                        <Text style={styles.textButtons}>
-                            {forgotPasswordTexts.resendCode}
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                        <Text style={[
-                            styles.textButtons,
-                            {textDecorationLine: "underline"}
-                        ]}>
-                            {forgotPasswordTexts.changeEmailOrNickname}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
             </View>
 
-            <CustomTextInput
-                icon={"greyLockFill"}
-                placeholder={password.placeholder}
-                label={password.labelNew}
-                isPassword={true}
-                setValue={setNewPasswordText}
-                value={newPasswordText}
-            />
+            <KeyboardAwareScrollView
+                contentContainerStyle={styles.scrollContainer}
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+                keyboardShouldPersistTaps="handled"
+            >
+                <IconBadge
+                    icon={"darkGreenShieldFill"}
+                    height={114}
+                    width={100}
+                />
 
-            <ThickFilledButton label={forgotPasswordTexts.reset} onPressed={fetchResetPassword}/>
-        </ScrollView>
+                <View style={styles.codeContainer}>
+                    <TitleWithSubtitle
+                        title={forgotPasswordTexts.check}
+                        subtitle={forgotPasswordTexts.sentCode}
+                    />
+
+                    <CustomOtpInput
+                        numberOfDigits={6}
+                        setValue={setCode}
+                    />
+
+                    <View style={styles.textButtonsContainer}>
+                        <TouchableOpacity onPress={submitResendResetPasswordCode}>
+                            <Text style={styles.textButtons}>
+                                {forgotPasswordTexts.resendCode}
+                            </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={handleNavigateBack}>
+                            <Text style={[
+                                styles.textButtons,
+                                {textDecorationLine: "underline"}
+                            ]}>
+                                {forgotPasswordTexts.changeEmailOrNickname}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <CustomTextInput
+                    icon={"greyLockFill"}
+                    placeholder={password.placeholder}
+                    label={password.labelNew}
+                    isPassword={true}
+                    setValue={setNewPasswordText}
+                    value={newPasswordText}
+                />
+
+                <ThickFilledButton
+                    label={forgotPasswordTexts.reset}
+                    onPress={submitResetPassword}
+                />
+            </KeyboardAwareScrollView>
+        </View>
     );
 }
 
-export default ScreenForgotPasswordSecond;
-
 const styles = StyleSheet.create({
-    container: {
+    rootContainer: {
+        flex: 1,
+    },
+    header: {
+        position: 'absolute',
+        top: spacing.xxxl,
+        left: spacing.xx,
+        zIndex: 10,
+    },
+    scrollContainer: {
         flexGrow: 1,
         alignItems: "center",
         justifyContent: "center",

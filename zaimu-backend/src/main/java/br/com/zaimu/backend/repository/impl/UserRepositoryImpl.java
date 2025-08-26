@@ -13,9 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -42,7 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = getSession()) {
             String query = """
                         INSERT INTO zadm.user (
-                            ID_USER, CD_COGNITO_SUB, DS_EMAIL, NM_FIRST_NAME, NM_LAST_NAME, CD_NICKNAME, DT_CREATED, FL_STATUS
+                            ID_USER, CD_COGNITO_SUB, DS_EMAIL, NM_GIVEN_NAME, NM_FAMILY_NAME, CD_NICKNAME, DT_CREATED, FL_STATUS
                         ) VALUES (
                             nextval('zadm.sq_user_id'), ?, ?, ?, ?, ?, ?, 'A'
                         ) RETURNING ID_USER;
@@ -54,8 +51,8 @@ public class UserRepositoryImpl implements UserRepository {
 
                     ps.setObject(parameterIndex++, user.getUuid());
                     ps.setString(parameterIndex++, user.getEmail());
-                    ps.setString(parameterIndex++, user.getFirstName());
-                    ps.setString(parameterIndex++, user.getLastName());
+                    ps.setString(parameterIndex++, user.getGivenName());
+                    ps.setString(parameterIndex++, user.getFamilyName());
                     ps.setString(parameterIndex++, user.getNickname());
                     ps.setTimestamp(parameterIndex++, user.getCreateDate());
 

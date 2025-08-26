@@ -22,23 +22,21 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowTyp
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.DeleteUserRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUsersRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUsersResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +62,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                 .build();
     }
 
-    public RequestUser signUpUser (RegisterParameters registerParameters) {
+    public String signUpUser (RegisterParameters registerParameters) {
         RequestUser requestUser = new RequestUser();
         Map<String, String> userAttributes = new HashMap<>();
         userAttributes.put("email", registerParameters.getEmail());
@@ -89,27 +87,11 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         try {
             SignUpResponse response = cognitoClient.signUp(signUpRequest);
             logger.info("User {} signed up successfully. User confirmed: {}", registerParameters.getEmail(), response.userConfirmed());
-            User user = new User();
-            user.setUuid(UUID.fromString(response.userSub()));
-            user.setEmail(registerParameters.getEmail());
-            user.setFirstName(registerParameters.getGivenName());
-            user.setLastName(registerParameters.getFamilyName());
-            user.setNickname(registerParameters.getNickname());
-            user.setCreateDate(Timestamp.from(Instant.now()));
-
-            Long userId = userRepository.create(user);
-
-            requestUser.setUserId(userId);
-            requestUser.setUuid(UUID.fromString(response.userSub()));
-            requestUser.setEmail(registerParameters.getEmail());
-            requestUser.setGivenName(registerParameters.getGivenName());
-            requestUser.setFamilyName(registerParameters.getFamilyName());
-            requestUser.setNickname(registerParameters.getNickname());
+            return "Um código de confirmação foi enviado para o seu e-mail. Por favor, verifique sua caixa de entrada e confirme seu cadastro.";
         } catch (Exception e) {
             logger.error("Error signing up user: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
-        };
-        return requestUser;
+        }
     }
 
     public LoginResponseView signInUser (LoginParameters loginParameters) {
@@ -157,16 +139,28 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         }
     }
 
-    public void confirmEmail (String nickname, String code) {
+    public RequestUser confirmEmail (User user, String code) {
         ConfirmSignUpRequest confirmSignUpRequest = ConfirmSignUpRequest.builder()
                 .clientId(clientId)
-                .username(nickname)
+                .username(user.getNickname())
                 .confirmationCode(code)
                 .build();
 
         try {
-            ConfirmSignUpResponse response = cognitoClient.confirmSignUp(confirmSignUpRequest);
-            logger.info("User {} confirmed successfully.", nickname);
+            cognitoClient.confirmSignUp(confirmSignUpRequest);
+            logger.info("User {} confirmed successfully.", user.getNickname());
+
+            Long userId = userRepository.create(user);
+
+            return new RequestUser(
+                    userId,
+                    user.getUuid(),
+                    user.getEmail(),
+                    user.getGivenName(),
+                    user.getFamilyName(),
+                    user.getNickname()
+            );
+
         } catch (Exception e) {
             logger.error("Error confirming user: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
@@ -229,4 +223,57 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             throw new RuntimeException("Failed to sign up user", e);
         }
     }
+//
+//    public int cleanupUnconfirmedUsers(int daysThreshold) {
+//        try {
+//            ListUsersRequest request = ListUsersRequest.builder()
+//                    .userPoolId(userPoolId)
+//                    .filter("cognito:user_status = \"UNCONFIRMED\"")
+//                    .build();
+//
+//            ListUsersResponse response = cognitoClient.listUsers(request);
+//            int deletedCount = 0;
+//            Instant thresholdDate = Instant.now().minus(daysThreshold, ChronoUnit.DAYS);
+//
+////            for (UserType user : response.users()) {
+////                if (shouldDeleteUser(user, thresholdDate)) {
+////                    deleteUser(user.username());
+////                    deletedCount++;
+////                    log.info("Deleted unconfirmed user: {}", user.username());
+////                }
+////            }
+//
+//            logger.info("Deleted {} unconfirmed users", response);
+//
+//
+//            return deletedCount;
+//
+//        } catch (Exception e) {
+//            logger.error("Error during cleanup", e);
+//            throw new RuntimeException("Cleanup failed", e);
+//        }
+//    }
+//
+////    private boolean shouldDeleteUser(UserType user, Instant thresholdDate) {
+////        Optional<AttributeType> createdDateAttr = user.attributes().stream()
+////                .filter(attr -> "created_date".equals(attr.name()))
+////                .findFirst();
+////
+////        if (createdDateAttr.isPresent()) {
+////            long createdTimestamp = Long.parseLong(createdDateAttr.get().value()) * 1000;
+////            Instant createdInstant = Instant.ofEpochMilli(createdTimestamp);
+////            return createdInstant.isBefore(thresholdDate);
+////        }
+////
+////        return false;
+////    }
+////
+////    private void deleteUser(String username) {
+////        AdminDeleteUserRequest deleteRequest = AdminDeleteUserRequest.builder()
+////                .userPoolId(userPoolId)
+////                .username(username)
+////                .build();
+////
+////        cognitoClient.adminDeleteUser(deleteRequest);
+////    }
 }

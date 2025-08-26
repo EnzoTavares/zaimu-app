@@ -7,7 +7,7 @@ import {fontStyles} from "@/src/themes/typography";
 type ThinFilledButtonProps = {
     label: string;
     color?: string;
-    onPressed: ()=>void;
+    onPress: ()=>void;
 }
 
 const ThinFilledButton = (props: ThinFilledButtonProps) => {
@@ -20,7 +20,7 @@ const ThinFilledButton = (props: ThinFilledButtonProps) => {
         >
             <TouchableOpacity
                 style={styles.button}
-                onPress={props.onPressed}>
+                onPress={props.onPress}>
                 <Text style={styles.label}>
                     {props.label}
                 </Text>

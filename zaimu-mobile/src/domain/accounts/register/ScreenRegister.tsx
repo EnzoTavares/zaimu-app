@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, ScrollView, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, Text, Alert} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import {fontStyles} from "@/src/themes/typography";
@@ -17,21 +17,68 @@ import registerTexts from "@/src/constants/texts/domain/accounts/Register";
 import nameTexts from "@/src/constants/texts/inputs/Name";
 import emailTexts from "@/src/constants/texts/inputs/Email";
 import { registerUser } from '@/src/api/accounts/register/RegisterApi';
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {ParamList} from "@/src/domain/accounts/register/StackRegister";
+import {useNavigation} from "@react-navigation/native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {User} from "@/src/types/User";
+
+type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
 const ScreenRegister = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const navigation = useNavigation<NavigationProp>();
+
+    const [givenName, setGivenName] = useState("");
+    const [familyName, setFamilyName] = useState("");
     const [nickname, setNickname] = useState("");
     const [email, setEmail] = useState("");
     const [passwordText, setPasswordText] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    async function fetchRegister(){
-        console.log( await registerUser(email, firstName, lastName, nickname, passwordText));
+    async function submitRegister(){
+        if (!email || !givenName || !familyName || !nickname || !passwordText) {
+            Alert.alert("Error", "Please fill in all required fields");
+            return;
+        }
+
+        if (passwordText !== confirmPassword) {
+            Alert.alert("Error", "Passwords don't match");
+            return;
+        }
+
+        try {
+            const response = await registerUser(email, givenName, familyName, nickname, passwordText);
+
+            console.log(JSON.stringify(response));
+
+            const newUser: User = {
+                uuid: response.data.uuid,
+                email: response.data.email,
+                givenName: response.data.givenName,
+                familyName: response.data.familyName,
+                nickname: response.data.nickname,
+            };
+
+
+
+            navigation.navigate('ConfirmEmail', { user: newUser });
+        } catch (error) {
+            console.error("Registration error:", error);
+            Alert.alert("Registration Failed", "Please try again later");
+        }
+    }
+
+    function handleNavigateToLogin () {
+        navigation.replace('StackLogin');
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <KeyboardAwareScrollView
+            contentContainerStyle={styles.container}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled={true}
+            keyboardShouldPersistTaps="handled"
+        >
             <AppIcon />
 
             <Text style={styles.welcomeText}>
@@ -41,28 +88,34 @@ const ScreenRegister = () => {
                 </Text>
             </Text>
 
-            <HorizontalRule color={colors.greyExtraLight} height={spacing.xxs} />
+            <HorizontalRule
+                color={colors.greyExtraLight}
+                height={spacing.xxs}
+            />
 
             <Text style={styles.registerText}>
                 {registerTexts.register}
             </Text>
 
-            <Card shadowed={true} style={{gap: spacing.lg}}>
+            <Card
+                shadowed={true}
+                style={{gap: spacing.lg}}
+            >
                 <View style={styles.firstAndLastNameInputContainer}>
                     <CustomTextInput
                         label={nameTexts.labelFirstName}
                         placeholder={nameTexts.placeholderFirstName}
                         style={styles.firstAndLastNameInput}
-                        setValue={setFirstName}
-                        value={firstName}
+                        setValue={setGivenName}
+                        value={givenName}
                     />
 
                     <CustomTextInput
                         label={nameTexts.labelLastName}
                         placeholder={nameTexts.placeholderLastName}
                         style={styles.firstAndLastNameInput}
-                        setValue={setLastName}
-                        value={lastName}
+                        setValue={setFamilyName}
+                        value={familyName}
                     />
                 </View>
 
@@ -100,19 +153,25 @@ const ScreenRegister = () => {
                     value={confirmPassword}
                 />
 
-                <ThinFilledButton label={registerTexts.finish} onPressed={fetchRegister}/>
-
-                <OrHorizontalRule color={colors.black} />
-
-                <ThinOutlinedButton label={registerTexts.login} />
+                <ThinFilledButton
+                    label={registerTexts.finish}
+                    onPress={submitRegister}
+                />
 
                 <View style={styles.oAuthContainer}>
                     <OAuthButton icon={"googleLogo"}/>
                     <OAuthButton icon={"appleLogo"}/>
                     <OAuthButton icon={"facebookLogo"}/>
                 </View>
+
+                <OrHorizontalRule color={colors.black} />
+
+                <ThinOutlinedButton
+                    label={registerTexts.login}
+                    onPress={handleNavigateToLogin}
+                />
             </Card>
-        </ScrollView>
+        </KeyboardAwareScrollView>
     );
 }
 
@@ -130,11 +189,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flexGrow: 1,
-
         paddingVertical: spacing.xxxl,
-
         alignItems: 'center',
-
         gap: spacing.md,
         width: "100%",
     },

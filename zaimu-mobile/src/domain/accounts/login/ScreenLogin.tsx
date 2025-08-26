@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {View, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native'
+import React, {useContext, useState} from 'react'
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import loginTexts from '@/src/constants/texts/domain/accounts/Login'
@@ -16,18 +16,43 @@ import OrHorizontalRule from "@/src/components/common/OrHorizontalRule";
 import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
 import { loginUser } from '@/src/api/accounts/login/LoginApi';
+import {useNavigation} from '@react-navigation/native';
+import {ParamList} from "@/src/domain/accounts/login/StackLogin";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {AuthContext} from "@/src/domain/accounts/AuthStack";
+
+type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
 const ScreenLogin = () => {
+    const navigation = useNavigation<NavigationProp>();
+
     const [credential, setCredential] = useState("");
     const [passwordText, setPasswordText] = useState("");
 
-     async function fetchLogin(){
+    const { signIn } = useContext(AuthContext);
+
+     async function submitLogin(){
         // const result = await loginUser(credential, passwordText);
         console.log( await loginUser(credential, passwordText));
+        signIn();
+    }
+
+    function handleNavigateToResetPassword () {
+        navigation.navigate('ForgotPasswordFirst')
+    }
+
+    function handleNavigateToRegister () {
+        navigation.replace('StackRegister')
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container} >
+        <KeyboardAwareScrollView
+            contentContainerStyle={styles.container}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled={true}
+            keyboardShouldPersistTaps="handled"
+        >
             <AppIcon />
 
             <Text style={styles.welcomeText}>
@@ -37,7 +62,10 @@ const ScreenLogin = () => {
                 </Text>
             </Text>
 
-            <HorizontalRule color={colors.greyExtraLight} height={spacing.xxs} />
+            <HorizontalRule
+                color={colors.greyExtraLight}
+                height={spacing.xxs}
+            />
 
             <Text style={styles.loginText}>
                 {loginTexts.login}
@@ -60,18 +88,24 @@ const ScreenLogin = () => {
                         value={passwordText}
                     />
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleNavigateToResetPassword}>
                         <Text style={styles.forgotPassword}>
                             {loginTexts.forgotPassword}
                         </Text>
                     </TouchableOpacity>
 
-                    <ThinFilledButton label={loginTexts.signIn} onPressed={fetchLogin}/>
+                    <ThinFilledButton
+                        label={loginTexts.signIn}
+                        onPress={submitLogin}
+                    />
                 </View>
 
                 <OrHorizontalRule color={colors.black}/>
 
-                <ThinOutlinedButton label={loginTexts.signUp} />
+                <ThinOutlinedButton
+                    label={loginTexts.signUp}
+                    onPress={handleNavigateToRegister}
+                />
 
                 <View style={styles.oAuthContainer}>
                     <OAuthButton icon={"googleLogo"}/>
@@ -79,7 +113,7 @@ const ScreenLogin = () => {
                     <OAuthButton icon={"facebookLogo"}/>
                 </View>
             </Card>
-        </ScrollView>
+        </KeyboardAwareScrollView>
     );
 }
 
@@ -97,7 +131,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flexGrow: 1,
-
         alignItems: 'center',
         justifyContent: 'center',
         gap: spacing.md,

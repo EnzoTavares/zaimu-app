@@ -1,4 +1,4 @@
-import login from "@/src/constants/texts/domain/accounts/Login";
+import { API_URL } from "@/src/config/env";
 
 export const loginUser = async (credential:string, password:string) => {
     let loginData;
@@ -12,7 +12,7 @@ export const loginUser = async (credential:string, password:string) => {
     };
 
     try {
-        const response = await fetch('https://zaimu.com.br/zaimu-app/services/auth/login', {
+        const response = await fetch(`${API_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
