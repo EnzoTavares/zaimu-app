@@ -19,7 +19,7 @@ export default function StackLogin() {
         initialRouteName='Login'
         screenOptions={{ headerShown: false }}
     >
-<Stack.Screen name='Login' component={ScreenLogin} />
+        <Stack.Screen name='Login' component={ScreenLogin} />
         <Stack.Screen name='ForgotPasswordFirst' component={ScreenForgotPasswordFirst} />
         <Stack.Screen name='ForgotPasswordSecond' component={ScreenForgotPasswordSecond} />
     </Stack.Navigator>

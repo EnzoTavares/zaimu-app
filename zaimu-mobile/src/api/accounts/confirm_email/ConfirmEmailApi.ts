@@ -4,15 +4,16 @@ import {User} from "@/src/types/User";
 export const confirmEmail = async (user:User, code:string) => {
 
     try {
-        const response = await fetch(`${API_URL}/auth/confirm-email/${user.nickname}/${code}`, {
+        const response = await fetch(`${API_URL}/auth/confirm-email/${code}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json'
             },
             body: JSON.stringify({
-
-
+                uuid: user.uuid,
                 email: user.email,
+                givenName: user.givenName,
+                familyName: user.familyName,
                 nickname: user.nickname,
             }),
         });
@@ -28,6 +29,7 @@ export const confirmEmail = async (user:User, code:string) => {
         return { success: false, message: 'Nao foi possivel se conectar com o servidor' };
     }
 };
+
 export const resendCode = async (nickname:string) => {
     try {
         const response = await fetch(`${API_URL}/auth/resend-code/${nickname}`, {

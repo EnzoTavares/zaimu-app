@@ -10,7 +10,6 @@ import br.com.zaimu.backend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,8 +65,7 @@ public class AuthController {
         Integer reponseStatus;
         Object response;
         try{
-            authService.confirmEmail(user, code);
-            response = "Email confirmed successfully.";
+            response = authService.confirmEmail(user, code);
             reponseStatus = HttpStatusEnum.success();
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();

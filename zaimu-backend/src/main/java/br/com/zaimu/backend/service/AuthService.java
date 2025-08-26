@@ -7,11 +7,11 @@ import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 
 public interface AuthService {
-    RequestUser signUpUser (RegisterParameters registerParameters);
+    String signUpUser (RegisterParameters registerParameters);
 
     LoginResponseView signInUser (LoginParameters registerParameters);
 
-    void confirmEmail (User user, String code);
+    RequestUser confirmEmail (User user, String code);
 
     String resetPassword (String credential, String code, String newPassword);
 

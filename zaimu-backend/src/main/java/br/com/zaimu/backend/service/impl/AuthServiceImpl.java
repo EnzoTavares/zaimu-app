@@ -68,7 +68,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                 .build();
     }
 
-    public RequestUser signUpUser (RegisterParameters registerParameters) {
+    public String signUpUser (RegisterParameters registerParameters) {
         RequestUser requestUser = new RequestUser();
         Map<String, String> userAttributes = new HashMap<>();
         userAttributes.put("email", registerParameters.getEmail());
@@ -93,17 +93,11 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         try {
             SignUpResponse response = cognitoClient.signUp(signUpRequest);
             logger.info("User {} signed up successfully. User confirmed: {}", registerParameters.getEmail(), response.userConfirmed());
-
-            requestUser.setUuid(UUID.fromString(response.userSub()));
-            requestUser.setEmail(registerParameters.getEmail());
-            requestUser.setGivenName(registerParameters.getGivenName());
-            requestUser.setFamilyName(registerParameters.getFamilyName());
-            requestUser.setNickname(registerParameters.getNickname());
+            return "Um código de confirmação foi enviado para o seu e-mail. Por favor, verifique sua caixa de entrada e confirme seu cadastro.";
         } catch (Exception e) {
             logger.error("Error signing up user: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
-        };
-        return requestUser;
+        }
     }
 
     public LoginResponseView signInUser (LoginParameters loginParameters) {
@@ -151,7 +145,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         }
     }
 
-    public void confirmEmail (User user, String code) {
+    public RequestUser confirmEmail (User user, String code) {
         ConfirmSignUpRequest confirmSignUpRequest = ConfirmSignUpRequest.builder()
                 .clientId(clientId)
                 .username(user.getNickname())
@@ -159,17 +153,19 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                 .build();
 
         try {
-            ConfirmSignUpResponse response = cognitoClient.confirmSignUp(confirmSignUpRequest);
+            cognitoClient.confirmSignUp(confirmSignUpRequest);
             logger.info("User {} confirmed successfully.", user.getNickname());
 
-            user.setUuid(user.getUuid());
-            user.setEmail(user.getEmail());
-            user.setFirstName(user.getFirstName());
-            user.setLastName(user.getLastName());
-            user.setNickname(user.getNickname());
-            user.setCreateDate(Timestamp.from(Instant.now()));
-
             Long userId = userRepository.create(user);
+
+            return new RequestUser(
+                    userId,
+                    user.getUuid(),
+                    user.getEmail(),
+                    user.getGivenName(),
+                    user.getFamilyName(),
+                    user.getNickname()
+            );
 
         } catch (Exception e) {
             logger.error("Error confirming user: {}", e.getMessage());

@@ -15,7 +15,7 @@ import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -42,12 +42,12 @@ public class User implements Serializable {
     private String email;
 
     @NotNull
-    @Column(name = "NM_FIRST_NAME")
-    private String firstName;
+    @Column(name = "NM_GIVEN_NAME")
+    private String givenName;
 
     @NotNull
-    @Column(name = "NM_LAST_NAME")
-    private String lastName;
+    @Column(name = "NM_FAMILY_NAME")
+    private String familyName;
 
     @NotNull
     @Column(name = "CD_NICKNAME")
@@ -55,7 +55,7 @@ public class User implements Serializable {
 
     @NotNull
     @Column(name = "DT_CREATED")
-    private Timestamp createDate;
+    private Timestamp createDate = Timestamp.from(Instant.now());
 
     @Column(name = "DT_UPDATED")
     @Nullable
@@ -83,8 +83,8 @@ public class User implements Serializable {
                 "id=" + id +
                 ", uuid=" + uuid +
                 ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstName='" + givenName + '\'' +
+                ", lastName='" + familyName + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +

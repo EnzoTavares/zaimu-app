@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, Text, Alert} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import {fontStyles} from "@/src/themes/typography";
@@ -28,27 +28,44 @@ type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 const ScreenRegister = () => {
     const navigation = useNavigation<NavigationProp>();
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [givenName, setGivenName] = useState("");
+    const [familyName, setFamilyName] = useState("");
     const [nickname, setNickname] = useState("");
     const [email, setEmail] = useState("");
     const [passwordText, setPasswordText] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
     async function submitRegister(){
-        const response = await registerUser(email, firstName, lastName, nickname, passwordText);
+        if (!email || !givenName || !familyName || !nickname || !passwordText) {
+            Alert.alert("Error", "Please fill in all required fields");
+            return;
+        }
 
-        console.log(response);
+        if (passwordText !== confirmPassword) {
+            Alert.alert("Error", "Passwords don't match");
+            return;
+        }
 
-        const newUser: User = {
-            uuid: await response.data.uuid,
-            email: await response.data.email,
-            givenName: await response.data.givenName,
-            familyName: await response.data.familyName,
-            nickname: await response.data.nickname,
-        };
+        try {
+            const response = await registerUser(email, givenName, familyName, nickname, passwordText);
 
-        navigation.navigate('ConfirmEmail', { user: newUser });
+            console.log(JSON.stringify(response));
+
+            const newUser: User = {
+                uuid: response.data.uuid,
+                email: response.data.email,
+                givenName: response.data.givenName,
+                familyName: response.data.familyName,
+                nickname: response.data.nickname,
+            };
+
+
+
+            navigation.navigate('ConfirmEmail', { user: newUser });
+        } catch (error) {
+            console.error("Registration error:", error);
+            Alert.alert("Registration Failed", "Please try again later");
+        }
     }
 
     function handleNavigateToLogin () {
@@ -89,16 +106,16 @@ const ScreenRegister = () => {
                         label={nameTexts.labelFirstName}
                         placeholder={nameTexts.placeholderFirstName}
                         style={styles.firstAndLastNameInput}
-                        setValue={setFirstName}
-                        value={firstName}
+                        setValue={setGivenName}
+                        value={givenName}
                     />
 
                     <CustomTextInput
                         label={nameTexts.labelLastName}
                         placeholder={nameTexts.placeholderLastName}
                         style={styles.firstAndLastNameInput}
-                        setValue={setLastName}
-                        value={lastName}
+                        setValue={setFamilyName}
+                        value={familyName}
                     />
                 </View>
 

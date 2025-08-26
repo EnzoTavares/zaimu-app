@@ -8,7 +8,6 @@ export const registerUser = async (email:string,firstName:string,lastName:string
         familyName: lastName,
         nickname: nickname,
         password: password,
-
     }
 
     try {
