@@ -7,7 +7,7 @@ import brandTexts from '@/src/constants/texts/branding/Brand'
 import {fontStyles} from "@/src/themes/typography";
 import HorizontalRule from "@/src/components/common/HorizontalRule";
 import colors from "@/src/themes/colors";
-import Card from "@/src/components/common/Card";
+import Card from "@/src/components/cards/Card";
 import CustomTextInput from "@/src/components/inputs/TextInput";
 import emailOrNicknameTexts from "@/src/constants/texts/inputs/EmailOrNickname";
 import password from "@/src/constants/texts/inputs/Password";
@@ -65,7 +65,10 @@ const ScreenLogin = () => {
                 scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
             >
-                <AppIcon />
+                <AppIcon
+                    height={68}
+                    width={68}
+                />
 
                 <Text style={styles.welcomeText}>
                     {brandTexts.welcome}

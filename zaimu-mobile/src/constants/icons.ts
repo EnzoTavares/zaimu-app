@@ -12,7 +12,9 @@ const icons = {
 
     googleLogo: require('../assets/icons/logo-google.svg'),
     appleLogo: require('../assets/icons/logo-apple.svg'),
-    facebookLogo: require('../assets/icons/logo-facebook.svg')
+    facebookLogo: require('../assets/icons/logo-facebook.svg'),
+
+    appIcon: require('../assets/icons/app-icon.svg')
 }
 
 export default icons

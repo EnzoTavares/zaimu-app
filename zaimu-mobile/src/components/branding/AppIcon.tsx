@@ -1,29 +1,25 @@
 import React from "react";
-import {StyleSheet, View, Text} from "react-native";
-import {fontStyles} from "@/src/themes/typography";
-import { LinearGradient } from "expo-linear-gradient";
-import colors from "@/src/themes/colors";
+import {Image} from "expo-image";
+import icons from "@/src/constants/icons";
 
-const AppIcon = () => {
+type AppIconProps = {
+    height: number,
+    width: number,
+}
+
+const AppIcon = (props: AppIconProps) => {
     return (
-        <LinearGradient colors={colors.backgroundFadeLighter} style={styles.container}>
-                <Text style={[
-                    fontStyles.semiBoldCallout,
-                    {lineHeight: 68, top: 4}
-                ]}>Z</Text>
-        </LinearGradient>
+        <Image
+            source={icons['appIcon']}
+            style={[
+                {
+                    height: props.height,
+                    width: props.width,
+                    borderRadius: (props.height) / 4,
+                }
+            ]}
+        />
     );
 }
 
 export default AppIcon;
-
-const styles = StyleSheet.create({
-    container: {
-        height: 68,
-        width: 68,
-        borderRadius: 15,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    }
-});

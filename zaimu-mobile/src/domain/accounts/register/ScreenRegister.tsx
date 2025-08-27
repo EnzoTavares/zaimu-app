@@ -6,7 +6,7 @@ import {fontStyles} from "@/src/themes/typography";
 import brandTexts from '@/src/constants/texts/branding/Brand';
 import HorizontalRule from "@/src/components/common/HorizontalRule";
 import colors from "@/src/themes/colors";
-import Card from "@/src/components/common/Card";
+import Card from "@/src/components/cards/Card";
 import CustomTextInput from "@/src/components/inputs/TextInput";
 import password from "@/src/constants/texts/inputs/Password";
 import ThinFilledButton from "@/src/components/buttons/ThinFilledButton";
@@ -23,6 +23,7 @@ import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {User} from "@/src/types/User";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -37,6 +38,8 @@ const ScreenRegister = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const insets = useSafeAreaInsets();
 
     async function submitRegister(){
         if (!email || !givenName || !familyName || !nickname || !passwordText) {
@@ -80,13 +83,22 @@ const ScreenRegister = () => {
     return (
         <View style={{flex: 1}}>
             <KeyboardAwareScrollView
-                contentContainerStyle={styles.container}
+                contentContainerStyle={[
+                    styles.container,
+                    {
+                        paddingTop: insets.top + spacing.xx,
+                        paddingBottom: insets.bottom + spacing.xx,
+                    }
+                ]}
                 resetScrollToCoords={{ x: 0, y: 0 }}
                 scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
             >
-                <AppIcon />
-
+                <AppIcon
+                    height={68}
+                    width={68}
+                />
+                
                 <Text style={styles.welcomeText}>
                     {brandTexts.welcome}
                     <Text style={styles.brandName}>
@@ -198,7 +210,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flexGrow: 1,
-        paddingVertical: spacing.xxxl,
         alignItems: 'center',
         gap: spacing.md,
         width: "100%",
