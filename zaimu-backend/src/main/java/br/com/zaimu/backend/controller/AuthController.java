@@ -107,21 +107,4 @@ public class AuthController {
         }
         return new HttpResponse(reponseStatus, response);
     }
-
-//    @GetMapping("/cleanup-unconfirmed-users")
-//    public HttpResponse cleanupUnconfirmedUsers(
-////            @RequestParam (required = false, defaultValue = "7") Integer daysThreshold
-//    ) {
-//        Integer reponseStatus;
-//        Object response;
-//        try{
-//            int deletedUsers = authService.cleanupUnconfirmedUsers(0);
-//            response = String.format("Deleted %d unconfirmed users.", deletedUsers);
-//            reponseStatus = HttpStatusEnum.success();
-//        } catch (ValidationExceptionHandler e) {
-//            response = e.getMessage();
-//            reponseStatus = HttpStatusEnum.fail();
-//        }
-//        return new HttpResponse(reponseStatus, response);
-//    }
 }

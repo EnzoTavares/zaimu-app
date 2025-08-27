@@ -21,14 +21,10 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeTy
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpResponse;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.DeleteUserRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUsersRequest;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUsersResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
@@ -231,57 +227,4 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             throw new RuntimeException("Failed to sign up user", e);
         }
     }
-//
-//    public int cleanupUnconfirmedUsers(int daysThreshold) {
-//        try {
-//            ListUsersRequest request = ListUsersRequest.builder()
-//                    .userPoolId(userPoolId)
-//                    .filter("cognito:user_status = \"UNCONFIRMED\"")
-//                    .build();
-//
-//            ListUsersResponse response = cognitoClient.listUsers(request);
-//            int deletedCount = 0;
-//            Instant thresholdDate = Instant.now().minus(daysThreshold, ChronoUnit.DAYS);
-//
-////            for (UserType user : response.users()) {
-////                if (shouldDeleteUser(user, thresholdDate)) {
-////                    deleteUser(user.username());
-////                    deletedCount++;
-////                    log.info("Deleted unconfirmed user: {}", user.username());
-////                }
-////            }
-//
-//            logger.info("Deleted {} unconfirmed users", response);
-//
-//
-//            return deletedCount;
-//
-//        } catch (Exception e) {
-//            logger.error("Error during cleanup", e);
-//            throw new RuntimeException("Cleanup failed", e);
-//        }
-//    }
-//
-////    private boolean shouldDeleteUser(UserType user, Instant thresholdDate) {
-////        Optional<AttributeType> createdDateAttr = user.attributes().stream()
-////                .filter(attr -> "created_date".equals(attr.name()))
-////                .findFirst();
-////
-////        if (createdDateAttr.isPresent()) {
-////            long createdTimestamp = Long.parseLong(createdDateAttr.get().value()) * 1000;
-////            Instant createdInstant = Instant.ofEpochMilli(createdTimestamp);
-////            return createdInstant.isBefore(thresholdDate);
-////        }
-////
-////        return false;
-////    }
-////
-////    private void deleteUser(String username) {
-////        AdminDeleteUserRequest deleteRequest = AdminDeleteUserRequest.builder()
-////                .userPoolId(userPoolId)
-////                .username(username)
-////                .build();
-////
-////        cognitoClient.adminDeleteUser(deleteRequest);
-////    }
 }
