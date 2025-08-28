@@ -11,7 +11,6 @@ export default function MainNavigator() {
 
         <Tab.Navigator
             screenOptions={({ route, navigation }) => ({
-                // AppBar personalizado
                 header: ({ options, route }) => (
                     <CustomAppBar title={route.name} navigation={navigation}/>
                 ),

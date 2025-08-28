@@ -117,7 +117,7 @@ const ScreenRegister = () => {
 
                 <Card
                     shadowed={true}
-                    style={{gap: spacing.lg}}
+                    style={{gap: spacing.lg, width: '88%'}}
                 >
                     <View style={styles.firstAndLastNameInputContainer}>
                         <CustomTextInput

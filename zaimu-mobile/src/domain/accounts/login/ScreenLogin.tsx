@@ -86,7 +86,7 @@ const ScreenLogin = () => {
                     {loginTexts.login}
                 </Text>
 
-                <Card shadowed={true} style={{gap: spacing.xx}}>
+                <Card shadowed={true} style={{gap: spacing.xx, width: '88%'}}>
                     <CustomTextInput
                         icon={'greyPersonFill'}
                         placeholder={emailOrNicknameTexts.placeholder}

@@ -10,6 +10,9 @@ const icons = {
     darkGreenShieldFill: require('../assets/icons/dark-green-shield-fill.svg'),
     darkGreenMailFill: require('../assets/icons/dark-green-mail-fill.svg'),
 
+    whiteFilterCircle: require('../assets/icons/white-filter-circle.svg'),
+    whitePlusLg: require('../assets/icons/white-plus-lg.svg'),
+
     googleLogo: require('../assets/icons/logo-google.svg'),
     appleLogo: require('../assets/icons/logo-apple.svg'),
     facebookLogo: require('../assets/icons/logo-facebook.svg'),

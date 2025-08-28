@@ -4,6 +4,7 @@ import AppIcon from "@/src/components/branding/AppIcon";
 import { Appbar } from 'react-native-paper';
 import colors from "@/src/themes/colors";
 import {spacing} from "@/src/themes/dimensions";
+import CircledProfileButton from "@/src/components/buttons/CircledProfileButton";
 
 type AppBarProps = {
     title: string;
@@ -20,12 +21,10 @@ const CustomAppBar = (props: AppBarProps) => {
                     width={spacing.xl}
                 />
 
-                <TouchableOpacity
-                    style={styles.iconButton}
-                    onPress={() => console.log('Buscar')}
-                >
-                    <Text style={styles.icon}>🔍</Text>
-                </TouchableOpacity>
+                <CircledProfileButton
+                    onPress={() => {2}} // abrir barre lateral de perfil
+                    textContent="ET"
+                />
             </View>
         </Appbar.Header>
     );
@@ -36,13 +35,14 @@ export default CustomAppBar;
 const styles = StyleSheet.create({
     header: {
         backgroundColor: colors.backgroundDefault,
+        elevation: 2
     },
     appBarContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         flex: 1,
         justifyContent: 'space-between',
-        paddingHorizontal: spacing.md,
+        paddingHorizontal: spacing.lg,
     },
     iconButton: {
         padding: 8,
