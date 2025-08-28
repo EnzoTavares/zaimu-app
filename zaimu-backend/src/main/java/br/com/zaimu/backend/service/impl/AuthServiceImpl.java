@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminDeleteUserRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;

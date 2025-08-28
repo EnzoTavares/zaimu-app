@@ -16,6 +16,4 @@ public interface AuthService {
     String resetPassword (String credential, String code, String newPassword);
 
     void resendSignUpCode (String nickname);
-
-//    int cleanupUnconfirmedUsers(int daysThreshold);
 }
