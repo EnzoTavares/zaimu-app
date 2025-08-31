@@ -1,14 +1,14 @@
 import React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import ScreenTransactions from "@/src/domain/home/tabs/transactions/ScreenTransactions";
+import ScreenTransactions from "./tabs/transactions/ScreenTransactions";
 import colors from "@/src/themes/colors";
 import CustomAppBar from "@/src/components/bar/AppBar";
+import ScreenHome from "./tabs/home/ScreenHome";
 
 const Tab = createBottomTabNavigator()
 
 export default function MainNavigator() {
     return (
-
         <Tab.Navigator
             screenOptions={({ route, navigation }) => ({
                 header: ({ options, route }) => (
@@ -22,13 +22,10 @@ export default function MainNavigator() {
                     fontWeight: 'bold',
                 },
             })}
-
             // tabBar={() => <TabBar/> }
         >
-            {/*<Tab.Screen name="" component={}/>*/}
-            <Tab.Screen name="Transactions" component={ScreenTransactions} options={{
-                tabBarBadge: 0,
-            }}/>
+            <Tab.Screen name="Home" component={ScreenHome}/>
+            <Tab.Screen name="Transactions" component={ScreenTransactions}/>
         </Tab.Navigator>
     )
 }

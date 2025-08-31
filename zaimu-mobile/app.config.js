@@ -6,7 +6,7 @@ export default {
         "slug": "zaimu-mobile",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
+        "icon": "./assets/images/app-icon.png",
         "scheme": "zaimumobile",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,

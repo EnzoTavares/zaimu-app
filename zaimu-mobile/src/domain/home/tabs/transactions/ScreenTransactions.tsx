@@ -11,6 +11,7 @@ import CustomTextInput from "@/src/components/inputs/TextInput";
 import filterTexts from "@/src/constants/texts/inputs/Filter";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import BigTransactionCard from "@/src/components/home/transactions/BigTransactionCard";
+import HorizontalRule from "@/src/components/common/HorizontalRule";
 
 const ScreenTransactions = () => {
     const [searchTransaction, setSearchTransaction] = useState('');
@@ -50,7 +51,13 @@ const ScreenTransactions = () => {
                 />
             </ActionHeader>
 
-            <BigTransactionCard />
+            <BigTransactionCard title={'Salário'} amount={12000} category={'Trabalho'} date={'12/01/2024'}/>
+
+            <BigTransactionCard title={'Salário'} amount={-12000} category={'Trabalho'} date={'12/01/2024'}/>
+
+            <BigTransactionCard title={'Salário'} amount={12000} category={'Trabalho'} date={'12/01/2024'}/>
+
+            <BigTransactionCard title={'Salário'} amount={12000} category={'Trabalho'} date={'12/01/2024'}/>
         </KeyboardAwareScrollView>
     );
 };
@@ -59,8 +66,7 @@ export default ScreenTransactions;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingVertical: '10%',
+        paddingVertical: spacing.xx,
         width: '85%',
         alignSelf: 'center',
         gap: spacing.lg

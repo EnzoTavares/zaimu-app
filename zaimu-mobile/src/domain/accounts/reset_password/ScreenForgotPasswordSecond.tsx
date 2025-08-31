@@ -10,7 +10,7 @@ import password from "@/src/constants/texts/inputs/Password";
 import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
-import {resendCode, resetPassword, resetPasswordCode} from '@/src/api/accounts/reset_password/ResetPasswordApi';
+import {resendCode, resetPassword} from './service';
 import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";

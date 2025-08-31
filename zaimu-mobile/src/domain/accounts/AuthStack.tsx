@@ -2,6 +2,7 @@ import React from "react";
 import StackLogin from '@/src/domain/accounts/login/StackLogin';
 import StackRegister from '@/src/domain/accounts/register/StackRegister';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import MainNavigator from "@/src/domain/home/MainNavigator";
 
 export const AuthContext = React.createContext({
     signIn: () => {},

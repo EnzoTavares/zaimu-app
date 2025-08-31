@@ -4,18 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Working on main screens">
-      <change beforePath="$PROJECT_DIR$/../.github/CODEOWNERS" beforeDir="false" afterPath="$PROJECT_DIR$/../.github/CODEOWNERS" afterDir="false" />
+    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Working on transactions screen">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_12__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_57_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_57__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_08_2025_08_55_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_08_2025_08_55__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_21_25,_7_50 PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_21_25__7_50PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_22_25,_9_31 PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_22_25__9_31PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_23_25,_11_43 PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_23_25__11_43PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/bar/AppBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/bar/AppBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main_page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/main_page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/confirm_email/ConfirmEmailApi.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/login/LoginApi.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/register/RegisterApi.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/accounts/reset_password/ResetPasswordApi.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/cards/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cards/Card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/inputs/TextInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inputs/TextInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/text/TitleWithSubtitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/text/TitleWithSubtitle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/transactions/BigTransactionCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/transactions/BigTransactionCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/icons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/icons.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/AuthStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/AuthStack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/home/tabs/home/ScreenHome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/tabs/home/ScreenHome.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/themes/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/themes/colors.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +50,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -70,6 +95,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;JavaScript Debug.localhost:8081.executor&quot;: &quot;Debug&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;Node.js.dimensions.ts.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -104,6 +130,16 @@
       <recent name="D:\Programming\Development Projects\zaimu-app\zaimu-mobile\src" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="localhost:8081" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8081">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.localhost:8081" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -133,7 +169,10 @@
       <workItem from="1756174344306" duration="3843000" />
       <workItem from="1756329652861" duration="6094000" />
       <workItem from="1756336602037" duration="1219000" />
-      <workItem from="1756388555324" duration="16160000" />
+      <workItem from="1756388555324" duration="16817000" />
+      <workItem from="1756432166927" duration="2585000" />
+      <workItem from="1756594424721" duration="4748000" />
+      <workItem from="1756668533181" duration="8444000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />
@@ -223,7 +262,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756337816807</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Working on transactions screen">
+      <option name="closed" value="true" />
+      <created>1756416779317</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1756416779317</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +283,7 @@
     <MESSAGE value="Changes on auth screens&#10;Working with navigation" />
     <MESSAGE value="Changes on auth screens" />
     <MESSAGE value="Working on main screens" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on main screens" />
+    <MESSAGE value="Working on transactions screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on transactions screen" />
   </component>
 </project>

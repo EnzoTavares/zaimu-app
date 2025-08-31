@@ -15,7 +15,7 @@ import ThinFilledButton from "@/src/components/buttons/ThinFilledButton";
 import OrHorizontalRule from "@/src/components/common/OrHorizontalRule";
 import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
-import { loginUser } from '@/src/api/accounts/login/LoginApi';
+import { loginUser } from './service';
 import {useNavigation} from '@react-navigation/native';
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';

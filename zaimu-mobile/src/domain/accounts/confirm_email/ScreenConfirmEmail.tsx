@@ -8,14 +8,12 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
-import {confirmEmail, resendCode} from '@/src/api/accounts/confirm_email/ConfirmEmailApi';
+import {confirmEmail, resendCode} from './service';
 import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
 import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {registerUser} from "@/src/api/accounts/register/RegisterApi";
-import {User} from "@/src/types/User";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 type Props = NativeStackScreenProps<ParamList, 'ConfirmEmail'>;
@@ -47,6 +45,8 @@ const ScreenConfirmEmail = ({ route }: Props) => {
 
         try {
             const response = await resendCode(user.nickname);
+
+            // navigation.replace();
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");

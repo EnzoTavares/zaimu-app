@@ -135,6 +135,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             return new LoginResponseView(
                     response.authenticationResult().idToken(),
                     response.authenticationResult().accessToken(),
+                    response.authenticationResult().refreshToken(),
                     requestUser
             );
         } catch (Exception e) {

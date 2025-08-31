@@ -16,7 +16,7 @@ import OAuthButton from "@/src/components/buttons/OAuth";
 import registerTexts from "@/src/constants/texts/domain/accounts/Register";
 import nameTexts from "@/src/constants/texts/inputs/Name";
 import emailTexts from "@/src/constants/texts/inputs/Email";
-import { registerUser } from '@/src/api/accounts/register/RegisterApi';
+import { registerUser } from './service';
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
@@ -56,8 +56,6 @@ const ScreenRegister = () => {
 
         try {
             const response = await registerUser(email, givenName, familyName, nickname, passwordText);
-
-            console.log(JSON.stringify(response));
 
             const newUser: User = {
                 uuid: response.data.object.uuid,
