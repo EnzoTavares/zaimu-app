@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Improving router navigation">
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +142,7 @@
       <workItem from="1756668533181" duration="12904000" />
       <workItem from="1756693112416" duration="661000" />
       <workItem from="1756734695640" duration="629000" />
+      <workItem from="1756737254227" duration="683000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />

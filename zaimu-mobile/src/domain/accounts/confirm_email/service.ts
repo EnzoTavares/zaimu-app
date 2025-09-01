@@ -42,3 +42,19 @@ export const resendCode = async (nickname:string) => {
         return { success: false, message: `Nao foi possivel se conectar com o servidor: ${error}` };
     }
 };
+
+export async function deleteRequestUser (nickname:string, uuid:string) {
+    try {
+        const response = await api.delete(`/auth/delete-request-user/${nickname}/${uuid}`);
+
+        if (response.status === 200) {
+            const data = await response.data;
+            return { success: true, data: data };
+        } else {
+            const errorData = await response.data;
+            return { success: false, message: errorData.message };
+        }
+    } catch (error) {
+        return { success: false, message: `Nao foi possivel se conectar com o servidor: ${error}` };
+    }
+}

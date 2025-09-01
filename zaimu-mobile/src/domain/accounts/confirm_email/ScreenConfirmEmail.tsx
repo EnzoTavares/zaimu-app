@@ -8,7 +8,7 @@ import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import confirmEmailTexts from "@/src/constants/texts/domain/accounts/ConfirmEmail";
-import {confirmEmail, resendCode} from './service';
+import {confirmEmail, deleteRequestUser, resendCode} from './service';
 import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
@@ -57,8 +57,8 @@ const ScreenConfirmEmail = ({ route }: Props) => {
         setIsLoading(true);
 
         try {
+            const response = deleteRequestUser(user.nickname, user.uuid);
             navigation.goBack();
-            //
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");
