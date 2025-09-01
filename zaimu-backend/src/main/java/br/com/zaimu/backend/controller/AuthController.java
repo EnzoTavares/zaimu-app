@@ -10,6 +10,7 @@ import br.com.zaimu.backend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -104,6 +105,23 @@ public class AuthController {
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
+        }
+        return new HttpResponse(reponseStatus, response);
+    }
+
+    @DeleteMapping("/delete-request-user/{nickname}/{uuid}")
+    public HttpResponse deleteRequestUser (
+            @PathVariable String nickname,
+            @PathVariable String uuid
+    ) {
+        Integer reponseStatus;
+        Object response;
+        try {
+            response = authService.deleteRequestUser(nickname, uuid);
+            reponseStatus = HttpStatusEnum.success();
+        } catch (Exception e) {
+           response = e.getMessage();
+           reponseStatus = HttpStatusEnum.fail();
         }
         return new HttpResponse(reponseStatus, response);
     }

@@ -16,4 +16,6 @@ public interface AuthService {
     String resetPassword (String credential, String code, String newPassword);
 
     void resendSignUpCode (String nickname);
+
+    String deleteRequestUser(String nickname, String uuid) throws Exception;
 }

@@ -8,6 +8,8 @@ import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.model.to.UserView;
 import br.com.zaimu.backend.repository.hibernate.UserRepository;
 import br.com.zaimu.backend.service.AuthService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
@@ -30,6 +33,9 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfi
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.UsernameExistsException;
+import software.amazon.awssdk.services.lambda.LambdaClient;
+import software.amazon.awssdk.services.lambda.model.InvokeRequest;
+import software.amazon.awssdk.services.lambda.model.InvokeResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,11 +59,22 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
     @Value ("${aws.cognito.user-pool-id}")
     private String userPoolId;
 
-    public AuthServiceImpl(@Value("${aws.region}") String region) {
+    @Value("${aws.region}")
+    private String region;
+
+    @Value("${LAMBDA_FUNCTION_NAME}")
+    private String functionName;
+
+    public AuthServiceImpl(@Value("${aws.region}") String reg) {
         this.cognitoClient = CognitoIdentityProviderClient.builder()
-                .region(Region.of(region))
+                .region(Region.of(reg))
                 .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
+
+        Dotenv dotenv = Dotenv.load();
+        System.setProperty("aws.accessKeyId", dotenv.get("AWS_ACCESS_KEY_ID"));
+        System.setProperty("aws.secretAccessKey", dotenv.get("AWS_SECRET_ACCESS_KEY"));
+        System.setProperty("aws.region", dotenv.get("AWS_REGION"));
     }
 
     public RequestUser signUpUser (RegisterParameters registerParameters) {
@@ -226,6 +243,28 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         } catch (Exception e) {
             logger.error("Erro ao reenviar o código: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
+        }
+    }
+
+    public String deleteRequestUser(String nickname, String uuid) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        String payload = mapper.writeValueAsString(Map.of(
+                "nickname", nickname.trim(),
+                "uuid", uuid.trim()
+        ));
+
+        try (LambdaClient lambdaClient = LambdaClient.builder()
+                .region(Region.of(region))
+                .build())
+        {
+            InvokeRequest request = InvokeRequest.builder()
+                    .functionName(functionName)
+                    .payload(SdkBytes.fromUtf8String(payload))
+                    .build();
+
+            InvokeResponse response = lambdaClient.invoke(request);
+
+            return response.payload().asUtf8String();
         }
     }
 }
