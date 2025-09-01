@@ -1,5 +1,6 @@
 import {User} from "@/src/types/User";
 import api from "@/src/lib/api/axios";
+import {router} from "expo-router";
 
 export const confirmEmail = async (user:User, code:string) => {
     try {
@@ -15,6 +16,7 @@ export const confirmEmail = async (user:User, code:string) => {
 
         if (response.status === 200) {
             const data = await response.data;
+            router.replace('/main_page')
             return { success: true, data: data };
         } else {
             const errorData = await response.data;

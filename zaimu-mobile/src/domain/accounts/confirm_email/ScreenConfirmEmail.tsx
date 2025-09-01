@@ -45,8 +45,6 @@ const ScreenConfirmEmail = ({ route }: Props) => {
 
         try {
             const response = await resendCode(user.nickname);
-
-            // navigation.replace();
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");

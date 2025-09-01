@@ -1,6 +1,7 @@
 import api from "@/src/lib/api/axios";
 import axios from "axios";
 import {HttpResponse} from "@/src/types/HttpResponse";
+import {router} from "expo-router";
 
 interface AuthResponse {
     userToken: string;
@@ -31,6 +32,8 @@ export const loginUser = async (credential: string, password: string): Promise<L
         const response = await api.post<HttpResponse>(`/auth/login`, loginData);
 
         const httpResponse = response.data;
+
+        router.replace('/main_page')
 
         return {
             success: true,

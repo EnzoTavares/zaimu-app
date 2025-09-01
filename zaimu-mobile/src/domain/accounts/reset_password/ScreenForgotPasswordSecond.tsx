@@ -35,6 +35,7 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
 
         try {
             const response = await resetPassword(credential, code, newPasswordText);
+            navigation.popToTop();
         } catch (error) {
             console.error("MENSAGEM!:", error);
             Alert.alert("Login Failed", "Please try again later");

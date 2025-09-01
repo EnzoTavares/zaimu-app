@@ -4,43 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Working on transactions screen">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_12__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_57_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_23_08_2025_01_57__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_08_2025_08_55_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_08_2025_08_55__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_21_25,_7_50 PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_21_25__7_50PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_22_25,_9_31 PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_22_25__9_31PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_23_25,_11_43 PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_23_25__11_43PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Improving api calls, project structure and return response">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main_page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/main_page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/accounts/confirm_email/ConfirmEmailApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/accounts/login/LoginApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/accounts/register/RegisterApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/accounts/reset_password/ResetPasswordApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/cards/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cards/Card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/transactions/BigTransactionCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/transactions/BigTransactionCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/icons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/icons.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/AuthStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/AuthStack.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/home/tabs/home/ScreenHome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/tabs/home/ScreenHome.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/themes/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/themes/colors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +146,7 @@
       <workItem from="1756388555324" duration="16817000" />
       <workItem from="1756432166927" duration="2585000" />
       <workItem from="1756594424721" duration="4748000" />
-      <workItem from="1756668533181" duration="8444000" />
+      <workItem from="1756668533181" duration="12904000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />
@@ -270,7 +244,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756416779317</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Improving api calls, project structure and return response">
+      <option name="closed" value="true" />
+      <created>1756677673489</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1756677673489</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,6 +266,7 @@
     <MESSAGE value="Changes on auth screens" />
     <MESSAGE value="Working on main screens" />
     <MESSAGE value="Working on transactions screen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working on transactions screen" />
+    <MESSAGE value="Improving api calls, project structure and return response" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improving api calls, project structure and return response" />
   </component>
 </project>
