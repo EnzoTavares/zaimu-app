@@ -3,6 +3,7 @@ package br.com.zaimu.backend.service.impl;
 import br.com.zaimu.backend.model.entity.User;
 import br.com.zaimu.backend.model.security.LoginResponseView;
 import br.com.zaimu.backend.model.security.RequestUser;
+import br.com.zaimu.backend.model.to.ConfirmEmailParameters;
 import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.model.to.UserView;
@@ -20,8 +21,11 @@ import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthenticationResultType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordRequest;
@@ -142,7 +146,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             logger.info("Login bem-sucedido para o usuário: {}", credentialType);
 
             UserView user = userRepository.getUserByNicknameOrEmail(credentialType);
-            requestUser.setUserId(user.getUserId());
+            requestUser.setId(user.getId());
             requestUser.setUuid(user.getUuid());
             requestUser.setEmail(user.getEmail());
             requestUser.setGivenName(user.getGivenName());
@@ -161,28 +165,52 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         }
     }
 
-    public RequestUser confirmEmail (User user, String code) {
+    public LoginResponseView confirmEmailAndSignIn (
+            ConfirmEmailParameters confirmEmailParameters, String code
+    ) {
         ConfirmSignUpRequest confirmSignUpRequest = ConfirmSignUpRequest.builder()
                 .clientId(clientId)
-                .username(user.getNickname())
+                .username(confirmEmailParameters.getNickname())
                 .confirmationCode(code)
                 .build();
 
         try {
             cognitoClient.confirmSignUp(confirmSignUpRequest);
-            logger.info("User {} confirmed successfully.", user.getNickname());
+            logger.info("User {} confirmed successfully.", confirmEmailParameters.getNickname());
 
-            Long userId = userRepository.create(user);
+            AdminInitiateAuthRequest authRequest = AdminInitiateAuthRequest.builder()
+                    .userPoolId(userPoolId)
+                    .clientId(clientId)
+                    .authFlow(AuthFlowType.ADMIN_USER_PASSWORD_AUTH)
+                    .authParameters(Map.of("USERNAME", confirmEmailParameters.getNickname(),
+                                    "PASSWORD", confirmEmailParameters.getPassword()))
+                    .build();
 
-            return new RequestUser(
-                    userId,
-                    user.getUuid(),
-                    user.getEmail(),
-                    user.getGivenName(),
-                    user.getFamilyName(),
-                    user.getNickname()
+            AdminInitiateAuthResponse response = cognitoClient.adminInitiateAuth(authRequest);
+
+            Long userId = userRepository.create(
+                    new User (
+                            confirmEmailParameters.getUuid(),
+                            confirmEmailParameters.getEmail(),
+                            confirmEmailParameters.getGivenName(),
+                            confirmEmailParameters.getFamilyName(),
+                            confirmEmailParameters.getNickname()
+                    )
             );
 
+            return new LoginResponseView(
+                    response.authenticationResult().idToken(),
+                    response.authenticationResult().accessToken(),
+                    response.authenticationResult().refreshToken(),
+                    new RequestUser(
+                            userId,
+                            UUID.fromString(confirmEmailParameters.getUuid()),
+                            confirmEmailParameters.getEmail(),
+                            confirmEmailParameters.getGivenName(),
+                            confirmEmailParameters.getFamilyName(),
+                            confirmEmailParameters.getNickname()
+                    )
+            );
         } catch (Exception e) {
             logger.error("Error confirming user: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);

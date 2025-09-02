@@ -23,7 +23,7 @@ const ScreenConfirmEmail = ({ route }: Props) => {
     const navigation = useNavigation<NavigationProp>();
 
     const [code, setCode] = useState("");
-    const { user } = route.params;
+    const { confirmEmailParameters } = route.params;
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ const ScreenConfirmEmail = ({ route }: Props) => {
         setIsLoading(true);
 
         try {
-            const response = await confirmEmail(user, code);
+            const response = await confirmEmail(confirmEmailParameters, code);
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");
@@ -44,7 +44,7 @@ const ScreenConfirmEmail = ({ route }: Props) => {
         setIsLoading(true);
 
         try {
-            const response = await resendCode(user.nickname);
+            const response = await resendCode(confirmEmailParameters.nickname);
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");
@@ -57,7 +57,7 @@ const ScreenConfirmEmail = ({ route }: Props) => {
         setIsLoading(true);
 
         try {
-            const response = deleteRequestUser(user.nickname, user.uuid);
+            const response = deleteRequestUser(confirmEmailParameters.nickname, confirmEmailParameters.uuid);
             navigation.goBack();
         } catch (error) {
             console.error("Registration error:", error);
@@ -91,7 +91,7 @@ const ScreenConfirmEmail = ({ route }: Props) => {
                 <View style={{gap: spacing.xx}}>
                     <TitleWithSubtitle
                         title={confirmEmailTexts.check}
-                        subtitle={confirmEmailTexts.sentCode(user.email)}
+                        subtitle={confirmEmailTexts.sentCode(confirmEmailParameters.email)}
                     />
 
                     <CustomOtpInput

@@ -3,6 +3,7 @@ package br.com.zaimu.backend.controller;
 import br.com.zaimu.backend.controller.enums.HttpStatusEnum;
 import br.com.zaimu.backend.model.entity.User;
 import br.com.zaimu.backend.model.exception.ValidationExceptionHandler;
+import br.com.zaimu.backend.model.to.ConfirmEmailParameters;
 import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.model.to.LoginParameters;
@@ -59,13 +60,13 @@ public class AuthController {
 
     @PostMapping("/confirm-email/{code}")
     public HttpResponse confirmEmail(
-            @RequestBody User user,
+            @RequestBody ConfirmEmailParameters confirmEmailParameters,
             @PathVariable String code
     ) {
         Integer reponseStatus;
         Object response;
         try{
-            response = authService.confirmEmail(user, code);
+            response = authService.confirmEmailAndSignIn(confirmEmailParameters, code);
             reponseStatus = HttpStatusEnum.success();
         } catch (ValidationExceptionHandler e) {
             response = e.getMessage();

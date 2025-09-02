@@ -21,9 +21,9 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {User} from "@/src/types/User";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -57,15 +57,16 @@ const ScreenRegister = () => {
         try {
             const response = await registerUser(email, givenName, familyName, nickname, passwordText);
 
-            const newUser: User = {
+            const filledConfirmEmailParameters: ConfirmEmailParameters = {
                 uuid: response.data.object.uuid,
-                email: response.data.object.email,
-                givenName: response.data.object.givenName,
-                familyName: response.data.object.familyName,
-                nickname: response.data.object.nickname,
+                email: email,
+                givenName: givenName,
+                familyName: familyName,
+                nickname: nickname,
+                password: passwordText
             };
 
-            navigation.navigate('ConfirmEmail', { user: newUser });
+            navigation.navigate('ConfirmEmail', { confirmEmailParameters: filledConfirmEmailParameters });
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");

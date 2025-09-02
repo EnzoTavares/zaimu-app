@@ -1,15 +1,16 @@
-import {User} from "@/src/types/User";
 import api from "@/src/lib/api/axios";
 import {router} from "expo-router";
+import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
 
-export const confirmEmail = async (user:User, code:string) => {
+export const confirmEmail = async (confirmEmailParameters:ConfirmEmailParameters, code:string) => {
     try {
         const confirmEmailData = {
-            uuid: user.uuid,
-            email: user.email,
-            givenName: user.givenName,
-            familyName: user.familyName,
-            nickname: user.nickname
+            uuid: confirmEmailParameters.uuid,
+            email: confirmEmailParameters.email,
+            givenName: confirmEmailParameters.givenName,
+            familyName: confirmEmailParameters.familyName,
+            nickname: confirmEmailParameters.nickname,
+            password: confirmEmailParameters.password,
         }
 
         const response = await api.post(`/auth/confirm-email/${code}`, confirmEmailData);

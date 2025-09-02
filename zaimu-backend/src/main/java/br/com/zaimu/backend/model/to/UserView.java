@@ -1,6 +1,5 @@
 package br.com.zaimu.backend.model.to;
 
-import br.com.zaimu.backend.repository.impl.UserRepositoryImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 public class UserView {
-    private Long userId;
+    private Long id;
     private UUID uuid;
     private String email;
     private String givenName;
@@ -33,7 +32,7 @@ public class UserView {
 
     public UserView (ResultSet rs) {
         try {
-            this.userId = rs.getLong("ID_USER");
+            this.id = rs.getLong("ID_USER");
             this.uuid = UUID.fromString(rs.getString("CD_COGNITO_SUB"));
             this.email = rs.getString("DS_EMAIL");
             this.givenName = rs.getString("NM_GIVEN_NAME");

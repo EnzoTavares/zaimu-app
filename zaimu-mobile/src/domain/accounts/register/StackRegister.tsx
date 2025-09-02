@@ -2,11 +2,11 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ScreenConfirmEmail from "@/src/domain/accounts/confirm_email/ScreenConfirmEmail";
 import ScreenRegister from "@/src/domain/accounts/register/ScreenRegister";
-import {User} from "@/src/types/User";
+import { ConfirmEmailParameters } from '@/src/types/ConfirmEmailParameters';
 
 export type ParamList = {
     Register: undefined;
-    ConfirmEmail: { user: User };
+    ConfirmEmail: { confirmEmailParameters: ConfirmEmailParameters };
     StackLogin: undefined;
 };
 
