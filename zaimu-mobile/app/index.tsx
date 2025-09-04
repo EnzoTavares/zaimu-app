@@ -1,37 +1,40 @@
-import {ActivityIndicator, StyleSheet, View} from 'react-native'
-import themes from '@/src/themes/theme'
-import {SafeAreaProvider} from "react-native-safe-area-context";
-import { AuthContext } from "@/src/domain/accounts/AuthStack";
-import {useMemo, useState} from "react";
-import AccessPage from "@/app/access";
+import React, {useEffect} from 'react'
+import {StyleSheet, View} from 'react-native'
+import colors from "@/src/themes/colors";
+import CustomActivityIndicator from "@/src/components/common/ActivityIndicatorCircleSnail";
+import {router} from "expo-router";
 
 export default function StartupPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    // useEffect(() => {
+    //     (async () => {
+    //         const tokens = await getTokens()
+    //         if (!tokens?.access_token) {
+    //             router.replace('/access')
+    //             return
+    //         }
+    //         const isValid = await verifyUserToken(tokens.access_token)
+    //         router.replace(isValid ? '/main_page' : '/access')
+    //     })()
+    // }, [])
 
-    const authContext = useMemo(() => ({
-        signIn: () => {
-            setIsAuthenticated(true);
-        },
-        signOut: () => {
-            setIsAuthenticated(false);
-        }
-    }), []);
+    // useEffect(() => {
+    //     router.replace('/access');
+    // }, []);
+
+    useEffect(() => {
+        router.replace('/main_page');
+    }, []);
 
     return (
-        <SafeAreaProvider>
-            <AuthContext.Provider value={authContext}>
-                <View style={styles.container}>
-                    {/*{!isAuthenticated ? <AuthStack /> : null <MainNavigator />}*/}
-                    <AccessPage />
-                </View>
-            </AuthContext.Provider>
-        </SafeAreaProvider>
-    );
+        <View style={styles.container}>
+            <CustomActivityIndicator />
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: themes.colors.backgroundDefault,
+        backgroundColor: colors.backgroundDefault,
     },
 })

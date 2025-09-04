@@ -3,11 +3,14 @@ package br.com.zaimu.backend.service.impl;
 import br.com.zaimu.backend.model.entity.User;
 import br.com.zaimu.backend.model.security.LoginResponseView;
 import br.com.zaimu.backend.model.security.RequestUser;
+import br.com.zaimu.backend.model.to.ConfirmEmailParameters;
 import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 import br.com.zaimu.backend.model.to.UserView;
 import br.com.zaimu.backend.repository.hibernate.UserRepository;
 import br.com.zaimu.backend.service.AuthService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,28 +18,33 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthenticationResultType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpResponse;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.DeleteUserRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUsersRequest;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUsersResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.UsernameExistsException;
+import software.amazon.awssdk.services.lambda.LambdaClient;
+import software.amazon.awssdk.services.lambda.model.InvokeRequest;
+import software.amazon.awssdk.services.lambda.model.InvokeResponse;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,15 +63,25 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
     @Value ("${aws.cognito.user-pool-id}")
     private String userPoolId;
 
-    public AuthServiceImpl(@Value("${aws.region}") String region) {
+    @Value("${aws.region}")
+    private String region;
+
+    @Value("${LAMBDA_FUNCTION_NAME}")
+    private String functionName;
+
+    public AuthServiceImpl(@Value("${aws.region}") String reg) {
         this.cognitoClient = CognitoIdentityProviderClient.builder()
-                .region(Region.of(region))
+                .region(Region.of(reg))
                 .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
+
+        Dotenv dotenv = Dotenv.load();
+        System.setProperty("aws.accessKeyId", dotenv.get("AWS_ACCESS_KEY_ID"));
+        System.setProperty("aws.secretAccessKey", dotenv.get("AWS_SECRET_ACCESS_KEY"));
+        System.setProperty("aws.region", dotenv.get("AWS_REGION"));
     }
 
-    public String signUpUser (RegisterParameters registerParameters) {
-        RequestUser requestUser = new RequestUser();
+    public RequestUser signUpUser (RegisterParameters registerParameters) {
         Map<String, String> userAttributes = new HashMap<>();
         userAttributes.put("email", registerParameters.getEmail());
         userAttributes.put("given_name", registerParameters.getGivenName());
@@ -87,10 +105,17 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         try {
             SignUpResponse response = cognitoClient.signUp(signUpRequest);
             logger.info("User {} signed up successfully. User confirmed: {}", registerParameters.getEmail(), response.userConfirmed());
-            return "Um código de confirmação foi enviado para o seu e-mail. Por favor, verifique sua caixa de entrada e confirme seu cadastro.";
-        } catch (Exception e) {
-            logger.error("Error signing up user: {}", e.getMessage());
-            throw new RuntimeException("Failed to sign up user", e);
+            return new RequestUser(
+                    null,
+                    UUID.fromString(response.userSub()),
+                    registerParameters.getEmail(),
+                    registerParameters.getGivenName(),
+                    registerParameters.getFamilyName(),
+                    registerParameters.getNickname()
+            );
+        } catch (UsernameExistsException uee) {
+            logger.error("Erro ao registrar usuário: {}", uee.getMessage());
+            throw new RuntimeException("Usuário já cadastrado", uee);
         }
     }
 
@@ -121,7 +146,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             logger.info("Login bem-sucedido para o usuário: {}", credentialType);
 
             UserView user = userRepository.getUserByNicknameOrEmail(credentialType);
-            requestUser.setUserId(user.getUserId());
+            requestUser.setId(user.getId());
             requestUser.setUuid(user.getUuid());
             requestUser.setEmail(user.getEmail());
             requestUser.setGivenName(user.getGivenName());
@@ -131,6 +156,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             return new LoginResponseView(
                     response.authenticationResult().idToken(),
                     response.authenticationResult().accessToken(),
+                    response.authenticationResult().refreshToken(),
                     requestUser
             );
         } catch (Exception e) {
@@ -139,28 +165,52 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         }
     }
 
-    public RequestUser confirmEmail (User user, String code) {
+    public LoginResponseView confirmEmailAndSignIn (
+            ConfirmEmailParameters confirmEmailParameters, String code
+    ) {
         ConfirmSignUpRequest confirmSignUpRequest = ConfirmSignUpRequest.builder()
                 .clientId(clientId)
-                .username(user.getNickname())
+                .username(confirmEmailParameters.getNickname())
                 .confirmationCode(code)
                 .build();
 
         try {
             cognitoClient.confirmSignUp(confirmSignUpRequest);
-            logger.info("User {} confirmed successfully.", user.getNickname());
+            logger.info("User {} confirmed successfully.", confirmEmailParameters.getNickname());
 
-            Long userId = userRepository.create(user);
+            AdminInitiateAuthRequest authRequest = AdminInitiateAuthRequest.builder()
+                    .userPoolId(userPoolId)
+                    .clientId(clientId)
+                    .authFlow(AuthFlowType.ADMIN_USER_PASSWORD_AUTH)
+                    .authParameters(Map.of("USERNAME", confirmEmailParameters.getNickname(),
+                                    "PASSWORD", confirmEmailParameters.getPassword()))
+                    .build();
 
-            return new RequestUser(
-                    userId,
-                    user.getUuid(),
-                    user.getEmail(),
-                    user.getGivenName(),
-                    user.getFamilyName(),
-                    user.getNickname()
+            AdminInitiateAuthResponse response = cognitoClient.adminInitiateAuth(authRequest);
+
+            Long userId = userRepository.create(
+                    new User (
+                            confirmEmailParameters.getUuid(),
+                            confirmEmailParameters.getEmail(),
+                            confirmEmailParameters.getGivenName(),
+                            confirmEmailParameters.getFamilyName(),
+                            confirmEmailParameters.getNickname()
+                    )
             );
 
+            return new LoginResponseView(
+                    response.authenticationResult().idToken(),
+                    response.authenticationResult().accessToken(),
+                    response.authenticationResult().refreshToken(),
+                    new RequestUser(
+                            userId,
+                            UUID.fromString(confirmEmailParameters.getUuid()),
+                            confirmEmailParameters.getEmail(),
+                            confirmEmailParameters.getGivenName(),
+                            confirmEmailParameters.getFamilyName(),
+                            confirmEmailParameters.getNickname()
+                    )
+            );
         } catch (Exception e) {
             logger.error("Error confirming user: {}", e.getMessage());
             throw new RuntimeException("Failed to sign up user", e);
@@ -223,57 +273,26 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             throw new RuntimeException("Failed to sign up user", e);
         }
     }
-//
-//    public int cleanupUnconfirmedUsers(int daysThreshold) {
-//        try {
-//            ListUsersRequest request = ListUsersRequest.builder()
-//                    .userPoolId(userPoolId)
-//                    .filter("cognito:user_status = \"UNCONFIRMED\"")
-//                    .build();
-//
-//            ListUsersResponse response = cognitoClient.listUsers(request);
-//            int deletedCount = 0;
-//            Instant thresholdDate = Instant.now().minus(daysThreshold, ChronoUnit.DAYS);
-//
-////            for (UserType user : response.users()) {
-////                if (shouldDeleteUser(user, thresholdDate)) {
-////                    deleteUser(user.username());
-////                    deletedCount++;
-////                    log.info("Deleted unconfirmed user: {}", user.username());
-////                }
-////            }
-//
-//            logger.info("Deleted {} unconfirmed users", response);
-//
-//
-//            return deletedCount;
-//
-//        } catch (Exception e) {
-//            logger.error("Error during cleanup", e);
-//            throw new RuntimeException("Cleanup failed", e);
-//        }
-//    }
-//
-////    private boolean shouldDeleteUser(UserType user, Instant thresholdDate) {
-////        Optional<AttributeType> createdDateAttr = user.attributes().stream()
-////                .filter(attr -> "created_date".equals(attr.name()))
-////                .findFirst();
-////
-////        if (createdDateAttr.isPresent()) {
-////            long createdTimestamp = Long.parseLong(createdDateAttr.get().value()) * 1000;
-////            Instant createdInstant = Instant.ofEpochMilli(createdTimestamp);
-////            return createdInstant.isBefore(thresholdDate);
-////        }
-////
-////        return false;
-////    }
-////
-////    private void deleteUser(String username) {
-////        AdminDeleteUserRequest deleteRequest = AdminDeleteUserRequest.builder()
-////                .userPoolId(userPoolId)
-////                .username(username)
-////                .build();
-////
-////        cognitoClient.adminDeleteUser(deleteRequest);
-////    }
+
+    public String deleteRequestUser(String nickname, String uuid) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        String payload = mapper.writeValueAsString(Map.of(
+                "nickname", nickname.trim(),
+                "uuid", uuid.trim()
+        ));
+
+        try (LambdaClient lambdaClient = LambdaClient.builder()
+                .region(Region.of(region))
+                .build())
+        {
+            InvokeRequest request = InvokeRequest.builder()
+                    .functionName(functionName)
+                    .payload(SdkBytes.fromUtf8String(payload))
+                    .build();
+
+            InvokeResponse response = lambdaClient.invoke(request);
+
+            return response.payload().asUtf8String();
+        }
+    }
 }

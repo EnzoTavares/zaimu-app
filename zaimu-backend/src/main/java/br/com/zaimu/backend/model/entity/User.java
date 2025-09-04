@@ -77,14 +77,22 @@ public class User implements Serializable {
     @Column(name = "FL_STATUS")
     private Character flStatus;
 
+    public User (String uuid, String email, String givenName, String familyName, String nickname) {
+        this.uuid = UUID.fromString(uuid);
+        this.email = email;
+        this.givenName = givenName;
+        this.familyName = familyName;
+        this.nickname = nickname;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", uuid=" + uuid +
                 ", email='" + email + '\'' +
-                ", firstName='" + givenName + '\'' +
-                ", lastName='" + familyName + '\'' +
+                ", givenName='" + givenName + '\'' +
+                ", familyName='" + familyName + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Alert} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -10,29 +10,51 @@ import password from "@/src/constants/texts/inputs/Password";
 import CustomOtpInput from "@/src/components/inputs/OtpInput";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
-import {resendCode, resetPassword} from '@/src/api/accounts/reset_password/ResetPasswordApi';
+import {resendCode, resetPassword} from './service';
 import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 type Props = NativeStackScreenProps<ParamList, 'ForgotPasswordSecond'>;
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordSecond'>;
 
 export function ScreenForgotPasswordSecond ({ route }: Props) {
+    const navigation = useNavigation<NavigationProp>();
+
     const [code, setCode] = useState("");
     const [newPasswordText, setNewPasswordText] = useState("");
     const { credential } = route.params;
 
-    const navigation = useNavigation<NavigationProp>();
+    const [isLoading, setIsLoading] = useState(false);
 
     async function submitResetPassword (){
-        console.log(await resetPassword(credential, code, newPasswordText));
+        setIsLoading(true);
+
+        try {
+            const response = await resetPassword(credential, code, newPasswordText);
+            navigation.popToTop();
+        } catch (error) {
+            console.error("MENSAGEM!:", error);
+            Alert.alert("Login Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     async function submitResendResetPasswordCode (){
-        console.log(await resendCode(credential));
+        setIsLoading(true);
+
+        try {
+            const response = await resendCode(credential);
+        } catch (error) {
+            console.error("MENSAGEM!:", error);
+            Alert.alert("Login Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function handleNavigateBack () {
@@ -103,6 +125,8 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
                     onPress={submitResetPassword}
                 />
             </KeyboardAwareScrollView>
+
+            <LoadingOverlay visible={isLoading} />
         </View>
     );
 }

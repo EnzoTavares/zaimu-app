@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, TextInput, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity} from 'react-native';
 import {Image} from "expo-image";
 import icons from "@/src/constants/icons";
@@ -20,6 +20,8 @@ type CustomTextInputProps = {
 const CustomTextInput = (props: CustomTextInputProps) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+    const inputRef = useRef<TextInput>(null);
+
     return (
         <View style={[styles.container, props.style]}>
             {props.label &&(
@@ -27,7 +29,11 @@ const CustomTextInput = (props: CustomTextInputProps) => {
                     {props.label}
                 </Text>
             )}
-            <View style={styles.inputContainer}>
+            <TouchableOpacity
+                style={styles.inputContainer}
+                activeOpacity={1}
+                onPress={() => inputRef.current?.focus()}
+            >
                 {props.icon && (
                     <Image
                         source={icons[props.icon]}
@@ -35,11 +41,12 @@ const CustomTextInput = (props: CustomTextInputProps) => {
                     />
                 )}
                 <TextInput
+                    ref={inputRef}
                     placeholder={props.placeholder}
                     placeholderTextColor={colors.greyMiddle}
                     onChangeText={(newText: string) => props.setValue(newText)}
                     defaultValue={props.value}
-                    style={[styles.input, props.isPassword && {width: "72%"}]}
+                    style={[styles.input, props.isPassword && styles.passwordInput]}
                     secureTextEntry={props.isPassword && !isPasswordVisible}
                 />
                 {props.isPassword && (
@@ -52,7 +59,7 @@ const CustomTextInput = (props: CustomTextInputProps) => {
                         }
                     </TouchableOpacity>
                 )}
-            </View>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -87,7 +94,12 @@ const styles = StyleSheet.create({
         ...fontStyles.assistanceRegular,
         color: colors.black,
         height: "100%",
-        width: "85%"
+        flex: 1,
+        paddingRight: spacing.xs,
+    },
+    passwordInput: {
+        flex: 1,
+        paddingRight: spacing.xs,
     },
     eyeIconContainer: {
         marginLeft: spacing.mmd,

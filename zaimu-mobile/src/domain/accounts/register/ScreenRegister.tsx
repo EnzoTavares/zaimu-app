@@ -6,7 +6,7 @@ import {fontStyles} from "@/src/themes/typography";
 import brandTexts from '@/src/constants/texts/branding/Brand';
 import HorizontalRule from "@/src/components/common/HorizontalRule";
 import colors from "@/src/themes/colors";
-import Card from "@/src/components/common/Card";
+import Card from "@/src/components/cards/Card";
 import CustomTextInput from "@/src/components/inputs/TextInput";
 import password from "@/src/constants/texts/inputs/Password";
 import ThinFilledButton from "@/src/components/buttons/ThinFilledButton";
@@ -16,12 +16,14 @@ import OAuthButton from "@/src/components/buttons/OAuth";
 import registerTexts from "@/src/constants/texts/domain/accounts/Register";
 import nameTexts from "@/src/constants/texts/inputs/Name";
 import emailTexts from "@/src/constants/texts/inputs/Email";
-import { registerUser } from '@/src/api/accounts/register/RegisterApi';
+import { registerUser } from './service';
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {User} from "@/src/types/User";
+import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -35,6 +37,10 @@ const ScreenRegister = () => {
     const [passwordText, setPasswordText] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const insets = useSafeAreaInsets();
+
     async function submitRegister(){
         if (!email || !givenName || !familyName || !nickname || !passwordText) {
             Alert.alert("Error", "Please fill in all required fields");
@@ -46,25 +52,26 @@ const ScreenRegister = () => {
             return;
         }
 
+        setIsLoading(true);
+
         try {
             const response = await registerUser(email, givenName, familyName, nickname, passwordText);
 
-            console.log(JSON.stringify(response));
-
-            const newUser: User = {
-                uuid: response.data.uuid,
-                email: response.data.email,
-                givenName: response.data.givenName,
-                familyName: response.data.familyName,
-                nickname: response.data.nickname,
+            const filledConfirmEmailParameters: ConfirmEmailParameters = {
+                uuid: response.data.object.uuid,
+                email: email,
+                givenName: givenName,
+                familyName: familyName,
+                nickname: nickname,
+                password: passwordText
             };
 
-
-
-            navigation.navigate('ConfirmEmail', { user: newUser });
+            navigation.navigate('ConfirmEmail', { confirmEmailParameters: filledConfirmEmailParameters });
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -73,105 +80,118 @@ const ScreenRegister = () => {
     }
 
     return (
-        <KeyboardAwareScrollView
-            contentContainerStyle={styles.container}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            scrollEnabled={true}
-            keyboardShouldPersistTaps="handled"
-        >
-            <AppIcon />
-
-            <Text style={styles.welcomeText}>
-                {brandTexts.welcome}
-                <Text style={styles.brandName}>
-                    {brandTexts.name}
-                </Text>
-            </Text>
-
-            <HorizontalRule
-                color={colors.greyExtraLight}
-                height={spacing.xxs}
-            />
-
-            <Text style={styles.registerText}>
-                {registerTexts.register}
-            </Text>
-
-            <Card
-                shadowed={true}
-                style={{gap: spacing.lg}}
+        <View style={{flex: 1}}>
+            <KeyboardAwareScrollView
+                contentContainerStyle={[
+                    styles.container,
+                    {
+                        paddingTop: insets.top + spacing.xx,
+                        paddingBottom: insets.bottom + spacing.xx,
+                    }
+                ]}
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+                keyboardShouldPersistTaps="handled"
             >
-                <View style={styles.firstAndLastNameInputContainer}>
+                <AppIcon
+                    height={68}
+                    width={68}
+                />
+                
+                <Text style={styles.welcomeText}>
+                    {brandTexts.welcome}
+                    <Text style={styles.brandName}>
+                        {brandTexts.name}
+                    </Text>
+                </Text>
+
+                <HorizontalRule
+                    color={colors.greyExtraLight}
+                    height={spacing.xxs}
+                />
+
+                <Text style={styles.registerText}>
+                    {registerTexts.register}
+                </Text>
+
+                <Card
+                    shadowed={true}
+                    style={{gap: spacing.lg, width: '88%'}}
+                >
+                    <View style={styles.firstAndLastNameInputContainer}>
+                        <CustomTextInput
+                            label={nameTexts.labelFirstName}
+                            placeholder={nameTexts.placeholderFirstName}
+                            style={styles.firstAndLastNameInput}
+                            setValue={setGivenName}
+                            value={givenName}
+                        />
+
+                        <CustomTextInput
+                            label={nameTexts.labelLastName}
+                            placeholder={nameTexts.placeholderLastName}
+                            style={styles.firstAndLastNameInput}
+                            setValue={setFamilyName}
+                            value={familyName}
+                        />
+                    </View>
+
                     <CustomTextInput
-                        label={nameTexts.labelFirstName}
-                        placeholder={nameTexts.placeholderFirstName}
-                        style={styles.firstAndLastNameInput}
-                        setValue={setGivenName}
-                        value={givenName}
+                        icon={'greyPersonFill'}
+                        label={nameTexts.labelNickName}
+                        placeholder={nameTexts.placeholderNickname}
+                        setValue={setNickname}
+                        value={nickname}
                     />
 
                     <CustomTextInput
-                        label={nameTexts.labelLastName}
-                        placeholder={nameTexts.placeholderLastName}
-                        style={styles.firstAndLastNameInput}
-                        setValue={setFamilyName}
-                        value={familyName}
+                        icon={'greyEnvelopeFill'}
+                        label={emailTexts.label}
+                        placeholder={emailTexts.placeholder}
+                        setValue={setEmail}
+                        value={email}
                     />
-                </View>
 
-                <CustomTextInput
-                    icon={'greyPersonFill'}
-                    label={nameTexts.labelNickName}
-                    placeholder={nameTexts.placeholderNickname}
-                    setValue={setNickname}
-                    value={nickname}
-                />
+                    <CustomTextInput
+                        icon={'greyLockFill'}
+                        label={password.label}
+                        placeholder={password.placeholder}
+                        isPassword={true}
+                        setValue={setPasswordText}
+                        value={passwordText}
+                    />
 
-                <CustomTextInput
-                    icon={'greyEnvelopeFill'}
-                    label={emailTexts.label}
-                    placeholder={emailTexts.placeholder}
-                    setValue={setEmail}
-                    value={email}
-                />
+                    <CustomTextInput
+                        icon={'greyLockFill'}
+                        label={password.labelConfirm}
+                        placeholder={password.placeholder}
+                        isPassword={true}
+                        setValue={setConfirmPassword}
+                        value={confirmPassword}
+                    />
 
-                <CustomTextInput
-                    icon={'greyLockFill'}
-                    label={password.label}
-                    placeholder={password.placeholder}
-                    isPassword={true}
-                    setValue={setPasswordText}
-                    value={passwordText}
-                />
+                    <ThinFilledButton
+                        label={registerTexts.finish}
+                        onPress={submitRegister}
+                    />
 
-                <CustomTextInput
-                    icon={'greyLockFill'}
-                    label={password.labelConfirm}
-                    placeholder={password.placeholder}
-                    isPassword={true}
-                    setValue={setConfirmPassword}
-                    value={confirmPassword}
-                />
+                    <View style={styles.oAuthContainer}>
+                        <OAuthButton icon={"googleLogo"}/>
+                        <OAuthButton icon={"appleLogo"}/>
+                        <OAuthButton icon={"facebookLogo"}/>
+                    </View>
 
-                <ThinFilledButton
-                    label={registerTexts.finish}
-                    onPress={submitRegister}
-                />
+                    <OrHorizontalRule color={colors.black} />
 
-                <View style={styles.oAuthContainer}>
-                    <OAuthButton icon={"googleLogo"}/>
-                    <OAuthButton icon={"appleLogo"}/>
-                    <OAuthButton icon={"facebookLogo"}/>
-                </View>
+                    <ThinOutlinedButton
+                        label={registerTexts.login}
+                        onPress={handleNavigateToLogin}
+                    />
+                </Card>
+            </KeyboardAwareScrollView>
 
-                <OrHorizontalRule color={colors.black} />
-
-                <ThinOutlinedButton
-                    label={registerTexts.login}
-                    onPress={handleNavigateToLogin}
-                />
-            </Card>
-        </KeyboardAwareScrollView>
+            <LoadingOverlay visible={isLoading} />
+        </View>
     );
 }
 
@@ -189,7 +209,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flexGrow: 1,
-        paddingVertical: spacing.xxxl,
         alignItems: 'center',
         gap: spacing.md,
         width: "100%",

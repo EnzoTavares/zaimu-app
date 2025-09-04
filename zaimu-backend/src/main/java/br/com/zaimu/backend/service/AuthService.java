@@ -1,21 +1,23 @@
 package br.com.zaimu.backend.service;
 
-import br.com.zaimu.backend.model.entity.User;
 import br.com.zaimu.backend.model.security.LoginResponseView;
 import br.com.zaimu.backend.model.security.RequestUser;
+import br.com.zaimu.backend.model.to.ConfirmEmailParameters;
 import br.com.zaimu.backend.model.to.LoginParameters;
 import br.com.zaimu.backend.model.to.RegisterParameters;
 
 public interface AuthService {
-    String signUpUser (RegisterParameters registerParameters);
+    RequestUser signUpUser (RegisterParameters registerParameters);
 
     LoginResponseView signInUser (LoginParameters registerParameters);
 
-    RequestUser confirmEmail (User user, String code);
+    LoginResponseView confirmEmailAndSignIn (
+            ConfirmEmailParameters confirmEmailParameters, String code
+    );
 
     String resetPassword (String credential, String code, String newPassword);
 
     void resendSignUpCode (String nickname);
 
-//    int cleanupUnconfirmedUsers(int daysThreshold);
+    String deleteRequestUser(String nickname, String uuid) throws Exception;
 }

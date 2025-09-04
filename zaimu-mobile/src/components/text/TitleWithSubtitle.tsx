@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from "react-native";
+import {StyleProp, StyleSheet, Text, View, ViewStyle} from "react-native";
 import {fontSizes, spacing, lineHeights} from "@/src/themes/dimensions";
 import {fontFamily} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
@@ -12,7 +12,11 @@ type TitleWithSubtitleProps = {
 const TitleWithSubtitle = (props: TitleWithSubtitleProps) => {
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>
+            <Text style={[
+                styles.title,
+                props.titleStyle,
+            ]}
+            >
                 {props.title}
             </Text>
             <Text style={styles.subtitle}>
