@@ -4,6 +4,8 @@ import ScreenTransactions from "./tabs/transactions/ScreenTransactions";
 import colors from "@/src/themes/colors";
 import CustomAppBar from "@/src/components/bar/AppBar";
 import ScreenHome from "./tabs/home/ScreenHome";
+import {Ionicons} from "@expo/vector-icons";
+import TabBar from "@/src/components/bar/TabBar";
 
 const Tab = createBottomTabNavigator()
 
@@ -21,8 +23,10 @@ export default function MainNavigator() {
                 headerTitleStyle: {
                     fontWeight: 'bold',
                 },
+                tabBarShowLabel: false,
             })}
-            // tabBar={() => <TabBar/> }
+
+            tabBar={(props) => <TabBar {...props}/> }
         >
             <Tab.Screen name="Home" component={ScreenHome}/>
             <Tab.Screen name="Transactions" component={ScreenTransactions}/>

@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Changes on auth screens">
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/model/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/model/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/model/security/RequestUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/model/security/RequestUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/model/to/UserView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/model/to/UserView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../zaimu-backend/src/main/java/br/com/zaimu/backend/service/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_27_25,_10_44 PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_27_25__10_44PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/StackRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/StackRegister.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/icons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/icons.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/MainNavigator.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -51,12 +46,12 @@
       </list>
     </option>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/EnzoTavares/zaimu-app.git",
-    "accountId": "3ce63737-de80-4e58-9d56-1ae2d07af317"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/EnzoTavares/zaimu-app.git&quot;,
+    &quot;accountId&quot;: &quot;869b872d-302f-4b2e-87b8-b01d40e3f674&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -78,14 +73,14 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;F-002-feature&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Programming/Development Projects/zaimu-app/zaimu-mobile/src/domain/accounts/confirm_email&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Programming/Development Projects/zaimu/zaimu-app/zaimu-mobile&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/enzo-tavares/Documents/Programming/UFU/PDS/zaimu-app/zaimu-mobile/node_modules/typescript/lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Programming\\Development Projects\\zaimu\\zaimu-app\\zaimu-mobile\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -118,7 +113,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-WS-252.25557.126" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-WS-252.23892.411" />
       </set>
     </attachedChunks>
   </component>
@@ -153,6 +148,11 @@
       <workItem from="1756737254227" duration="683000" />
       <workItem from="1756768055819" duration="382000" />
       <workItem from="1756769538975" duration="1539000" />
+      <workItem from="1756783341555" duration="963000" />
+      <workItem from="1756826197020" duration="2064000" />
+      <workItem from="1756932276807" duration="5983000" />
+      <workItem from="1756997222135" duration="1024000" />
+      <workItem from="1756998279455" duration="2289000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />

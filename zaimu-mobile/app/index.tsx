@@ -17,13 +17,13 @@ export default function StartupPage() {
     //     })()
     // }, [])
 
-    useEffect(() => {
-        router.replace('/access');
-    }, []);
-
     // useEffect(() => {
-    //     router.replace('/main_page');
+    //     router.replace('/access');
     // }, []);
+
+    useEffect(() => {
+        router.replace('/main_page');
+    }, []);
 
     return (
         <View style={styles.container}>
