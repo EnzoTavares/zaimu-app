@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Changes on auth screens">
+    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="improving tab bar navigation">
+      <change afterPath="$PROJECT_DIR$/src/assets/icons/grey-house-fill.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/icons/grey-house-outlined.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/icons/grey-wallet-filled.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/icons/grey-wallet-outlined.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/bar/TabBar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_27_25,_10_44 PM_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_27_25__10_44PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -152,7 +157,7 @@
       <workItem from="1756826197020" duration="2064000" />
       <workItem from="1756932276807" duration="5983000" />
       <workItem from="1756997222135" duration="1024000" />
-      <workItem from="1756998279455" duration="2289000" />
+      <workItem from="1756998279455" duration="2619000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />
@@ -266,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756693156864</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="improving tab bar navigation">
+      <option name="closed" value="true" />
+      <created>1757017312404</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1757017312404</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,6 +295,7 @@
     <MESSAGE value="Working on transactions screen" />
     <MESSAGE value="Improving api calls, project structure and return response" />
     <MESSAGE value="Improving router navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improving router navigation" />
+    <MESSAGE value="improving tab bar navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="improving tab bar navigation" />
   </component>
 </project>
