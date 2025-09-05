@@ -16,10 +16,15 @@ const colors = {
     black: '#000000',
     white: '#FFFFFF',
     grey: '#A4A4A4',
+    green: '#2DC200',
+    greenMiddle: '#81B96D',
+    red: '#FF0000',
+    redMiddle: '#D44747',
 
     income: '#67BC48',
     expense: '#E33E3E',
 
+    backgroundFadeBalanceValue: ['#68C147', '#B4C56A'] as const,
     backgroundFadeLighter: ['#60C043', '#B8C56C'] as const,
     backgroundFadeDarker: ['#85BE70', '#446E37'] as const,
     backgroundDefault: '#F8F9FB',
