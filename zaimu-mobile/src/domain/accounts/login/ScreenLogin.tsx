@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {View, StyleSheet, Text, TouchableOpacity, Alert} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity, Alert, Platform} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import loginTexts from '@/src/constants/texts/domain/accounts/Login'
@@ -22,6 +22,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {AuthContext} from "@/src/domain/accounts/AuthStack";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import CustomEmailInput from "@/src/components/inputs/EmailInput";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
@@ -61,9 +62,8 @@ const ScreenLogin = () => {
         <View style={{flex: 1}}>
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.container}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <AppIcon
                     height={68}
@@ -87,7 +87,7 @@ const ScreenLogin = () => {
                 </Text>
 
                 <Card shadowed={true} style={{gap: spacing.xx, width: '88%'}}>
-                    <CustomTextInput
+                    <CustomEmailInput
                         icon={'greyPersonFill'}
                         placeholder={emailOrNicknameTexts.placeholder}
                         setValue={setCredential}

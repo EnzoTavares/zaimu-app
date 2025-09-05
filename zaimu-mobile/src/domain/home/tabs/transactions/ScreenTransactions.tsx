@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text} from "react-native";
+import {Alert, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import transactionsTexts from "@/src/constants/texts/domain/home/tabs/Transactions";
 import {fontFamily, fontStyles} from "@/src/themes/typography";
 import ActionHeader from "@/src/components/common/ActionHeader";
@@ -10,7 +10,9 @@ import filterTexts from "@/src/constants/texts/inputs/Filter";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import BigTransactionCard from "@/src/components/home/transactions/BigTransactionCard";
 import ModalBottom from "@/src/components/modals/ModalBottom";
-import addTransactionsTexts from "@/src/constants/texts/inputs/Transaction";
+import transactionsInputTexts from "@/src/constants/texts/inputs/Transaction";
+import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
+import CustomDecimalInput from "@/src/components/inputs/DecimalInput";
 
 const ScreenTransactions = () => {
     const [searchTransaction, setSearchTransaction] = useState('');
@@ -21,41 +23,88 @@ const ScreenTransactions = () => {
     const [newTransactionAmount, setNewTransactionAmount] = useState('');
     const [newTransactionCategory, setNewTransactionCategory] = useState('');
     const [newTransactionDate, setNewTransactionDate] = useState('');
+    const [newTransactionType, setNewTransactionType] = useState<'income' | 'expense'>('income');
+
+    const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+    const [typeFilter, setTypeFilter] = useState<string | null>(null);
+    const [dateFilter, setDateFilter] = useState<string | null>(null);
+    const [minAmountFilter, setMinAmountFilter] = useState<string | null>(null);
+    const [maxAmountFilter, setMaxAmountFilter] = useState<string | null>(null);
+
+    function handleCloseAddTransactionModal() {
+        setAddTransactionModalVisible(false);
+    }
+
+    function handleCloseFilterModal() {
+        setFilterModalVisible(false);
+    }
+
+    function submitNewTransaction() {
+
+    }
+
+    function submitFilter() {
+
+    }
+
+    function handleClearNewTransactionForm () {
+        Alert.alert(
+            transactionsTexts.clearForm,
+            transactionsTexts.clearFormConfirmationText,
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                    onPress: () => {
+                        return;
+                    },
+                },
+                {
+                    text: 'Limpar',
+                    onPress: () => {
+                        setNewTransactionTitle('');
+                        setNewTransactionAmount('');
+                        setNewTransactionCategory('');
+                        setNewTransactionDate('');
+                        setNewTransactionType('');
+                    },
+                }
+            ]
+        )
+    }
+
+    function handleClearFilterForm () {
+        Alert.alert(
+            transactionsTexts.clearForm,
+            transactionsTexts.clearFormConfirmationText,
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                    onPress: () => {
+                        return;
+                    },
+                },
+                {
+                    text: 'Limpar',
+                    onPress: () => {
+                        setCategoryFilter('');
+                        setTypeFilter('');
+                        setDateFilter('');
+                        setMinAmountFilter('');
+                        setMaxAmountFilter('');
+                    },
+                }
+            ]
+        )
+    }
 
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={styles.container}
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            scrollEnabled={true}
             keyboardShouldPersistTaps="handled"
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-            <ModalBottom
-                visible={addTransactionModalVisible}
-                onRequestClose={() => setAddTransactionModalVisible(false)}
-            >
-                <Text style={styles.modalTitle}>{transactionsTexts.addTransaction}</Text>
-
-                <CustomTextInput
-                    placeholder={addTransactionsTexts.placeholderTitle}
-                    value={newTransactionTitle}
-                    setValue={setNewTransactionTitle} />
-
-                <CustomTextInput
-                    placeholder={addTransactionsTexts.placeholderAmount}
-                    value={newTransactionAmount}
-                    setValue={setNewTransactionAmount} />
-
-                <CustomTextInput
-                    placeholder={addTransactionsTexts.placeholderCategory}
-                    value={newTransactionCategory}
-                    setValue={setNewTransactionCategory} />
-
-                <CustomTextInput
-                    placeholder={addTransactionsTexts.placeholderDate}
-                    value={newTransactionDate}
-                    setValue={setNewTransactionDate} />
-            </ModalBottom>
-
             <ActionHeader
                 onPress={() => setAddTransactionModalVisible(true)}
                 buttonIcon={'whitePlusLg'}
@@ -73,7 +122,7 @@ const ScreenTransactions = () => {
             </ActionHeader>
 
             <ActionHeader
-                onPress={() => {}}
+                onPress={() => setFilterModalVisible(true)}
                 buttonIcon={'whiteFilterCircle'}
                 buttonText={transactionsTexts.filter}
             >
@@ -83,6 +132,131 @@ const ScreenTransactions = () => {
                     setValue={setSearchTransaction}
                 />
             </ActionHeader>
+
+            <ModalBottom
+                visible={addTransactionModalVisible}
+                onRequestClose={handleCloseAddTransactionModal}
+                header={
+                    <Text style={styles.modalTitle}>{transactionsTexts.addTransaction}</Text>
+                }
+            >
+                <CustomTextInput
+                    label={transactionsInputTexts.labelTitle}
+                    placeholder={transactionsInputTexts.placeholderTitle}
+                    value={newTransactionTitle}
+                    setValue={setNewTransactionTitle} />
+
+                <View style={styles.twoInputsContainer}>
+                    <View style={{ flex: 1 }}>
+                        <CustomDecimalInput
+                            label={transactionsInputTexts.labelAmount}
+                            placeholder={transactionsInputTexts.placeholderAmount}
+                            value={newTransactionAmount}
+                            setValue={setNewTransactionAmount}
+                        />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <CustomTextInput
+                            label={transactionsInputTexts.labelCategory}
+                            placeholder={transactionsInputTexts.placeholderCategory}
+                            value={newTransactionCategory}
+                            setValue={setNewTransactionCategory}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.amountAndCategoryContainer}>
+                    <View style={{ flex: 1 }}>
+                        <CustomTextInput
+                            label={transactionsInputTexts.labelDate}
+                            placeholder={transactionsInputTexts.placeholderDate}
+                            value={newTransactionDate}
+                            setValue={setNewTransactionDate} />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <CustomTextInput
+                            label={transactionsInputTexts.labelType}
+                            placeholder={transactionsInputTexts.placeholderType}
+                            value={newTransactionType}
+                            setValue={setNewTransactionType}
+                        />
+                    </View>
+                </View>
+
+                <TouchableOpacity onPress={handleClearNewTransactionForm}>
+                    <Text style={[
+                        styles.clearForm,
+                        {textDecorationLine: "underline"}
+                    ]}>
+                        {transactionsTexts.clearForm}
+                    </Text>
+                </TouchableOpacity>
+
+                <ThickFilledButton
+                    label={transactionsInputTexts.labelConfirmButton}
+                    onPress={submitNewTransaction}
+                />
+            </ModalBottom>
+
+            <ModalBottom
+                visible={filterModalVisible}
+                onRequestClose={handleCloseFilterModal}
+                header={
+                    <Text style={styles.modalTitle}>{transactionsTexts.filter}</Text>
+                }
+            >
+                <View style={styles.twoInputsContainer}>
+                    <View style={{ flex: 1 }}>
+                        <CustomTextInput
+                            label={transactionsInputTexts.labelCategory}
+                            placeholder={transactionsInputTexts.placeholderCategory}
+                            value={categoryFilter}
+                            setValue={setCategoryFilter}
+                        />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <CustomTextInput
+                            label={transactionsInputTexts.labelType}
+                            placeholder={transactionsInputTexts.placeholderType}
+                            value={typeFilter}
+                            setValue={setTypeFilter}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.twoInputsContainer}>
+                    <View style={{ flex: 1 }}>
+                        <CustomDecimalInput
+                            label={transactionsInputTexts.labelMinAmount}
+                            placeholder={transactionsInputTexts.placeholderMinAmount}
+                            value={minAmountFilter}
+                            setValue={setMinAmountFilter}
+                        />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <CustomDecimalInput
+                            label={transactionsInputTexts.labelMaxAmount}
+                            placeholder={transactionsInputTexts.placeholderMaxAmount}
+                            value={maxAmountFilter}
+                            setValue={setMaxAmountFilter}
+                        />
+                    </View>
+                </View>
+
+                <TouchableOpacity onPress={handleClearFilterForm}>
+                    <Text style={[
+                        styles.clearForm,
+                        {textDecorationLine: "underline"}
+                    ]}>
+                        {transactionsTexts.clearForm}
+                    </Text>
+                </TouchableOpacity>
+
+                <ThickFilledButton
+                    label={transactionsInputTexts.labelFilterButton}
+                    onPress={submitFilter}
+                />
+            </ModalBottom>
 
             <BigTransactionCard title={'Salário'} amount={12000} category={'Trabalho'} date={'12/01/2024'}/>
 
@@ -115,5 +289,16 @@ const styles = StyleSheet.create({
     },
     modalTitle: {
         ...fontStyles.semiBoldCallout,
-    }
+    },
+    twoInputsContainer: {
+        display: "flex",
+        flexDirection: "row",
+        gap: spacing.lg,
+    },
+    clearForm: {
+        fontFamily: fontFamily.regular,
+        fontSize: 16,
+        color: colors.darkGreen,
+        textAlign: "right",
+    },
 })

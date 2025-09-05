@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Alert} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Alert, Platform} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -78,9 +78,8 @@ const ScreenConfirmEmail = ({ route }: Props) => {
 
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.scrollContainer}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <IconBadge
                     icon={"darkGreenMailFill"}
@@ -104,6 +103,7 @@ const ScreenConfirmEmail = ({ route }: Props) => {
                     <ThickFilledButton
                         label={confirmEmailTexts.send}
                         onPress={submitConfirmationCode}
+                        style={{width: '80%'}}
                     />
 
                     <View style={styles.textButtonsContainer}>

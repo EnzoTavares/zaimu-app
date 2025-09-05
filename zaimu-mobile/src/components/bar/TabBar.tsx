@@ -31,7 +31,7 @@ export default function TabBar({ state, descriptors, navigation }: BottomTabBarP
                         <TouchableOpacity
                             key={route.key}
                             onPress={onPress}
-                            style={{ alignItems: 'center', justifyContent: 'center' }}
+                            style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
                         >
                             {!isFocused && (
                                 <Svg width={spacing.xx} height={spacing.xx} viewBox="0 0 24 24" fill="none">

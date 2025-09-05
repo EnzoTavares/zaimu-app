@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, StyleSheet, View} from "react-native";
+import {Alert, Platform, StyleSheet, View} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -54,9 +54,8 @@ const ScreenForgotPasswordFirst = () => {
 
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.scrollContainer}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <IconBadge
                     icon={"darkGreenShieldFill"}
@@ -79,6 +78,7 @@ const ScreenForgotPasswordFirst = () => {
                 <ThickFilledButton
                     label={forgotPasswordTexts.send}
                     onPress={submitResetPasswordCode}
+                    style={{width: '80%'}}
                 />
             </KeyboardAwareScrollView>
 

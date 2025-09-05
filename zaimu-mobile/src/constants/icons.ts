@@ -12,6 +12,7 @@ const icons = {
     greyWalletOutlined: require('../assets/icons/grey-wallet-outlined.svg'),
 
     blackChevronLeft: require('../assets/icons/black-chevron-left.svg'),
+    blackXLg: require('../assets/icons/black-x-lg.svg'),
 
     darkGreenShieldFill: require('../assets/icons/dark-green-shield-fill.svg'),
     darkGreenMailFill: require('../assets/icons/dark-green-mail-fill.svg'),

@@ -15,7 +15,7 @@ import colors from "@/src/themes/colors";
 import icons from "@/src/constants/icons";
 import {Image} from "expo-image";
 
-type ModalBottomProps = {
+type ModalSideProps = {
     visible: boolean;
     onRequestClose: () => void;
     header: React.ReactNode;
@@ -23,7 +23,7 @@ type ModalBottomProps = {
     style?: StyleProp<ViewStyle>;
 };
 
-export default function ModalBottom(props: ModalBottomProps) {
+export default function ModalSide(props: ModalSideProps) {
     return(
         <Modal
             animationType="fade"
@@ -76,7 +76,7 @@ const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.3)',
     },
     headerContainer: {
@@ -91,10 +91,12 @@ const styles = StyleSheet.create({
     },
     keyboardAvoidingContainer: {
         width: '100%',
-        maxHeight: windowHeight * 0.95,
+        // maxHeight: windowHeight * 0.95,
     },
     modalView: {
-        width: '100%',
+        height: '100%',
+        width: '30%',
+        marginLeft: 'auto',
         backgroundColor: colors.white,
         borderTopLeftRadius: spacing.lg,
         borderTopRightRadius: spacing.lg,

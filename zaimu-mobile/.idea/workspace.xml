@@ -4,14 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="improving tab bar navigation">
+    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Adding functionalities">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/bar/AppBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/bar/AppBar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/bar/TabBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/bar/TabBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/CircledProfileButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/CircledProfileButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/buttons/ThickFilledButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/buttons/ThickFilledButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/modals/ModalBottom.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/modals/ModalBottom.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/icons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/icons.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/texts/domain/home/tabs/Transactions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/domain/home/tabs/Transactions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/texts/inputs/Transaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/texts/inputs/Transaction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -276,7 +283,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757017312404</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Adding functionalities">
+      <option name="closed" value="true" />
+      <created>1757100115332</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1757100115332</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,6 +308,7 @@
     <MESSAGE value="Improving api calls, project structure and return response" />
     <MESSAGE value="Improving router navigation" />
     <MESSAGE value="improving tab bar navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="improving tab bar navigation" />
+    <MESSAGE value="Adding functionalities" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding functionalities" />
   </component>
 </project>

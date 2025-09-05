@@ -6,7 +6,7 @@ import {fontFamily} from "@/src/themes/typography";
 
 type CircledProfileButtonProps = {
     textContent: string;
-    onPress: () => void;
+    onPress?: () => void;
 }
 
 const CircledProfileButton = (props: CircledProfileButtonProps) => {

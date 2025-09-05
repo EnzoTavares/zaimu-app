@@ -24,6 +24,7 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
+import CustomEmailInput from "@/src/components/inputs/EmailInput";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -89,9 +90,8 @@ const ScreenRegister = () => {
                         paddingBottom: insets.bottom + spacing.xx,
                     }
                 ]}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <AppIcon
                     height={68}
@@ -144,7 +144,7 @@ const ScreenRegister = () => {
                         value={nickname}
                     />
 
-                    <CustomTextInput
+                    <CustomEmailInput
                         icon={'greyEnvelopeFill'}
                         label={emailTexts.label}
                         placeholder={emailTexts.placeholder}
