@@ -1,20 +1,26 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text} from "react-native";
+import {StyleSheet, Text} from "react-native";
 import transactionsTexts from "@/src/constants/texts/domain/home/tabs/Transactions";
 import {fontFamily, fontStyles} from "@/src/themes/typography";
-import IconAndTextButton from "@/src/components/buttons/IconAndTextButton";
 import ActionHeader from "@/src/components/common/ActionHeader";
-import {fontSizes, spacing} from "@/src/themes/dimensions";
+import {spacing} from "@/src/themes/dimensions";
 import colors from "@/src/themes/colors";
-import {IconName} from "@/src/types/Icon";
 import CustomTextInput from "@/src/components/inputs/TextInput";
 import filterTexts from "@/src/constants/texts/inputs/Filter";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import BigTransactionCard from "@/src/components/home/transactions/BigTransactionCard";
-import HorizontalRule from "@/src/components/common/HorizontalRule";
+import ModalBottom from "@/src/components/modals/ModalBottom";
+import addTransactionsTexts from "@/src/constants/texts/inputs/Transaction";
 
 const ScreenTransactions = () => {
     const [searchTransaction, setSearchTransaction] = useState('');
+    const [addTransactionModalVisible, setAddTransactionModalVisible] = useState(false);
+    const [filterModalVisible, setFilterModalVisible] = useState(false);
+
+    const [newTransactionTitle, setNewTransactionTitle] = useState('');
+    const [newTransactionAmount, setNewTransactionAmount] = useState('');
+    const [newTransactionCategory, setNewTransactionCategory] = useState('');
+    const [newTransactionDate, setNewTransactionDate] = useState('');
 
     return (
         <KeyboardAwareScrollView
@@ -23,8 +29,35 @@ const ScreenTransactions = () => {
             scrollEnabled={true}
             keyboardShouldPersistTaps="handled"
         >
+            <ModalBottom
+                visible={addTransactionModalVisible}
+                onRequestClose={() => setAddTransactionModalVisible(false)}
+            >
+                <Text style={styles.modalTitle}>{transactionsTexts.addTransaction}</Text>
+
+                <CustomTextInput
+                    placeholder={addTransactionsTexts.placeholderTitle}
+                    value={newTransactionTitle}
+                    setValue={setNewTransactionTitle} />
+
+                <CustomTextInput
+                    placeholder={addTransactionsTexts.placeholderAmount}
+                    value={newTransactionAmount}
+                    setValue={setNewTransactionAmount} />
+
+                <CustomTextInput
+                    placeholder={addTransactionsTexts.placeholderCategory}
+                    value={newTransactionCategory}
+                    setValue={setNewTransactionCategory} />
+
+                <CustomTextInput
+                    placeholder={addTransactionsTexts.placeholderDate}
+                    value={newTransactionDate}
+                    setValue={setNewTransactionDate} />
+            </ModalBottom>
+
             <ActionHeader
-                onPress={() => {}}
+                onPress={() => setAddTransactionModalVisible(true)}
                 buttonIcon={'whitePlusLg'}
                 buttonText={transactionsTexts.add}
             >
@@ -79,5 +112,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: fontFamily.medium,
         color: colors.grey,
+    },
+    modalTitle: {
+        ...fontStyles.semiBoldCallout,
     }
 })

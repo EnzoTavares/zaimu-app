@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Text, Alert} from 'react-native'
+import {View, StyleSheet, Text, Alert, Platform} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import {fontStyles} from "@/src/themes/typography";

@@ -26,7 +26,9 @@ export default function StartupPage() {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <View style={[
+            styles.container
+        ]}>
             <CustomActivityIndicator />
         </View>
     )
