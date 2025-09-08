@@ -8,8 +8,10 @@ const icons = {
     greyPencilSquare: require('../assets/icons/grey-pencil-square.svg'),
     greyArrowOutlined: require('../assets/icons/grey-arrow-outlined.svg'),
     greyCalendarOutlined: require('../assets/icons/grey-calendar-outlined.svg'),
-    greyHouse: require('../assets/icons/grey-house-outlined.svg'),
+    greyHouseOutlined: require('../assets/icons/grey-house-outlined.svg'),
     greyWalletOutlined: require('../assets/icons/grey-wallet-outlined.svg'),
+    greyHouseFill: require('../assets/icons/grey-house-fill.svg'),
+    greyWalletFill: require('../assets/icons/grey-wallet-fill.svg'),
 
     blackChevronLeft: require('../assets/icons/black-chevron-left.svg'),
     blackXLg: require('../assets/icons/black-x-lg.svg'),

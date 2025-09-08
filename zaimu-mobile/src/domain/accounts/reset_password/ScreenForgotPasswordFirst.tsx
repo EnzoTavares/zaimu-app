@@ -14,7 +14,6 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
-import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordFirst'>;
 

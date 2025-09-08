@@ -110,11 +110,13 @@ const ScreenLogin = () => {
                             value={passwordText}
                         />
 
-                        <TouchableOpacity onPress={handleNavigateToResetPassword}>
-                            <Text style={styles.forgotPassword}>
-                                {loginTexts.forgotPassword}
-                            </Text>
-                        </TouchableOpacity>
+                        <View style={styles.forgotPasswordContainer}>
+                            <TouchableOpacity onPress={handleNavigateToResetPassword}>
+                                <Text style={styles.forgotPassword}>
+                                    {loginTexts.forgotPassword}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
 
                         <ThinFilledButton
                             label={loginTexts.signIn}
@@ -166,6 +168,9 @@ const styles = StyleSheet.create({
         color: colors.darkGrey,
         textAlign: "right",
         marginVertical: spacing.md
+    },
+    forgotPasswordContainer: {
+        marginLeft: 'auto',
     },
     oAuthContainer: {
         display: "flex",

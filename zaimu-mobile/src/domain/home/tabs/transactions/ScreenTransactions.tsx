@@ -182,14 +182,13 @@ const ScreenTransactions = () => {
                     </View>
                 </View>
 
-                <TouchableOpacity onPress={handleClearNewTransactionForm}>
-                    <Text style={[
-                        styles.clearForm,
-                        {textDecorationLine: "underline"}
-                    ]}>
-                        {transactionsTexts.clearForm}
-                    </Text>
-                </TouchableOpacity>
+                <View style={styles.clearButtonRow}>
+                    <TouchableOpacity onPress={handleClearNewTransactionForm}>
+                        <Text style={styles.clearFormText}>
+                            {transactionsTexts.clearForm}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
                 <ThickFilledButton
                     label={transactionsInputTexts.labelConfirmButton}
@@ -242,14 +241,13 @@ const ScreenTransactions = () => {
                     </View>
                 </View>
 
-                <TouchableOpacity onPress={handleClearFilterForm} >
-                    <Text style={[
-                        styles.clearForm,
-                        {textDecorationLine: "underline"}
-                    ]}>
-                        {transactionsTexts.clearForm}
-                    </Text>
-                </TouchableOpacity>
+                <View style={styles.clearButtonRow}>
+                    <TouchableOpacity onPress={handleClearFilterForm}>
+                        <Text style={styles.clearFormText}>
+                            {transactionsTexts.clearForm}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
                 <ThickFilledButton
                     label={transactionsInputTexts.labelFilterButton}
@@ -294,10 +292,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: spacing.lg,
     },
-    clearForm: {
+    clearButtonRow: {
+        flexDirection: 'row'
+    },
+    clearFormText: {
         fontFamily: fontFamily.regular,
         fontSize: 16,
         color: colors.darkGreen,
-        textAlign: "right",
+        textDecorationLine: "underline",
     },
 })

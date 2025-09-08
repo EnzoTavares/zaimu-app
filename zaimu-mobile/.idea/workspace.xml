@@ -4,21 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Adding more functionalities">
+    <list default="true" id="969431d5-3125-4a3a-819e-4f504eb68c8d" name="Changes" comment="Improving error handling">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/inputs/DecimalInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inputs/DecimalInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/ScreenConfirmEmail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/confirm_email/service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/icons/grey-wallet-filled.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/icons/grey-wallet-fill.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/bar/TabBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/bar/TabBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/icons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/icons.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/ScreenLogin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/login/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/login/service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/ScreenRegister.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/register/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/register/service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordFirst.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/ScreenForgotPasswordSecond.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/accounts/reset_password/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/accounts/reset_password/service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/home/tabs/transactions/ScreenTransactions.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/HttpResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/HttpResponse.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +159,7 @@
       <workItem from="1756998279455" duration="2619000" />
       <workItem from="1757332845143" duration="4604000" />
       <workItem from="1757342790228" duration="6769000" />
-      <workItem from="1757351714990" duration="4046000" />
+      <workItem from="1757351714990" duration="7127000" />
     </task>
     <task id="LOCAL-00001" summary="Starting auth screens">
       <option name="closed" value="true" />
@@ -301,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757110723109</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Improving error handling">
+      <option name="closed" value="true" />
+      <created>1757356318954</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1757356318954</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,6 +324,7 @@
     <MESSAGE value="improving tab bar navigation" />
     <MESSAGE value="Adding functionalities" />
     <MESSAGE value="Adding more functionalities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding more functionalities" />
+    <MESSAGE value="Improving error handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improving error handling" />
   </component>
 </project>
