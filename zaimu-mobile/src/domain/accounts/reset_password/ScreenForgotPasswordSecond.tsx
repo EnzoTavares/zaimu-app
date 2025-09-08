@@ -17,6 +17,7 @@ import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 
 type Props = NativeStackScreenProps<ParamList, 'ForgotPasswordSecond'>;
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordSecond'>;
@@ -35,6 +36,12 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
 
         try {
             const response = await resetPassword(credential, code, newPasswordText);
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao redefinir a senha", response.message);
+                return;
+            }
+
             navigation.popToTop();
         } catch (error) {
             console.error("MENSAGEM!:", error);
@@ -49,8 +56,13 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
 
         try {
             const response = await resendCode(credential);
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao reenviar o código", response.message);
+                return;
+            }
         } catch (error) {
-            console.error("MENSAGEM!:", error);
+            console.error("Falha ao reenviar o código: ", error);
             Alert.alert("Login Failed", "Please try again later");
         } finally {
             setIsLoading(false);
@@ -73,7 +85,6 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.scrollContainer}
                 keyboardShouldPersistTaps="handled"
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <IconBadge
                     icon={"darkGreenShieldFill"}

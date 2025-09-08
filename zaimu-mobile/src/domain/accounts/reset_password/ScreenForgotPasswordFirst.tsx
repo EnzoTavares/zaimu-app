@@ -14,6 +14,7 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordFirst'>;
 
@@ -32,7 +33,7 @@ const ScreenForgotPasswordFirst = () => {
 
             navigation.navigate('ForgotPasswordSecond', {credential: credential} );
         } catch (error) {
-            console.error("MENSAGEM!:", error);
+            console.error("Erro ao redefinir a senha: ", error);
             Alert.alert("Login Failed", "Please try again later");
         } finally {
             setIsLoading(false);
@@ -55,7 +56,6 @@ const ScreenForgotPasswordFirst = () => {
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.scrollContainer}
                 keyboardShouldPersistTaps="handled"
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <IconBadge
                     icon={"darkGreenShieldFill"}

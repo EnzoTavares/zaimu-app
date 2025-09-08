@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Alert, Platform} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Alert} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
@@ -15,6 +15,8 @@ import {useNavigation} from "@react-navigation/native";
 import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import {router} from "expo-router";
 
 type Props = NativeStackScreenProps<ParamList, 'ConfirmEmail'>;
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ConfirmEmail'>;
@@ -32,6 +34,13 @@ const ScreenConfirmEmail = ({ route }: Props) => {
 
         try {
             const response = await confirmEmail(confirmEmailParameters, code);
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao confirmar email", response.message);
+                return;
+            }
+
+            router.replace('/main_page')
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");
@@ -45,6 +54,10 @@ const ScreenConfirmEmail = ({ route }: Props) => {
 
         try {
             const response = await resendCode(confirmEmailParameters.nickname);
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao reenviar o código", response.message);
+            }
         } catch (error) {
             console.error("Registration error:", error);
             Alert.alert("Registration Failed", "Please try again later");
@@ -53,11 +66,17 @@ const ScreenConfirmEmail = ({ route }: Props) => {
         }
     }
 
-    function handleNavigateBack () {
+    async function handleNavigateBack () {
         setIsLoading(true);
 
         try {
-            const response = deleteRequestUser(confirmEmailParameters.nickname, confirmEmailParameters.uuid);
+            const response = await deleteRequestUser(confirmEmailParameters.nickname, confirmEmailParameters.uuid);
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao voltar", response.message);
+                return;
+            }
+
             navigation.goBack();
         } catch (error) {
             console.error("Registration error:", error);
@@ -79,7 +98,6 @@ const ScreenConfirmEmail = ({ route }: Props) => {
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.scrollContainer}
                 keyboardShouldPersistTaps="handled"
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <IconBadge
                     icon={"darkGreenMailFill"}

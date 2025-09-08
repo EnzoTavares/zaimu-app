@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {View, StyleSheet, Text, TouchableOpacity, Alert, Platform} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity, Alert} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import loginTexts from '@/src/constants/texts/domain/accounts/Login'
@@ -15,7 +15,7 @@ import ThinFilledButton from "@/src/components/buttons/ThinFilledButton";
 import OrHorizontalRule from "@/src/components/common/OrHorizontalRule";
 import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
-import { loginUser } from './service';
+import * as loginService from "./service";
 import {useNavigation} from '@react-navigation/native';
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -23,6 +23,8 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {AuthContext} from "@/src/domain/accounts/AuthStack";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import CustomEmailInput from "@/src/components/inputs/EmailInput";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import {router} from "expo-router";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
@@ -40,10 +42,16 @@ const ScreenLogin = () => {
          setIsLoading(true);
 
          try {
-             const response = await loginUser(credential, passwordText);
-             signIn();
+             const response = await loginService.loginUser(credential, passwordText);
+
+             if (response.status === HttpStatusEnum.FAIL) {
+                 Alert.alert("Falha no login", response.message);
+                 return;
+             }
+
+             router.replace('/main_page')
          } catch (error) {
-             console.error("Login error:", error);
+             console.error("Login error: ", error);
              Alert.alert("Login Failed", "Please try again later");
          } finally {
              setIsLoading(false);
@@ -63,7 +71,6 @@ const ScreenLogin = () => {
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.container}
                 keyboardShouldPersistTaps="handled"
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <AppIcon
                     height={68}

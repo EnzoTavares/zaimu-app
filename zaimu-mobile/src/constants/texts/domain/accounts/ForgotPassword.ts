@@ -3,7 +3,7 @@ const forgotPasswordTexts = {
     user: 'Digite seu usuário ou email para envio do código de confirmação',
     send: 'Enviar',
     check: 'Verifique seu email',
-    sentCode: 'Digite o código de 6 dígitos enviado para ',
+    sentCode: 'Digite o código de 6 dígitos enviado para o seu email',
     resendCodeIn: 'Reenviar código em ',
     resendCode: 'Reenviar código',
     changeEmailOrNickname: 'Alterar Email/Usuário',

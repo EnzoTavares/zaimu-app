@@ -43,8 +43,7 @@ const CustomDecimalInput = (props: CustomDecimalInputProps) => {
                     placeholderTextColor={colors.greyMiddle}
                     onChangeText={(newText: string) => props.setValue(newText)}
                     defaultValue={props.value}
-                    style={[styles.input, props.isPassword && styles.passwordInput]}
-                    secureTextEntry={props.isPassword && !isPasswordVisible}
+                    style={styles.input}
                     inputMode={'decimal'}
                 />
             </TouchableOpacity>

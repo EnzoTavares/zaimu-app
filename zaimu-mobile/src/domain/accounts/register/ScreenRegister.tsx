@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Text, Alert, Platform} from 'react-native'
+import {View, StyleSheet, Text, Alert} from 'react-native'
 import AppIcon from '@/src/components/branding/AppIcon'
 import {spacing} from "@/src/themes/dimensions";
 import {fontStyles} from "@/src/themes/typography";
@@ -25,6 +25,7 @@ import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
 import CustomEmailInput from "@/src/components/inputs/EmailInput";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -58,8 +59,13 @@ const ScreenRegister = () => {
         try {
             const response = await registerUser(email, givenName, familyName, nickname, passwordText);
 
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha no registro", response.message);
+                return;
+            }
+
             const filledConfirmEmailParameters: ConfirmEmailParameters = {
-                uuid: response.data.object.uuid,
+                uuid: response.object.uuid,
                 email: email,
                 givenName: givenName,
                 familyName: familyName,
@@ -91,7 +97,6 @@ const ScreenRegister = () => {
                     }
                 ]}
                 keyboardShouldPersistTaps="handled"
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <AppIcon
                     height={68}

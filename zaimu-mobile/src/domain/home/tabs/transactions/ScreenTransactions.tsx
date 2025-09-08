@@ -25,11 +25,11 @@ const ScreenTransactions = () => {
     const [newTransactionDate, setNewTransactionDate] = useState('');
     const [newTransactionType, setNewTransactionType] = useState<'income' | 'expense'>('income');
 
-    const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
-    const [typeFilter, setTypeFilter] = useState<string | null>(null);
-    const [dateFilter, setDateFilter] = useState<string | null>(null);
-    const [minAmountFilter, setMinAmountFilter] = useState<string | null>(null);
-    const [maxAmountFilter, setMaxAmountFilter] = useState<string | null>(null);
+    const [categoryFilter, setCategoryFilter] = useState('');
+    const [typeFilter, setTypeFilter] = useState('');
+    const [dateFilter, setDateFilter] = useState('');
+    const [minAmountFilter, setMinAmountFilter] = useState('');
+    const [maxAmountFilter, setMaxAmountFilter] = useState('');
 
     function handleCloseAddTransactionModal() {
         setAddTransactionModalVisible(false);
@@ -66,7 +66,7 @@ const ScreenTransactions = () => {
                         setNewTransactionAmount('');
                         setNewTransactionCategory('');
                         setNewTransactionDate('');
-                        setNewTransactionType('');
+                        setNewTransactionType('income');
                     },
                 }
             ]
@@ -103,7 +103,6 @@ const ScreenTransactions = () => {
         <KeyboardAwareScrollView
             contentContainerStyle={styles.container}
             keyboardShouldPersistTaps="handled"
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <ActionHeader
                 onPress={() => setAddTransactionModalVisible(true)}
@@ -165,7 +164,7 @@ const ScreenTransactions = () => {
                     </View>
                 </View>
 
-                <View style={styles.amountAndCategoryContainer}>
+                <View style={styles.twoInputsContainer}>
                     <View style={{ flex: 1 }}>
                         <CustomTextInput
                             label={transactionsInputTexts.labelDate}
@@ -178,7 +177,7 @@ const ScreenTransactions = () => {
                             label={transactionsInputTexts.labelType}
                             placeholder={transactionsInputTexts.placeholderType}
                             value={newTransactionType}
-                            setValue={setNewTransactionType}
+                            setValue={(text) => setNewTransactionType(text as 'income' | 'expense')}
                         />
                     </View>
                 </View>
@@ -243,7 +242,7 @@ const ScreenTransactions = () => {
                     </View>
                 </View>
 
-                <TouchableOpacity onPress={handleClearFilterForm}>
+                <TouchableOpacity onPress={handleClearFilterForm} >
                     <Text style={[
                         styles.clearForm,
                         {textDecorationLine: "underline"}
