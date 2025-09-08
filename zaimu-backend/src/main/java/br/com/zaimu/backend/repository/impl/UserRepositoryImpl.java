@@ -65,7 +65,7 @@ public class UserRepositoryImpl implements UserRepository {
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (ZaimuGenericRepositoryException e) {
             logger.error("Error creating user: {}", user, e);
             return null;
         }

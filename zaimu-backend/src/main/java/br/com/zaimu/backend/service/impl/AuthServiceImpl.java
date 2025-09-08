@@ -260,7 +260,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         }
     }
 
-    public String resetPassword (String credential, String code, String newPassword) {
+    public void resetPassword (String credential, String code, String newPassword) {
         if ((code == null || code.isBlank()) && (newPassword == null || newPassword.isBlank())) {
             ForgotPasswordRequest forgotPasswordRequest = ForgotPasswordRequest.builder()
                     .clientId(clientId)
@@ -270,7 +270,6 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             try {
                 ForgotPasswordResponse response = cognitoClient.forgotPassword(forgotPasswordRequest);
                 logger.info("Code sent to user's email {}.", response.codeDeliveryDetails().destination());
-                return "Verifique seu e-mail para redefinir sua senha.";
             } catch (CodeDeliveryFailureException e) {
                 logger.info("Fail at send code to reset password: {}", e.getMessage());
                 throw new ZaimuCodeDeliveryFailureException("Falha ao enviar o código para redefinir a senha", e);
@@ -302,8 +301,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
             try {
                 cognitoClient.confirmForgotPassword(confirmForgotPasswordRequest);
-                logger.info("Senha redefinida!");
-                return "Senha redefinida!";
+                logger.info("Password reset confirmed!");
             } catch (CodeMismatchException e) {
                 logger.error("Invalid confirmation code for user {}: {}", credential, e.getMessage());
                 throw new ZaimuInvalidVerificationCodeException("Código de confirmação inválido", e);
