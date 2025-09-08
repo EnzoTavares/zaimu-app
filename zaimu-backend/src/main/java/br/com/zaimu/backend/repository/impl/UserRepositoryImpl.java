@@ -71,7 +71,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    public UserView getUserByNicknameOrEmail (String credential) {
+    public UserView getUserByNicknameOrEmail (String credential) throws ZaimuGenericRepositoryException {
         try (Session session = getSession()) {
             String query = """
                         SELECT *
@@ -91,13 +91,13 @@ public class UserRepositoryImpl implements UserRepository {
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (ZaimuGenericRepositoryException e) {
             logger.error("Error ao obter o id: {}", credential, e);
             return null;
         }
     }
 
-    public Long getIdByNicknameOrEmail (String credential) {
+    public Long getIdByNicknameOrEmail (String credential) throws ZaimuGenericRepositoryException {
         try (Session session = getSession()) {
             String query = """
                         SELECT ID_USER
@@ -117,7 +117,7 @@ public class UserRepositoryImpl implements UserRepository {
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (ZaimuGenericRepositoryException e) {
             logger.error("Error ao obter o id: {}", credential, e);
             return null;
         }

@@ -256,30 +256,12 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             throw new ZaimuAttemptLimitExceededException("Muitas solicitações. Tente novamente mais tarde.", e);
         } catch (Exception e) {
             logger.error("Error confirming user: {}", e.getMessage());
-            throw new RuntimeException("Failed to sign up user", e);
+            throw new RuntimeException("Erro ao confirmar usuário", e);
         }
     }
 
     public void resetPassword (String credential, String code, String newPassword) {
         if ((code == null || code.isBlank()) && (newPassword == null || newPassword.isBlank())) {
-            ListUsersRequest credentialRequest = credential.contains("@")
-                    ?
-                    ListUsersRequest.builder()
-                        .userPoolId(userPoolId)
-                        .filter("email = \"" + credential + "\"")
-                        .limit(1)
-                        .build()
-                    :
-                    ListUsersRequest.builder()
-                        .userPoolId(userPoolId)
-                        .filter("nickname = \"" + credential + "\"")
-                        .limit(1)
-                        .build();
-
-
-            if (cognitoClient.listUsers(credentialRequest).users().isEmpty())
-                throw new ZaimuInvalidCredentialsException(credential.contains("@") ? "Email não encontrado.": "Usuário não encontrado.");
-
             ForgotPasswordRequest forgotPasswordRequest = ForgotPasswordRequest.builder()
                     .clientId(clientId)
                     .username(credential)
@@ -334,7 +316,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                 throw new ZaimuAttemptLimitExceededException("Muitas solicitações. Tente novamente mais tarde.", e);
             } catch (Exception e) {
                 logger.error("Erro ao resetar a senha: {}", e.getMessage());
-                throw new RuntimeException("Failed to confirm password reset", e);
+                throw new RuntimeException("Falha ao redefinir a senha", e);
             }
         }
     }
@@ -356,7 +338,7 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             throw new ZaimuAttemptLimitExceededException("Muitas solicitações. Tente novamente mais tarde.", e);
         } catch (Exception e) {
             logger.error("Erro ao reenviar o código: {}", e.getMessage());
-            throw new RuntimeException("Failed to sign up user", e);
+            throw new RuntimeException("Falha ao reenviar o código", e);
         }
     }
 
