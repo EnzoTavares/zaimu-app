@@ -1,8 +1,6 @@
 package br.com.zaimu.backend.controller;
 
 import br.com.zaimu.backend.controller.enums.HttpStatusEnum;
-import br.com.zaimu.backend.model.entity.User;
-import br.com.zaimu.backend.model.exception.ValidationExceptionHandler;
 import br.com.zaimu.backend.model.to.ConfirmEmailParameters;
 import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
@@ -35,7 +33,7 @@ public class AuthController {
         try{
             response = authService.signUpUser(registerParameters);
             reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
+        } catch (Exception e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
         }
@@ -51,7 +49,7 @@ public class AuthController {
         try{
             response = authService.signInUser(loginParameters);
             reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
+        } catch (Exception e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
         }
@@ -68,7 +66,7 @@ public class AuthController {
         try{
             response = authService.confirmEmailAndSignIn(confirmEmailParameters, code);
             reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
+        } catch (Exception e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
         }
@@ -86,7 +84,7 @@ public class AuthController {
         try{
             response = authService.resetPassword(credential, code, newPassword);
             reponseStatus = HttpStatusEnum.success();
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
         }
@@ -103,7 +101,7 @@ public class AuthController {
             authService.resendSignUpCode(nickname);
             response = "Código reenviado.";
             reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
+        } catch (Exception e) {
             response = e.getMessage();
             reponseStatus = HttpStatusEnum.fail();
         }

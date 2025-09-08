@@ -1,6 +1,7 @@
 package br.com.zaimu.backend.repository.impl;
 
 import br.com.zaimu.backend.model.entity.User;
+import br.com.zaimu.backend.model.exception.ZaimuGenericRepositoryException;
 import br.com.zaimu.backend.model.to.UserView;
 import br.com.zaimu.backend.repository.hibernate.UserRepository;
 import org.hibernate.HibernateException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -35,7 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
         return currentSession;
     }
 
-    public Long create (User user) {
+    public Long create (User user) throws ZaimuGenericRepositoryException {
         try (Session session = getSession()) {
             String query = """
                         INSERT INTO zadm.user (
