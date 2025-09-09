@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, TextInput, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity} from 'react-native';
 import {Image} from "expo-image";
 import icons from "@/src/constants/icons";
@@ -7,7 +7,7 @@ import colors from "@/src/themes/colors";
 import {fontStyles} from "@/src/themes/typography";
 import {spacing} from "@/src/themes/dimensions";
 
-type EmailInputProps = {
+type PasswordInputProps = {
     label?: string;
     icon?: IconName,
     placeholder: string;
@@ -16,7 +16,9 @@ type EmailInputProps = {
     setValue: (text: string) => void;
 }
 
-const EmailInput = (props: EmailInputProps) => {
+const PasswordInput = (props: PasswordInputProps) => {
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
     const inputRef = useRef<TextInput>(null);
 
     return (
@@ -44,14 +46,23 @@ const EmailInput = (props: EmailInputProps) => {
                     onChangeText={(newText: string) => props.setValue(newText)}
                     defaultValue={props.value}
                     style={styles.input}
-                    inputMode={'email'}
+                    secureTextEntry={!isPasswordVisible}
                 />
+
+                <TouchableOpacity
+                    onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                    style={styles.eyeIconContainer}>
+                    {isPasswordVisible
+                        ? <Image source={icons.greyEyeFill} style={styles.icon} />
+                        : <Image source={icons.greyEyeSlashFill} style={styles.icon} />
+                    }
+                </TouchableOpacity>
             </TouchableOpacity>
         </View>
     );
 };
 
-export default EmailInput;
+export default PasswordInput;
 
 const styles = StyleSheet.create({
     container: {
@@ -62,7 +73,8 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        paddingHorizontal: spacing.md,
+        paddingLeft: spacing.md,
+        paddingRight: spacing.sm,
         borderRadius: 13,
         height: 55
     },
@@ -82,6 +94,9 @@ const styles = StyleSheet.create({
         color: colors.black,
         height: "100%",
         flex: 1,
-        paddingRight: spacing.xs,
+        paddingRight: spacing.sm
+    },
+    eyeIconContainer: {
+        marginLeft: spacing.mmd,
     }
 });

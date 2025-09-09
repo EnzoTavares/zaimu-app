@@ -12,7 +12,7 @@ import BigTransactionCard from "@/src/components/home/transactions/BigTransactio
 import ModalBottom from "@/src/components/modals/ModalBottom";
 import transactionsInputTexts from "@/src/constants/texts/inputs/Transaction";
 import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
-import CustomDecimalInput from "@/src/components/inputs/DecimalInput";
+import DecimalInput from "@/src/components/inputs/DecimalInput";
 
 const ScreenTransactions = () => {
     const [searchTransaction, setSearchTransaction] = useState('');
@@ -147,7 +147,7 @@ const ScreenTransactions = () => {
 
                 <View style={styles.twoInputsContainer}>
                     <View style={{ flex: 1 }}>
-                        <CustomDecimalInput
+                        <DecimalInput
                             label={transactionsInputTexts.labelAmount}
                             placeholder={transactionsInputTexts.placeholderAmount}
                             value={newTransactionAmount}
@@ -224,7 +224,7 @@ const ScreenTransactions = () => {
 
                 <View style={styles.twoInputsContainer}>
                     <View style={{ flex: 1 }}>
-                        <CustomDecimalInput
+                        <DecimalInput
                             label={transactionsInputTexts.labelMinAmount}
                             placeholder={transactionsInputTexts.placeholderMinAmount}
                             value={minAmountFilter}
@@ -232,7 +232,7 @@ const ScreenTransactions = () => {
                         />
                     </View>
                     <View style={{ flex: 1 }}>
-                        <CustomDecimalInput
+                        <DecimalInput
                             label={transactionsInputTexts.labelMaxAmount}
                             placeholder={transactionsInputTexts.placeholderMaxAmount}
                             value={maxAmountFilter}

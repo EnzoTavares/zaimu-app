@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Alert, Platform} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Alert} from "react-native";
 import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
 import forgotPasswordTexts from "@/src/constants/texts/domain/accounts/ForgotPassword";
-import CustomTextInput from "@/src/components/inputs/TextInput";
 import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
 import password from "@/src/constants/texts/inputs/Password";
 import CustomOtpInput from "@/src/components/inputs/OtpInput";
@@ -18,6 +17,7 @@ import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import PasswordInput from "@/src/components/inputs/PasswordInput";
 
 type Props = NativeStackScreenProps<ParamList, 'ForgotPasswordSecond'>;
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordSecond'>;
@@ -121,11 +121,10 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
                     </View>
                 </View>
 
-                <CustomTextInput
+                <PasswordInput
                     icon={"greyLockFill"}
                     placeholder={password.placeholder}
                     label={password.labelNew}
-                    isPassword={true}
                     setValue={setNewPasswordText}
                     value={newPasswordText}
                 />

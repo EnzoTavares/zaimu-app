@@ -22,9 +22,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {AuthContext} from "@/src/domain/accounts/AuthStack";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
-import CustomEmailInput from "@/src/components/inputs/EmailInput";
+import EmailInput from "@/src/components/inputs/EmailInput";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 import {router} from "expo-router";
+import CustomPasswordInput from "@/src/components/inputs/PasswordInput";
+import PasswordInput from "@/src/components/inputs/PasswordInput";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
@@ -94,7 +96,7 @@ const ScreenLogin = () => {
                 </Text>
 
                 <Card shadowed={true} style={{gap: spacing.xx, width: '88%'}}>
-                    <CustomEmailInput
+                    <EmailInput
                         icon={'greyPersonFill'}
                         placeholder={emailOrNicknameTexts.placeholder}
                         setValue={setCredential}
@@ -102,10 +104,9 @@ const ScreenLogin = () => {
                     />
 
                     <View>
-                        <CustomTextInput
+                        <PasswordInput
                             icon={'greyLockFill'}
                             placeholder={password.placeholder}
-                            isPassword={true}
                             setValue={setPasswordText}
                             value={passwordText}
                         />

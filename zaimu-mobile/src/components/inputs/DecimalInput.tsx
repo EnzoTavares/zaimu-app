@@ -7,7 +7,7 @@ import colors from "@/src/themes/colors";
 import {fontStyles} from "@/src/themes/typography";
 import {spacing} from "@/src/themes/dimensions";
 
-type CustomDecimalInputProps = {
+type DecimalInputProps = {
     label?: string;
     icon?: IconName,
     placeholder: string;
@@ -16,7 +16,7 @@ type CustomDecimalInputProps = {
     setValue: (text: string) => void;
 }
 
-const CustomDecimalInput = (props: CustomDecimalInputProps) => {
+const DecimalInput = (props: DecimalInputProps) => {
     const inputRef = useRef<TextInput>(null);
 
     return (
@@ -51,7 +51,7 @@ const CustomDecimalInput = (props: CustomDecimalInputProps) => {
     );
 };
 
-export default CustomDecimalInput;
+export default DecimalInput;
 
 const styles = StyleSheet.create({
     container: {

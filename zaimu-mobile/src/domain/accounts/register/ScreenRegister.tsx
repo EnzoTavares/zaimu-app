@@ -24,8 +24,9 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
-import CustomEmailInput from "@/src/components/inputs/EmailInput";
+import EmailInput from "@/src/components/inputs/EmailInput";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import PasswordInput from "@/src/components/inputs/PasswordInput";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -149,7 +150,7 @@ const ScreenRegister = () => {
                         value={nickname}
                     />
 
-                    <CustomEmailInput
+                    <EmailInput
                         icon={'greyEnvelopeFill'}
                         label={emailTexts.label}
                         placeholder={emailTexts.placeholder}
@@ -157,20 +158,18 @@ const ScreenRegister = () => {
                         value={email}
                     />
 
-                    <CustomTextInput
+                    <PasswordInput
                         icon={'greyLockFill'}
                         label={password.label}
                         placeholder={password.placeholder}
-                        isPassword={true}
                         setValue={setPasswordText}
                         value={passwordText}
                     />
 
-                    <CustomTextInput
+                    <PasswordInput
                         icon={'greyLockFill'}
                         label={password.labelConfirm}
                         placeholder={password.placeholder}
-                        isPassword={true}
                         setValue={setConfirmPassword}
                         value={confirmPassword}
                     />
