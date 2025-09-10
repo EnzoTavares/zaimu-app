@@ -8,7 +8,6 @@ import {fontStyles} from "@/src/themes/typography";
 import HorizontalRule from "@/src/components/common/HorizontalRule";
 import colors from "@/src/themes/colors";
 import Card from "@/src/components/cards/Card";
-import CustomTextInput from "@/src/components/inputs/TextInput";
 import emailOrNicknameTexts from "@/src/constants/texts/inputs/EmailOrNickname";
 import password from "@/src/constants/texts/inputs/Password";
 import ThinFilledButton from "@/src/components/buttons/ThinFilledButton";
@@ -25,8 +24,8 @@ import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import EmailInput from "@/src/components/inputs/EmailInput";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 import {router} from "expo-router";
-import CustomPasswordInput from "@/src/components/inputs/PasswordInput";
 import PasswordInput from "@/src/components/inputs/PasswordInput";
+import {storeTokens} from "@/src/lib/token/token";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
@@ -50,6 +49,14 @@ const ScreenLogin = () => {
                  Alert.alert("Falha no login", response.message);
                  return;
              }
+
+             await storeTokens(
+                 {
+                     idToken: response.object.idToken,
+                     accessToken: response.object.accessToken,
+                     refreshToken: response.object.refreshToken,
+                 }
+             );
 
              router.replace('/main_page')
          } catch (error) {

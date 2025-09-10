@@ -28,6 +28,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminUpdateUserAttributesRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.CodeDeliveryFailureException;
@@ -228,6 +229,19 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                             confirmEmailParameters.getNickname()
                     )
             );
+
+            AdminUpdateUserAttributesRequest updateRequest = AdminUpdateUserAttributesRequest.builder()
+                    .userPoolId(userPoolId)
+                    .username(confirmEmailParameters.getNickname())
+                    .userAttributes(
+                            AttributeType.builder()
+                                    .name("custom:userId")
+                                    .value(userId.toString())
+                                    .build()
+                    )
+                    .build();
+
+            cognitoClient.adminUpdateUserAttributes(updateRequest);
 
             return new LoginResponseView(
                     response.authenticationResult().idToken(),

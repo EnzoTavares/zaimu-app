@@ -17,6 +17,7 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 import {router} from "expo-router";
+import {storeTokens} from "@/src/lib/token/token";
 
 type Props = NativeStackScreenProps<ParamList, 'ConfirmEmail'>;
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ConfirmEmail'>;
@@ -39,6 +40,14 @@ const ScreenConfirmEmail = ({ route }: Props) => {
                 Alert.alert("Falha ao confirmar email", response.message);
                 return;
             }
+
+            await storeTokens(
+                {
+                    idToken: response.object.idToken,
+                    accessToken: response.object.accessToken,
+                    refreshToken: response.object.refreshToken,
+                }
+            );
 
             router.replace('/main_page')
         } catch (error) {
