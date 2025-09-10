@@ -7,4 +7,8 @@ public class ZaimuExecutionException extends RuntimeException {
     public ZaimuExecutionException(String message) {
         super(message);
     }
+
+    public ZaimuExecutionException(String message, Exception e) {
+        super(message);
+    }
 }

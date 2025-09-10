@@ -2,29 +2,23 @@ package br.com.zaimu.backend.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table( name = "USER_TRANSACTION", schema = "ZADM" )
 @Getter
 @Setter
 @NoArgsConstructor
-public class TransactionUser implements Serializable {
+public class Transaction implements Serializable {
 
     private static final long serialVersionUID = -1280191071226152445L;
 

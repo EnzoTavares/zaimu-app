@@ -1,10 +1,12 @@
 package br.com.zaimu.backend.service;
 
-import br.com.zaimu.backend.model.entity.TransactionUser;
+import br.com.zaimu.backend.model.entity.Transaction;
+
+import java.util.List;
 
 public interface TransactionService {
 
-    void getUserTransactions();
+    List<Transaction> getUserTransactions();
 
-    Long createTransaction(TransactionUser transactionUser);
+    Long createTransaction(Transaction transaction);
 }
