@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {View, TextInput, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity} from 'react-native';
 import {Image} from "expo-image";
 import icons from "@/src/constants/icons";
@@ -11,15 +11,12 @@ type CustomTextInputProps = {
     label?: string;
     icon?: IconName,
     placeholder: string;
-    isPassword?: boolean;
     style?: StyleProp<ViewStyle>;
     value: string;
     setValue: (text: string) => void;
 }
 
 const CustomTextInput = (props: CustomTextInputProps) => {
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
     const inputRef = useRef<TextInput>(null);
 
     return (
@@ -46,19 +43,8 @@ const CustomTextInput = (props: CustomTextInputProps) => {
                     placeholderTextColor={colors.greyMiddle}
                     onChangeText={(newText: string) => props.setValue(newText)}
                     defaultValue={props.value}
-                    style={[styles.input, props.isPassword && styles.passwordInput]}
-                    secureTextEntry={props.isPassword && !isPasswordVisible}
+                    style={styles.input}
                 />
-                {props.isPassword && (
-                    <TouchableOpacity
-                        onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                        style={styles.eyeIconContainer}>
-                        {isPasswordVisible
-                            ? <Image source={icons.greyEyeFill} style={styles.icon} />
-                            : <Image source={icons.greyEyeSlashFill} style={styles.icon} />
-                        }
-                    </TouchableOpacity>
-                )}
             </TouchableOpacity>
         </View>
     );
@@ -96,12 +82,5 @@ const styles = StyleSheet.create({
         height: "100%",
         flex: 1,
         paddingRight: spacing.xs,
-    },
-    passwordInput: {
-        flex: 1,
-        paddingRight: spacing.xs,
-    },
-    eyeIconContainer: {
-        marginLeft: spacing.mmd,
     }
 });

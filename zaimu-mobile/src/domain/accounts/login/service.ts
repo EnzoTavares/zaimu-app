@@ -1,7 +1,6 @@
 import api from "@/src/lib/api/axios";
 import axios from "axios";
 import {HttpResponse} from "@/src/types/HttpResponse";
-import {router} from "expo-router";
 
 interface AuthResponse {
     userToken: string;
@@ -17,13 +16,7 @@ interface AuthResponse {
     };
 }
 
-interface LoginResult {
-    success: boolean;
-    data?: AuthResponse;
-    message?: string;
-}
-
-export const loginUser = async (credential: string, password: string): Promise<LoginResult> => {
+export async function loginUser (credential: string, password: string): Promise<HttpResponse> {
     const loginData = credential.includes('@')
         ? { email: credential, password: password }
         : { nickname: credential, password: password };
@@ -31,14 +24,9 @@ export const loginUser = async (credential: string, password: string): Promise<L
     try {
         const response = await api.post<HttpResponse>(`/auth/login`, loginData);
 
-        const httpResponse = response.data;
-
-        router.replace('/main_page')
-
-        return {
-            success: true,
-            data: httpResponse.object as AuthResponse,
-        };
+        return response.data.object
+            ? { status: response.data.status, object: response.data.object as AuthResponse }
+            : { status: response.data.status, message: response.data.message };
 
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -48,15 +36,32 @@ export const loginUser = async (credential: string, password: string): Promise<L
                 const apiErrorMessage = errorResponse.message || 'Ocorreu um erro ao tentar fazer login.';
                 console.error('Erro da API:', errorResponse);
 
-                return { success: false, message: apiErrorMessage };
+                return {
+                    status: 1,
+                    message: apiErrorMessage
+                };
             }
 
             else if (axios.isAxiosError(error) && error.request) {
                 console.error('Erro de rede:', error.request);
-                return { success: false, message: 'Não foi possível se conectar ao servidor. Verifique sua internet.' };
+                return {
+                    status: 1,
+                    message: 'Não foi possível se conectar ao servidor. Verifique sua internet.'
+                };
             }
         }
         console.error('Erro inesperado:', error);
-        return { success: false, message: 'Ocorreu um erro inesperado.' };
+        return {
+            status: 1,
+            message: 'Ocorreu um erro inesperado.'
+        };
     }
-};
+}
+
+export function validateEmail(email: string) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+
+export function validateNickname(nickname: string) { return !nickname.includes('@'); }
+
+export function validatePassword(password: string) {
+    return /^(?!^ |.* $)(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\^\$\*\.\[\]\{\}\(\)\?\-!"@#%&/\\,><':;|_~`+=]).{8,}$/.test(password);
+}

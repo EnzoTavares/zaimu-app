@@ -8,20 +8,24 @@ import {fontStyles} from "@/src/themes/typography";
 import HorizontalRule from "@/src/components/common/HorizontalRule";
 import colors from "@/src/themes/colors";
 import Card from "@/src/components/cards/Card";
-import CustomTextInput from "@/src/components/inputs/TextInput";
 import emailOrNicknameTexts from "@/src/constants/texts/inputs/EmailOrNickname";
 import password from "@/src/constants/texts/inputs/Password";
 import ThinFilledButton from "@/src/components/buttons/ThinFilledButton";
 import OrHorizontalRule from "@/src/components/common/OrHorizontalRule";
 import ThinOutlinedButton from "@/src/components/buttons/ThinOutlinedButton";
 import OAuthButton from "@/src/components/buttons/OAuth";
-import { loginUser } from './service';
+import * as loginService from "./service";
 import {useNavigation} from '@react-navigation/native';
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {AuthContext} from "@/src/domain/accounts/AuthStack";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import EmailInput from "@/src/components/inputs/EmailInput";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import {router} from "expo-router";
+import PasswordInput from "@/src/components/inputs/PasswordInput";
+import {storeTokens} from "@/src/lib/token/token";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Login'>;
 
@@ -39,10 +43,24 @@ const ScreenLogin = () => {
          setIsLoading(true);
 
          try {
-             const response = await loginUser(credential, passwordText);
-             signIn();
+             const response = await loginService.loginUser(credential, passwordText);
+
+             if (response.status === HttpStatusEnum.FAIL) {
+                 Alert.alert("Falha no login", response.message);
+                 return;
+             }
+
+             await storeTokens(
+                 {
+                     idToken: response.object.idToken,
+                     accessToken: response.object.accessToken,
+                     refreshToken: response.object.refreshToken,
+                 }
+             );
+
+             router.replace('/main_page')
          } catch (error) {
-             console.error("Login error:", error);
+             console.error("Login error: ", error);
              Alert.alert("Login Failed", "Please try again later");
          } finally {
              setIsLoading(false);
@@ -61,8 +79,6 @@ const ScreenLogin = () => {
         <View style={{flex: 1}}>
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.container}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
             >
                 <AppIcon
@@ -87,7 +103,7 @@ const ScreenLogin = () => {
                 </Text>
 
                 <Card shadowed={true} style={{gap: spacing.xx, width: '88%'}}>
-                    <CustomTextInput
+                    <EmailInput
                         icon={'greyPersonFill'}
                         placeholder={emailOrNicknameTexts.placeholder}
                         setValue={setCredential}
@@ -95,19 +111,20 @@ const ScreenLogin = () => {
                     />
 
                     <View>
-                        <CustomTextInput
+                        <PasswordInput
                             icon={'greyLockFill'}
                             placeholder={password.placeholder}
-                            isPassword={true}
                             setValue={setPasswordText}
                             value={passwordText}
                         />
 
-                        <TouchableOpacity onPress={handleNavigateToResetPassword}>
-                            <Text style={styles.forgotPassword}>
-                                {loginTexts.forgotPassword}
-                            </Text>
-                        </TouchableOpacity>
+                        <View style={styles.forgotPasswordContainer}>
+                            <TouchableOpacity onPress={handleNavigateToResetPassword}>
+                                <Text style={styles.forgotPassword}>
+                                    {loginTexts.forgotPassword}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
 
                         <ThinFilledButton
                             label={loginTexts.signIn}
@@ -159,6 +176,9 @@ const styles = StyleSheet.create({
         color: colors.darkGrey,
         textAlign: "right",
         marginVertical: spacing.md
+    },
+    forgotPasswordContainer: {
+        marginLeft: 'auto',
     },
     oAuthContainer: {
         display: "flex",

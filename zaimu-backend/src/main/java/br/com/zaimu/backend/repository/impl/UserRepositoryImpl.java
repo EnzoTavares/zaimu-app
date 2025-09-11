@@ -1,6 +1,7 @@
 package br.com.zaimu.backend.repository.impl;
 
 import br.com.zaimu.backend.model.entity.User;
+import br.com.zaimu.backend.model.exception.ZaimuGenericRepositoryException;
 import br.com.zaimu.backend.model.to.UserView;
 import br.com.zaimu.backend.repository.hibernate.UserRepository;
 import org.hibernate.HibernateException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -35,13 +37,13 @@ public class UserRepositoryImpl implements UserRepository {
         return currentSession;
     }
 
-    public Long create (User user) {
+    public Long create (User user) throws ZaimuGenericRepositoryException {
         try (Session session = getSession()) {
             String query = """
                         INSERT INTO zadm.user (
-                            ID_USER, CD_COGNITO_SUB, DS_EMAIL, NM_GIVEN_NAME, NM_FAMILY_NAME, CD_NICKNAME, DT_CREATED, FL_STATUS
+                            CD_COGNITO_SUB, DS_EMAIL, NM_GIVEN_NAME, NM_FAMILY_NAME, CD_NICKNAME, DT_CREATED, FL_STATUS
                         ) VALUES (
-                            nextval('zadm.sq_user_id'), ?, ?, ?, ?, ?, ?, 'A'
+                            ?, ?, ?, ?, ?, ?, 'A'
                         ) RETURNING ID_USER;
                     """;
 
@@ -63,13 +65,13 @@ public class UserRepositoryImpl implements UserRepository {
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (ZaimuGenericRepositoryException e) {
             logger.error("Error creating user: {}", user, e);
             return null;
         }
     }
 
-    public UserView getUserByNicknameOrEmail (String credential) {
+    public UserView getUserByNicknameOrEmail (String credential) throws ZaimuGenericRepositoryException {
         try (Session session = getSession()) {
             String query = """
                         SELECT *
@@ -89,13 +91,13 @@ public class UserRepositoryImpl implements UserRepository {
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (ZaimuGenericRepositoryException e) {
             logger.error("Error ao obter o id: {}", credential, e);
             return null;
         }
     }
 
-    public Long getIdByNicknameOrEmail (String credential) {
+    public Long getIdByNicknameOrEmail (String credential) throws ZaimuGenericRepositoryException {
         try (Session session = getSession()) {
             String query = """
                         SELECT ID_USER
@@ -115,7 +117,7 @@ public class UserRepositoryImpl implements UserRepository {
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (ZaimuGenericRepositoryException e) {
             logger.error("Error ao obter o id: {}", credential, e);
             return null;
         }

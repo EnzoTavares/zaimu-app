@@ -24,6 +24,9 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
+import EmailInput from "@/src/components/inputs/EmailInput";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import PasswordInput from "@/src/components/inputs/PasswordInput";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -57,8 +60,13 @@ const ScreenRegister = () => {
         try {
             const response = await registerUser(email, givenName, familyName, nickname, passwordText);
 
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha no registro", response.message);
+                return;
+            }
+
             const filledConfirmEmailParameters: ConfirmEmailParameters = {
-                uuid: response.data.object.uuid,
+                uuid: response.object.uuid,
                 email: email,
                 givenName: givenName,
                 familyName: familyName,
@@ -89,8 +97,6 @@ const ScreenRegister = () => {
                         paddingBottom: insets.bottom + spacing.xx,
                     }
                 ]}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
             >
                 <AppIcon
@@ -144,7 +150,7 @@ const ScreenRegister = () => {
                         value={nickname}
                     />
 
-                    <CustomTextInput
+                    <EmailInput
                         icon={'greyEnvelopeFill'}
                         label={emailTexts.label}
                         placeholder={emailTexts.placeholder}
@@ -152,20 +158,18 @@ const ScreenRegister = () => {
                         value={email}
                     />
 
-                    <CustomTextInput
+                    <PasswordInput
                         icon={'greyLockFill'}
                         label={password.label}
                         placeholder={password.placeholder}
-                        isPassword={true}
                         setValue={setPasswordText}
                         value={passwordText}
                     />
 
-                    <CustomTextInput
+                    <PasswordInput
                         icon={'greyLockFill'}
                         label={password.labelConfirm}
                         placeholder={password.placeholder}
-                        isPassword={true}
                         setValue={setConfirmPassword}
                         value={confirmPassword}
                     />

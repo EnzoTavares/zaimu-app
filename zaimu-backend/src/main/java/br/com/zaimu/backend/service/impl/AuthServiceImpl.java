@@ -1,6 +1,11 @@
 package br.com.zaimu.backend.service.impl;
 
 import br.com.zaimu.backend.model.entity.User;
+import br.com.zaimu.backend.model.exception.ZaimuAttemptLimitExceededException;
+import br.com.zaimu.backend.model.exception.ZaimuCodeDeliveryFailureException;
+import br.com.zaimu.backend.model.exception.ZaimuInvalidCredentialsException;
+import br.com.zaimu.backend.model.exception.ZaimuInvalidVerificationCodeException;
+import br.com.zaimu.backend.model.exception.ZaimuUserAlreadyExistsException;
 import br.com.zaimu.backend.model.security.LoginResponseView;
 import br.com.zaimu.backend.model.security.RequestUser;
 import br.com.zaimu.backend.model.to.ConfirmEmailParameters;
@@ -23,23 +28,32 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminInitiateAuthResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminUpdateUserAttributesRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthFlowType;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.AuthenticationResultType;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.CodeDeliveryFailureException;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.CodeMismatchException;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ExpiredCodeException;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ForgotPasswordResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.InitiateAuthResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.LimitExceededException;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ListUsersRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.NotAuthorizedException;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.ResendConfirmationCodeResponse;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpResponse;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.TooManyFailedAttemptsException;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.UserNotFoundException;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.UsernameExistsException;
 import software.amazon.awssdk.services.lambda.LambdaClient;
 import software.amazon.awssdk.services.lambda.model.InvokeRequest;
 import software.amazon.awssdk.services.lambda.model.InvokeResponse;
+import software.amazon.awssdk.services.lambda.model.TooManyRequestsException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +102,15 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         userAttributes.put("family_name", registerParameters.getFamilyName());
         userAttributes.put("nickname", registerParameters.getNickname());
 
+        ListUsersRequest emailRequest = ListUsersRequest.builder()
+                .userPoolId(userPoolId)
+                .filter("email = \"" + registerParameters.getEmail() + "\"")
+                .limit(1)
+                .build();
+
+        if (!cognitoClient.listUsers(emailRequest).users().isEmpty())
+            throw new ZaimuUserAlreadyExistsException("Email já cadastrado.");
+
         List<AttributeType> attributes = userAttributes.entrySet().stream()
                 .map(entry -> AttributeType.builder()
                         .name(entry.getKey())
@@ -114,8 +137,14 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                     registerParameters.getNickname()
             );
         } catch (UsernameExistsException uee) {
-            logger.error("Erro ao registrar usuário: {}", uee.getMessage());
-            throw new RuntimeException("Usuário já cadastrado", uee);
+            logger.error("Fail at register user: {}", uee.getMessage());
+            throw new ZaimuUserAlreadyExistsException("Usuário já cadastrado", uee);
+        } catch (CodeDeliveryFailureException e) {
+            logger.info("Fail at send code to confirm email: {}", e.getMessage());
+            throw new ZaimuCodeDeliveryFailureException("Falha ao enviar o código para confirmação de email", e);
+        } catch (Exception e) {
+            logger.error("Fail at register user: {}", e.getMessage());
+            throw new RuntimeException("Falha ao registrar usuário", e);
         }
     }
 
@@ -159,9 +188,12 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                     response.authenticationResult().refreshToken(),
                     requestUser
             );
+        } catch (UserNotFoundException | NotAuthorizedException e) {
+            logger.error("Fail at login user: {}", e.getMessage());
+            throw new ZaimuInvalidCredentialsException("Email/Usuário ou senha inválidos", e);
         } catch (Exception e) {
-            logger.error("Erro ao fazer login do usuário: {}", e.getMessage());
-            throw new RuntimeException("Falha no login do usuário", e);
+            logger.error("Fail at login user: {}", e.getMessage());
+            throw new RuntimeException("Falha ao fazer login do usuário", e);
         }
     }
 
@@ -198,6 +230,19 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                     )
             );
 
+            AdminUpdateUserAttributesRequest updateRequest = AdminUpdateUserAttributesRequest.builder()
+                    .userPoolId(userPoolId)
+                    .username(confirmEmailParameters.getNickname())
+                    .userAttributes(
+                            AttributeType.builder()
+                                    .name("custom:userId")
+                                    .value(userId.toString())
+                                    .build()
+                    )
+                    .build();
+
+            cognitoClient.adminUpdateUserAttributes(updateRequest);
+
             return new LoginResponseView(
                     response.authenticationResult().idToken(),
                     response.authenticationResult().accessToken(),
@@ -211,13 +256,25 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                             confirmEmailParameters.getNickname()
                     )
             );
+        } catch (CodeMismatchException e) {
+            logger.error("Invalid confirmation code for user {}: {}", confirmEmailParameters.getNickname(), e.getMessage());
+            throw new ZaimuInvalidVerificationCodeException("Código de confirmação inválido", e);
+        } catch (ExpiredCodeException e) {
+            logger.error("Confirmation code expired for user {}: {}", confirmEmailParameters.getNickname(), e.getMessage());
+            throw new ZaimuInvalidVerificationCodeException("Código de confirmação expirado. Solicite outro", e);
+        } catch (TooManyFailedAttemptsException e) {
+            logger.error("Too many failed attempts for user {}: {}", confirmEmailParameters.getNickname(), e.getMessage());
+            throw new ZaimuAttemptLimitExceededException("Muitas tentativas falhas. Tente novamente mais tarde.", e);
+        } catch (TooManyRequestsException e) {
+            logger.error("Too many requests for user {}: {}", confirmEmailParameters.getNickname(), e.getMessage());
+            throw new ZaimuAttemptLimitExceededException("Muitas solicitações. Tente novamente mais tarde.", e);
         } catch (Exception e) {
             logger.error("Error confirming user: {}", e.getMessage());
-            throw new RuntimeException("Failed to sign up user", e);
+            throw new RuntimeException("Erro ao confirmar usuário", e);
         }
     }
 
-    public String resetPassword (String credential, String code, String newPassword) {
+    public void resetPassword (String credential, String code, String newPassword) {
         if ((code == null || code.isBlank()) && (newPassword == null || newPassword.isBlank())) {
             ForgotPasswordRequest forgotPasswordRequest = ForgotPasswordRequest.builder()
                     .clientId(clientId)
@@ -226,11 +283,19 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
             try {
                 ForgotPasswordResponse response = cognitoClient.forgotPassword(forgotPasswordRequest);
-                logger.info("Verifique seu e-mail para redefinir sua senha.");
-                return "Verifique seu e-mail para redefinir sua senha.";
+                logger.info("Code sent to user's email {}.", response.codeDeliveryDetails().destination());
+            } catch (CodeDeliveryFailureException e) {
+                logger.info("Fail at send code to reset password: {}", e.getMessage());
+                throw new ZaimuCodeDeliveryFailureException("Falha ao enviar o código para redefinir a senha", e);
+            } catch (TooManyRequestsException e) {
+                logger.error("Too many requests for user {}: {}", credential, e.getMessage());
+                throw new ZaimuAttemptLimitExceededException("Muitas solicitações. Tente novamente mais tarde.", e);
+            } catch (UserNotFoundException e) {
+                logger.error("Fail at login user: {}", e.getMessage());
+                throw new ZaimuInvalidCredentialsException("Email/Usuário não encontrado", e);
             } catch (Exception e) {
                 logger.error("Erro ao validar a credencial: {}. Erro: {}",credential, e.getMessage());
-                throw new RuntimeException("Failed to sign up user", e);
+                throw new RuntimeException("Falha ao enviar código de confirmação", e);
             }
         } else {
             final String PASSWORD_REGEX = "^(?!^ |.* $)(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\^\\$\\*\\.\\[\\]\\{\\}\\(\\)\\?\\-!\"@#%&/\\\\,><' ;:|~`_+=]).{8,}$";
@@ -250,11 +315,22 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
             try {
                 cognitoClient.confirmForgotPassword(confirmForgotPasswordRequest);
-                logger.info("Senha redefinida!");
-                return "Senha redefinida!";
+                logger.info("Password reset confirmed!");
+            } catch (CodeMismatchException e) {
+                logger.error("Invalid confirmation code for user {}: {}", credential, e.getMessage());
+                throw new ZaimuInvalidVerificationCodeException("Código de confirmação inválido", e);
+            } catch (ExpiredCodeException e) {
+                logger.error("Confirmation code expired for user {}: {}", credential, e.getMessage());
+                throw new ZaimuInvalidVerificationCodeException("Código de confirmação expirado. Solicite outro", e);
+            } catch (TooManyFailedAttemptsException e) {
+                logger.error("Too many failed attempts for user {}: {}", credential, e.getMessage());
+                throw new ZaimuAttemptLimitExceededException("Muitas tentativas falhas. Tente novamente mais tarde.", e);
+            } catch (TooManyRequestsException e) {
+                logger.error("Too many requests for user {}: {}", credential, e.getMessage());
+                throw new ZaimuAttemptLimitExceededException("Muitas solicitações. Tente novamente mais tarde.", e);
             } catch (Exception e) {
                 logger.error("Erro ao resetar a senha: {}", e.getMessage());
-                throw new RuntimeException("Failed to confirm password reset", e);
+                throw new RuntimeException("Falha ao redefinir a senha", e);
             }
         }
     }
@@ -267,10 +343,16 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
         try {
             ResendConfirmationCodeResponse response = cognitoClient.resendConfirmationCode(resendConfirmationCodeRequest);
-            logger.info("Código reenviado. Verifique seu e-mail.");
+            logger.info("Code resent to user's email: {}", response.codeDeliveryDetails().destination());
+        } catch (CodeDeliveryFailureException e) {
+            logger.error("Fail at resend code to confirm email: {}", e.getMessage());
+            throw new ZaimuCodeDeliveryFailureException("Falha ao reenviar o código para confirmação de email", e);
+        } catch (TooManyRequestsException e) {
+            logger.error("Too many requests for user {}: {}", nickname, e.getMessage());
+            throw new ZaimuAttemptLimitExceededException("Muitas solicitações. Tente novamente mais tarde.", e);
         } catch (Exception e) {
             logger.error("Erro ao reenviar o código: {}", e.getMessage());
-            throw new RuntimeException("Failed to sign up user", e);
+            throw new RuntimeException("Falha ao reenviar o código", e);
         }
     }
 
@@ -281,10 +363,11 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
                 "uuid", uuid.trim()
         ));
 
-        try (LambdaClient lambdaClient = LambdaClient.builder()
-                .region(Region.of(region))
-                .build())
-        {
+        try (
+            LambdaClient lambdaClient = LambdaClient.builder()
+            .region(Region.of(region))
+            .build()
+        ) {
             InvokeRequest request = InvokeRequest.builder()
                     .functionName(functionName)
                     .payload(SdkBytes.fromUtf8String(payload))

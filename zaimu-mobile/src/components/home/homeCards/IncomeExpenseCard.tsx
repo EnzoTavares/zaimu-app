@@ -5,9 +5,10 @@ import TransactionGreenArrow from '@/src/components/icons/TransactionGreenArrow'
 import { fontFamily } from "@/src/themes/typography"
 import { spacing } from "@/src/themes/dimensions"
 import colors from "@/src/themes/colors"
+import {TransactionType} from "@/src/constants/enums/TransactionType";
 
 type IncomeExpenseCardProps = {
-    type: 'income' | 'expense'
+    type: TransactionType.Despesa | TransactionType.Receita
     label: string
     value: number
 }
@@ -15,13 +16,13 @@ type IncomeExpenseCardProps = {
 const IncomeExpenseCard = ({ type, label, value }: IncomeExpenseCardProps) => (
     <Card shadowed={false} style={styles.card}>
         <View style={styles.header}>
-            <Text style={[styles.label, type === 'income' ? styles.incomeLabel : styles.expenseLabel]}>
+            <Text style={[styles.label, TransactionType.Receita ? styles.incomeLabel : styles.expenseLabel]}>
                 {label}
             </Text>
             <TransactionGreenArrow type={type} size={20}/>
         </View>
-        <Text style={type === 'income' ? styles.incomeValue : styles.expenseValue}>
-            {(type === 'income' ? '+' : '-') + 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+        <Text style={type === TransactionType.Receita ? styles.incomeValue : styles.expenseValue}>
+            {(TransactionType.Receita ? '+' : '-') + 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
         </Text>
     </Card>
 )

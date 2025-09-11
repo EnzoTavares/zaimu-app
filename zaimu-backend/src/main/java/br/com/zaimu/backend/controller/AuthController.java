@@ -1,8 +1,8 @@
 package br.com.zaimu.backend.controller;
 
 import br.com.zaimu.backend.controller.enums.HttpStatusEnum;
-import br.com.zaimu.backend.model.entity.User;
-import br.com.zaimu.backend.model.exception.ValidationExceptionHandler;
+import br.com.zaimu.backend.model.security.LoginResponseView;
+import br.com.zaimu.backend.model.security.RequestUser;
 import br.com.zaimu.backend.model.to.ConfirmEmailParameters;
 import br.com.zaimu.backend.model.to.HttpResponse;
 import br.com.zaimu.backend.model.to.RegisterParameters;
@@ -30,32 +30,24 @@ public class AuthController {
     public HttpResponse register(
             @Valid @RequestBody RegisterParameters registerParameters
     ) {
-        Integer reponseStatus;
-        Object response;
         try{
-            response = authService.signUpUser(registerParameters);
-            reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
-            response = e.getMessage();
-            reponseStatus = HttpStatusEnum.fail();
+            RequestUser requestUser = authService.signUpUser(registerParameters);
+            return new HttpResponse(HttpStatusEnum.success(), requestUser);
+        } catch (Exception e) {
+            return new HttpResponse(HttpStatusEnum.fail(), e.getMessage());
         }
-        return new HttpResponse(reponseStatus, response);
     }
 
     @PostMapping("/login")
     public HttpResponse login(
             @Valid @RequestBody LoginParameters loginParameters
     ) {
-        Integer reponseStatus;
-        Object response;
         try{
-            response = authService.signInUser(loginParameters);
-            reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
-            response = e.getMessage();
-            reponseStatus = HttpStatusEnum.fail();
+            LoginResponseView loginResponseView = authService.signInUser(loginParameters);
+            return new HttpResponse(HttpStatusEnum.success(), loginResponseView);
+        } catch (Exception e) {
+            return new HttpResponse(HttpStatusEnum.fail(), e.getMessage());
         }
-        return new HttpResponse(reponseStatus, response);
     }
 
     @PostMapping("/confirm-email/{code}")
@@ -63,16 +55,12 @@ public class AuthController {
             @RequestBody ConfirmEmailParameters confirmEmailParameters,
             @PathVariable String code
     ) {
-        Integer reponseStatus;
-        Object response;
         try{
-            response = authService.confirmEmailAndSignIn(confirmEmailParameters, code);
-            reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
-            response = e.getMessage();
-            reponseStatus = HttpStatusEnum.fail();
+            LoginResponseView loginResponseView = authService.confirmEmailAndSignIn(confirmEmailParameters, code);
+            return new HttpResponse(HttpStatusEnum.success(), loginResponseView);
+        } catch (Exception e) {
+            return new HttpResponse(HttpStatusEnum.fail(), e.getMessage());
         }
-        return new HttpResponse(reponseStatus, response);
     }
 
     @PostMapping("/reset-password/{credential}")
@@ -81,33 +69,24 @@ public class AuthController {
             @RequestParam (required = false) String code,
             @RequestParam (required = false) String newPassword
     ) {
-        Integer reponseStatus;
-        Object response;
         try{
-            response = authService.resetPassword(credential, code, newPassword);
-            reponseStatus = HttpStatusEnum.success();
-        } catch (IllegalArgumentException e) {
-            response = e.getMessage();
-            reponseStatus = HttpStatusEnum.fail();
+            authService.resetPassword(credential, code, newPassword);
+            return new HttpResponse(HttpStatusEnum.success(), "Código enviado para redefinição de senha.");
+        } catch (Exception e) {
+            return new HttpResponse(HttpStatusEnum.fail(), e.getMessage());
         }
-        return new HttpResponse(reponseStatus, response);
     }
 
     @PostMapping("/resend-code/{nickname}")
     public HttpResponse resendCode(
             @PathVariable String nickname
     ) {
-        Integer reponseStatus;
-        Object response;
         try{
             authService.resendSignUpCode(nickname);
-            response = "Código reenviado.";
-            reponseStatus = HttpStatusEnum.success();
-        } catch (ValidationExceptionHandler e) {
-            response = e.getMessage();
-            reponseStatus = HttpStatusEnum.fail();
+            return new HttpResponse(HttpStatusEnum.success(), "Código reenviado.");
+        } catch (Exception e) {
+            return new HttpResponse(HttpStatusEnum.fail(), e.getMessage());
         }
-        return new HttpResponse(reponseStatus, response);
     }
 
     @DeleteMapping("/delete-request-user/{nickname}/{uuid}")
@@ -115,15 +94,11 @@ public class AuthController {
             @PathVariable String nickname,
             @PathVariable String uuid
     ) {
-        Integer reponseStatus;
-        Object response;
         try {
-            response = authService.deleteRequestUser(nickname, uuid);
-            reponseStatus = HttpStatusEnum.success();
+            String response = authService.deleteRequestUser(nickname, uuid);
+            return new HttpResponse(HttpStatusEnum.success(), response);
         } catch (Exception e) {
-           response = e.getMessage();
-           reponseStatus = HttpStatusEnum.fail();
+            return new HttpResponse(HttpStatusEnum.fail(), e.getMessage());
         }
-        return new HttpResponse(reponseStatus, response);
     }
 }

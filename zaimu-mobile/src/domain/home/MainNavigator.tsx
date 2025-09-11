@@ -4,7 +4,6 @@ import ScreenTransactions from "./tabs/transactions/ScreenTransactions";
 import colors from "@/src/themes/colors";
 import CustomAppBar from "@/src/components/bar/AppBar";
 import ScreenHome from "./tabs/home/ScreenHome";
-import {Ionicons} from "@expo/vector-icons";
 import TabBar from "@/src/components/bar/TabBar";
 
 const Tab = createBottomTabNavigator()
@@ -33,7 +32,3 @@ export default function MainNavigator() {
         </Tab.Navigator>
     )
 }
-
-
-
-// (props) => <CustomTabBar {...props}

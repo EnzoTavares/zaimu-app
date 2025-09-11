@@ -4,7 +4,6 @@ import IconBadge from "@/src/components/icons/IconBadge";
 import {spacing} from "@/src/themes/dimensions";
 import TitleWithSubtitle from "@/src/components/text/TitleWithSubtitle";
 import forgotPasswordTexts from "@/src/constants/texts/domain/accounts/ForgotPassword";
-import CustomTextInput from "@/src/components/inputs/TextInput";
 import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
 import password from "@/src/constants/texts/inputs/Password";
 import CustomOtpInput from "@/src/components/inputs/OtpInput";
@@ -17,6 +16,8 @@ import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import PasswordInput from "@/src/components/inputs/PasswordInput";
 
 type Props = NativeStackScreenProps<ParamList, 'ForgotPasswordSecond'>;
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordSecond'>;
@@ -35,6 +36,12 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
 
         try {
             const response = await resetPassword(credential, code, newPasswordText);
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao redefinir a senha", response.message);
+                return;
+            }
+
             navigation.popToTop();
         } catch (error) {
             console.error("MENSAGEM!:", error);
@@ -49,8 +56,13 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
 
         try {
             const response = await resendCode(credential);
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao reenviar o código", response.message);
+                return;
+            }
         } catch (error) {
-            console.error("MENSAGEM!:", error);
+            console.error("Falha ao reenviar o código: ", error);
             Alert.alert("Login Failed", "Please try again later");
         } finally {
             setIsLoading(false);
@@ -72,8 +84,6 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
 
             <KeyboardAwareScrollView
                 contentContainerStyle={styles.scrollContainer}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                scrollEnabled={true}
                 keyboardShouldPersistTaps="handled"
             >
                 <IconBadge
@@ -111,11 +121,10 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
                     </View>
                 </View>
 
-                <CustomTextInput
+                <PasswordInput
                     icon={"greyLockFill"}
                     placeholder={password.placeholder}
                     label={password.labelNew}
-                    isPassword={true}
                     setValue={setNewPasswordText}
                     value={newPasswordText}
                 />
@@ -123,6 +132,7 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
                 <ThickFilledButton
                     label={forgotPasswordTexts.reset}
                     onPress={submitResetPassword}
+                    style={{width: '80%'}}
                 />
             </KeyboardAwareScrollView>
 

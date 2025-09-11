@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginResponseView {
-    String userToken;
-    String appToken;
+    String idToken;
+    String accessToken;
     String refreshToken;
     RequestUser user;
 }

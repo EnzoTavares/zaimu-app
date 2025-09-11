@@ -20,7 +20,6 @@ import java.util.UUID;
 
 @Entity
 @Table( name = "USER", schema = "ZADM" )
-@SequenceGenerator( name = "ZADM.SQ_USER_ID", sequenceName = "ZADM.SQ_USER_ID", allocationSize = 1 )
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,7 +29,6 @@ public class User implements Serializable {
 
     @Id
     @Column(name = "ID_USER")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ZADM.SQ_USER_ID")
     private Long id;
 
     @NotNull

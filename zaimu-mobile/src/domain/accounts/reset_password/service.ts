@@ -1,53 +1,116 @@
 import api from "@/src/lib/api/axios";
-import {router} from "expo-router";
+import {HttpResponse} from "@/src/types/HttpResponse";
+import axios from "axios";
 
-export const resetPasswordCode = async (credential:string) => {
+export async function resetPasswordCode (credential:string):Promise<HttpResponse> {
     try {
-        const response = await api.post(`/auth/reset-password/${credential}`);
+        const response = await api.post<HttpResponse>(`/auth/reset-password/${credential}`);
 
-        if (response.status === 200) {
-            const data = await response.data;
-            return { success: true, data: data };
-        } else {
-            const errorData = await response.data;
-            return { success: false, message: errorData.message };
-        }
+        return response.data.object
+            ? { status: response.data.status, object: response.data.object }
+            : { status: response.data.status, message: response.data.message };
     } catch (error) {
-        return { success: false, message: 'Nao foi possivel se conectar com o servidor' };
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                const errorResponse = error.response.data as HttpResponse;
+
+                const apiErrorMessage = errorResponse.message || 'Ocorreu um erro ao enviar o código.';
+                console.error('Erro da API:', errorResponse);
+
+                return {
+                    status: 1,
+                    message: apiErrorMessage
+                };
+            }
+
+            else if (axios.isAxiosError(error) && error.request) {
+                console.error('Erro de rede:', error.request);
+                return {
+                    status: 1,
+                    message: 'Não foi possível se conectar ao servidor. Verifique sua internet.'
+                };
+            }
+        }
+        console.error('Erro inesperado:', error);
+        return {
+            status: 1,
+            message: 'Ocorreu um erro inesperado.'
+        };
     }
-};
+}
 
-export const resetPassword = async (credential:string, confirmationCode:string, newPassword:string) => {
-
+export async function resetPassword (credential:string, confirmationCode:string, newPassword:string): Promise<HttpResponse> {
     try {
-        const response = await api.post(
+        const response = await api.post<HttpResponse>(
             `/auth/reset-password/${credential}?code=${confirmationCode}&newPassword=${newPassword}`
         );
 
-        if (response.status === 200) {
-            const data = await response.data;
-            return { success: true, data: data };
-        } else {
-            const errorData = await response.data;
-            return { success: false, message: errorData.message };
-        }
+        return response.data.object
+            ? { status: response.data.status, object: response.data.object }
+            : { status: response.data.status, message: response.data.message };
     } catch (error) {
-        return { success: false, message: 'Nao foi possivel se conectar com o servidor' };
-    }
-};
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                const errorResponse = error.response.data as HttpResponse;
 
-export const resendCode = async (credential:string) => {
+                const apiErrorMessage = errorResponse.message || 'Ocorreu um erro ao redefinir a senha.';
+                console.error('Erro da API:', errorResponse);
+
+                return {
+                    status: 1,
+                    message: apiErrorMessage
+                };
+            }
+
+            else if (axios.isAxiosError(error) && error.request) {
+                console.error('Erro de rede:', error.request);
+                return {
+                    status: 1,
+                    message: 'Não foi possível se conectar ao servidor. Verifique sua internet.'
+                };
+            }
+        }
+        console.error('Erro inesperado:', error);
+        return {
+            status: 1,
+            message: 'Ocorreu um erro inesperado.'
+        };
+    }
+}
+
+export async function resendCode (credential:string): Promise<HttpResponse> {
     try {
-        const response = await api.post(`/auth/reset-password/${credential}`);
+        const response = await api.post<HttpResponse>(`/auth/reset-password/${credential}`);
 
-        if (response.status === 200) {
-            const data = await response.data;
-            return { success: true, data: data };
-        } else {
-            const errorData = await response.data;
-            return { success: false, message: errorData.message };
-        }
+        return response.data.object
+            ? { status: response.data.status, object: response.data.object }
+            : { status: response.data.status, message: response.data.message };
     } catch (error) {
-        return { success: false, message: 'Nao foi possivel se conectar com o servidor' };
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                const errorResponse = error.response.data as HttpResponse;
+
+                const apiErrorMessage = errorResponse.message || 'Ocorreu um erro ao reenviar o código.';
+                console.error('Erro da API:', errorResponse);
+
+                return {
+                    status: 1,
+                    message: apiErrorMessage
+                };
+            }
+
+            else if (axios.isAxiosError(error) && error.request) {
+                console.error('Erro de rede:', error.request);
+                return {
+                    status: 1,
+                    message: 'Não foi possível se conectar ao servidor. Verifique sua internet.'
+                };
+            }
+        }
+        console.error('Erro inesperado:', error);
+        return {
+            status: 1,
+            message: 'Ocorreu um erro inesperado.'
+        };
     }
-};
+}
