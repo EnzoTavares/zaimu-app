@@ -7,18 +7,25 @@ import icons from "@/src/constants/icons";
 import {fontStyles} from "@/src/themes/typography";
 import colors from "@/src/themes/colors";
 import {formatCurrencyBRL} from "@/src/utils/hooks/formatNumbers";
+import { format } from 'date-fns';
+import {TransactionType} from "@/src/constants/enums/TransactionType";
 
 type BigTransactionCardProps = {
     title: string;
     amount: number;
     category: string;
     date: string;
+    type: number;
 }
 
 const BigTransactionCard = (props: BigTransactionCardProps) => {
-    const sign = props.amount >= 0 ? '+' : '-';
+    const sign = props.type === TransactionType.Receita ? '+' : '-';
     const formattedAmount = formatCurrencyBRL(Math.abs(props.amount));
     const label = sign + " " + formattedAmount;
+
+    const dateObject = new Date(props.date);
+
+    const formattedDate = format(dateObject, 'dd/MM/yyyy');
 
     return (
         <Card shadowed={true} style={styles.transactionCard}>
@@ -47,7 +54,7 @@ const BigTransactionCard = (props: BigTransactionCardProps) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <Text style={props.amount >= 0 ? styles.income : styles.expense}>
+            <Text style={props.type === TransactionType.Receita ? styles.income : styles.expense}>
                 {label}
             </Text>
             <View style={styles.bottomContainer}>
@@ -69,7 +76,7 @@ const BigTransactionCard = (props: BigTransactionCardProps) => {
                     />
 
                     <Text style={styles.bottomText}>
-                        {props.date}
+                        {formattedDate}
                     </Text>
                 </View>
             </View>

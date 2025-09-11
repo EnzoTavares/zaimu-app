@@ -12,9 +12,13 @@ const api = axios.create({
 
 api.interceptors.request.use(
     async (config) => {
-        const tokens = await getTokens();
-        if (tokens && tokens.accessToken) {
-            config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+        const isAuthRoute = config.url?.includes('/auth');
+
+        if (!isAuthRoute) {
+            const tokens = await getTokens();
+            if (tokens && tokens.accessToken) {
+                config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+            }
         }
         return config;
     },

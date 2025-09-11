@@ -1,14 +1,15 @@
 import React from "react";
 import {StyleSheet, View} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
+import {TransactionType} from "@/src/constants/enums/TransactionType";
 
 type TransactionGreenArrowProps = {
-    type: "income" | "expense";
+    type: TransactionType.Receita | TransactionType.Despesa
     size?: number;
 };
 
 const TransactionGreenArrow: React.FC<TransactionGreenArrowProps> = ({ type, size = 28 }) => {
-    const isIncome = type === 'income';
+    const isIncome = type === TransactionType.Receita;
     const iconName = isIncome ? 'arrow-upward' : 'arrow-downward';
     const iconColor = isIncome ? '#7CB342' : '#EE2525';
 

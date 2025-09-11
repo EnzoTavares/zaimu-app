@@ -8,13 +8,17 @@ type ThinFilledButtonProps = {
     label: string;
     color?: string;
     onPress: ()=>void;
+    style?: object;
 }
 
 const ThinFilledButton = (props: ThinFilledButtonProps) => {
     return (
         <LinearGradient
             colors={colors.backgroundFadeDarker}
-            style={styles.container}
+            style={[
+                styles.container,
+                props.style
+            ]}
             start={{x: 0, y: 0}}
             end={{x: 1, y: 1}}
         >

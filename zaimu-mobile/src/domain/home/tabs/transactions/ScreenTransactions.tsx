@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import transactionsTexts from "@/src/constants/texts/domain/home/tabs/Transactions";
 import {fontFamily, fontStyles} from "@/src/themes/typography";
 import ActionHeader from "@/src/components/common/ActionHeader";
@@ -13,23 +13,40 @@ import ModalBottom from "@/src/components/modals/ModalBottom";
 import transactionsInputTexts from "@/src/constants/texts/inputs/Transaction";
 import ThickFilledButton from "@/src/components/buttons/ThickFilledButton";
 import DecimalInput from "@/src/components/inputs/DecimalInput";
+import {useTransactions} from "@/src/context/TransactionsContext";
+import GradientIconButton from "@/src/components/buttons/GradientIconButton";
+import DropdownInput from "@/src/components/inputs/DropdownInput";
+import {Category, categoryDropdownData} from "@/src/constants/enums/Category";
+import {TransactionType, transactionTypeDropdownData} from "@/src/constants/enums/TransactionType";
+import {Transaction} from "@/src/types/Transaction";
+import * as transactionsService from "../transactions/service";
+import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
+import { format, parse } from "date-fns";
+import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 const ScreenTransactions = () => {
+
+
+    const [isLoading, setIsLoading] = useState(false);
+    const { transactions, setTransactions } = useTransactions();
+
     const [searchTransaction, setSearchTransaction] = useState('');
     const [addTransactionModalVisible, setAddTransactionModalVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
 
     const [newTransactionTitle, setNewTransactionTitle] = useState('');
-    const [newTransactionAmount, setNewTransactionAmount] = useState('');
+    const [newTransactionAmount, setNewTransactionAmount] = useState(0);
     const [newTransactionCategory, setNewTransactionCategory] = useState('');
     const [newTransactionDate, setNewTransactionDate] = useState('');
-    const [newTransactionType, setNewTransactionType] = useState<'income' | 'expense'>('income');
+    const [newTransactionType, setNewTransactionType] = useState('');
 
     const [categoryFilter, setCategoryFilter] = useState('');
     const [typeFilter, setTypeFilter] = useState('');
     const [dateFilter, setDateFilter] = useState('');
     const [minAmountFilter, setMinAmountFilter] = useState('');
     const [maxAmountFilter, setMaxAmountFilter] = useState('');
+
+
 
     function handleCloseAddTransactionModal() {
         setAddTransactionModalVisible(false);
@@ -39,8 +56,52 @@ const ScreenTransactions = () => {
         setFilterModalVisible(false);
     }
 
-    function submitNewTransaction() {
+    async function submitNewTransaction() {
+        if (newTransactionTitle === '' || newTransactionAmount === 0 || newTransactionCategory === '' || newTransactionDate === '' || newTransactionType === '') {
+            Alert.alert('Erro', 'Preencha todos os campos para adicionar uma nova transação.');
+            return;
+        }
 
+        const dateFormat = 'dd/MM/yyyy';
+
+        const dateObject = parse(newTransactionDate, dateFormat, new Date());
+
+        if (isNaN(dateObject.getTime())) {
+            Alert.alert('Data Inválida', 'Por favor, insira a data no formato DD/MM/AAAA.');
+            return;
+        }
+
+        const timestamp = dateObject.getTime();
+
+        setIsLoading(true);
+
+        const newTransaction:Transaction = {
+            title: newTransactionTitle,
+            amount: newTransactionAmount,
+            idCategory: Number(newTransactionCategory),
+            idType: Number(newTransactionType),
+            transactionDate: timestamp,
+        }
+
+        console.log(newTransaction);
+
+        try {
+            const response = await transactionsService.createUserTransactions(newTransaction)
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao criar a transação", response.message);
+                return;
+            }
+
+            setTransactions([...transactions, response.object]);
+
+            handleCloseAddTransactionModal();
+        } catch (e) {
+            console.error("Login error: ", e);
+            Alert.alert("Login Failed", "Please try again later");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function submitFilter() {
@@ -63,10 +124,10 @@ const ScreenTransactions = () => {
                     text: 'Limpar',
                     onPress: () => {
                         setNewTransactionTitle('');
-                        setNewTransactionAmount('');
+                        setNewTransactionAmount(0);
                         setNewTransactionCategory('');
                         setNewTransactionDate('');
-                        setNewTransactionType('income');
+                        setNewTransactionType('');
                     },
                 }
             ]
@@ -99,9 +160,43 @@ const ScreenTransactions = () => {
         )
     }
 
+    const transactionCards = transactions.map((transaction, index) => (
+        <BigTransactionCard
+            key={transaction.id || index}
+            title={transaction.title}
+            amount={transaction.amount}
+            category={Category[transaction.idCategory]}
+            date={transaction.transactionDate ? transaction.transactionDate.toString() : ''}
+            type={transaction.idType}
+        />
+    ));
+
+    const addTransactionPrompt = [
+        <View style={[styles.addTransactionPromptContainer, { justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }]} key="addTransactionPrompt">
+            <Text style={styles.addTransactionPrompt}>Cadastre suas transações!</Text>
+            <GradientIconButton
+                icon={'whitePlusLg'}
+                onClick={() => {setAddTransactionModalVisible(true);}}
+            />
+        </View>
+    ];
+
+    const elementToShow = transactions.length === 0
+        ? addTransactionPrompt
+        : transactionCards;
+
+    if (isLoading) {
+        return (
+            <LoadingOverlay visible={isLoading} />
+        );
+    }
+
     return (
         <KeyboardAwareScrollView
-            contentContainerStyle={styles.container}
+            contentContainerStyle={[
+                styles.container,
+                transactions.length === 0 && {flex: 1}
+            ]}
             keyboardShouldPersistTaps="handled"
         >
             <ActionHeader
@@ -150,16 +245,16 @@ const ScreenTransactions = () => {
                         <DecimalInput
                             label={transactionsInputTexts.labelAmount}
                             placeholder={transactionsInputTexts.placeholderAmount}
-                            value={newTransactionAmount}
-                            setValue={setNewTransactionAmount}
+                            value={String(newTransactionAmount)}
+                            setValue={(text: string) => setNewTransactionAmount(Number(text))}
                         />
                     </View>
                     <View style={{ flex: 1 }}>
-                        <CustomTextInput
+                        <DropdownInput
                             label={transactionsInputTexts.labelCategory}
-                            placeholder={transactionsInputTexts.placeholderCategory}
                             value={newTransactionCategory}
                             setValue={setNewTransactionCategory}
+                            data={categoryDropdownData}
                         />
                     </View>
                 </View>
@@ -173,11 +268,12 @@ const ScreenTransactions = () => {
                             setValue={setNewTransactionDate} />
                     </View>
                     <View style={{ flex: 1 }}>
-                        <CustomTextInput
+                        <DropdownInput
                             label={transactionsInputTexts.labelType}
-                            placeholder={transactionsInputTexts.placeholderType}
                             value={newTransactionType}
-                            setValue={(text) => setNewTransactionType(text as 'income' | 'expense')}
+                            setValue={setNewTransactionType}
+                            data={transactionTypeDropdownData}
+                            searchable={false}
                         />
                     </View>
                 </View>
@@ -254,17 +350,11 @@ const ScreenTransactions = () => {
                     onPress={submitFilter}
                 />
             </ModalBottom>
-
-            <BigTransactionCard title={'Salário'} amount={12000} category={'Trabalho'} date={'12/01/2024'}/>
-
-            <BigTransactionCard title={'Salário'} amount={-12000} category={'Trabalho'} date={'12/01/2024'}/>
-
-            <BigTransactionCard title={'Salário'} amount={12000} category={'Trabalho'} date={'12/01/2024'}/>
-
-            <BigTransactionCard title={'Salário'} amount={12000} category={'Trabalho'} date={'12/01/2024'}/>
+            {elementToShow}
         </KeyboardAwareScrollView>
     );
-};
+
+}
 
 export default ScreenTransactions;
 
@@ -301,4 +391,16 @@ const styles = StyleSheet.create({
         color: colors.darkGreen,
         textDecorationLine: "underline",
     },
+    addTransactionPromptContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: 'center',
+        width: '70%',
+        gap: spacing.md
+    },
+    addTransactionPrompt: {
+        ...fontStyles.main,
+        textAlign: 'center',
+        lineHeight: 35,
+    }
 })

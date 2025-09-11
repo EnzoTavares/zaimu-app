@@ -1,34 +1,39 @@
-import * as Keychain from 'react-native-keychain';
+import * as SecureStore from 'expo-secure-store';
 
-export async function storeTokens(tokens: {idToken: '...', accessToken: '...', refreshToken: '...' }) {
-    try {
-        await Keychain.setGenericPassword(
-            'tokens',
-            JSON.stringify(tokens)
-        );
-        console.log('Tokens armazenados com sucesso!');
-    } catch (error) {
-        console.error('Erro ao armazenar os tokens:', error);
-    }
+type tokens = {
+    idToken: string;
+    accessToken: string;
+    refreshToken: string;
+}
+
+export async function storeTokens(tokens: tokens) {
+    await SecureStore.setItemAsync('idToken', tokens.idToken);
+    await SecureStore.setItemAsync('accessToken', tokens.accessToken);
+    await SecureStore.setItemAsync('refreshToken', tokens.refreshToken);
 }
 
 export async function getTokens() {
-    try {
-        const credentials = await Keychain.getGenericPassword();
-        if (credentials) {
-            return JSON.parse(credentials.password);
-        }
-        return null;
-    } catch (error) {
-        console.error('Erro ao recuperar os tokens: ', error);
-        return null;
+    let result = {
+        idToken: await SecureStore.getItemAsync('idToken'),
+        accessToken: await SecureStore.getItemAsync('accessToken'),
+        refreshToken: await SecureStore.getItemAsync('refreshToken')
+    };
+
+    if (result) {
+        return result;
+    } else {
+        alert('No tokens stored.');
+        return;
     }
 }
 
 export async function clearTokens() {
     try {
-        await Keychain.resetGenericPassword();
+        await SecureStore.deleteItemAsync('idToken');
+        await SecureStore.deleteItemAsync('accessToken');
+        await SecureStore.deleteItemAsync('refreshToken');
+        console.log('Tokens removidos com sucesso');
     } catch (error) {
-        console.error('Erro ao limpar os tokens:', error);
+        console.error('Erro ao limpar os tokens: ', error);
     }
 }

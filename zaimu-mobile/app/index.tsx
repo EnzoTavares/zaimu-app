@@ -31,9 +31,9 @@ export default function StartupPage() {
         router.replace('/access');
     }, []);
 
-    useEffect(() => {
-        router.replace('/main_page');
-    }, []);
+    // useEffect(() => {
+    //     router.replace('/main_page');
+    // }, []);
 
     return (
         <View style={[

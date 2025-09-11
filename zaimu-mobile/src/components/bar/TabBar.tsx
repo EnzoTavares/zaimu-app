@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View, Text} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
 import colors from "@/src/themes/colors";
 import {spacing} from "@/src/themes/dimensions";
-import Svg, {Path} from "react-native-svg";
 import {Image} from "expo-image";
 import icons from "@/src/constants/icons";
 import {IconName} from "@/src/types/Icon";
