@@ -210,15 +210,20 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
             cognitoClient.confirmSignUp(confirmSignUpRequest);
             logger.info("User {} confirmed successfully.", confirmEmailParameters.getNickname());
 
-            AdminInitiateAuthRequest authRequest = AdminInitiateAuthRequest.builder()
-                    .userPoolId(userPoolId)
+            Map<String, String> authParameters = new HashMap<>();
+            if (confirmEmailParameters.getEmail() == null || confirmEmailParameters.getEmail().isBlank())
+                authParameters.put("USERNAME", confirmEmailParameters.getNickname());
+            else authParameters.put("USERNAME", confirmEmailParameters.getEmail());
+
+            authParameters.put("PASSWORD", confirmEmailParameters.getPassword());
+
+            InitiateAuthRequest authRequest = InitiateAuthRequest.builder()
                     .clientId(clientId)
-                    .authFlow(AuthFlowType.ADMIN_USER_PASSWORD_AUTH)
-                    .authParameters(Map.of("USERNAME", confirmEmailParameters.getNickname(),
-                                    "PASSWORD", confirmEmailParameters.getPassword()))
+                    .authFlow(AuthFlowType.USER_PASSWORD_AUTH)
+                    .authParameters(authParameters)
                     .build();
 
-            AdminInitiateAuthResponse response = cognitoClient.adminInitiateAuth(authRequest);
+            InitiateAuthResponse response = cognitoClient.initiateAuth(authRequest);
 
             Long userId = userRepository.create(
                     new User (
