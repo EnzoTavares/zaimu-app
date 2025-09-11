@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TransactionRepository {
 
-    Long create(Transaction transaction);
+    Transaction create(Transaction transaction, Long userId);
 
     List<Transaction> getUserTransactions(
             Long userId

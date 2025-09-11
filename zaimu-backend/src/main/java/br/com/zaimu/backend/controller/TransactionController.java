@@ -35,8 +35,8 @@ public class TransactionController {
             @RequestBody Transaction transaction
     ) {
         try{
-//            transactionService.createTransaction(transaction);
-            return new HttpResponse(HttpStatusEnum.success(), "chegou");
+            Transaction newTransaction = transactionService.createTransaction(transaction);
+            return new HttpResponse(HttpStatusEnum.success(), newTransaction);
         } catch (Exception e) {
             return new HttpResponse(HttpStatusEnum.fail(), e.getMessage());
         }

@@ -8,5 +8,5 @@ public interface TransactionService {
 
     List<Transaction> getUserTransactions();
 
-    Long createTransaction(Transaction transaction);
+    Transaction createTransaction(Transaction transaction);
 }

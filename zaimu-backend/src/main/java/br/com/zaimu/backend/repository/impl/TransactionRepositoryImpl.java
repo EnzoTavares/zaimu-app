@@ -39,39 +39,44 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         return currentSession;
     }
 
-    public Long create (Transaction transaction) throws ZaimuGenericRepositoryException {
-//        try (Session session = getSession()) {
-//            String query = """
-//                        INSERT INTO zadm.user (
-//                            ID_USER, CD_COGNITO_SUB, DS_EMAIL, NM_GIVEN_NAME, NM_FAMILY_NAME, CD_NICKNAME, DT_CREATED, FL_STATUS
-//                        ) VALUES (
-//                            nextval('zadm.sq_user_id'), ?, ?, ?, ?, ?, ?, 'A'
-//                        ) RETURNING ID_USER;
-//                    """;
-//
-//            return session.doReturningWork(connection -> {
-//                try (PreparedStatement ps = connection.prepareStatement(query)) {
-//                    int parameterIndex = 1;
-//
-//                    ps.setObject(parameterIndex++, user.getUuid());
-//                    ps.setString(parameterIndex++, user.getEmail());
-//                    ps.setString(parameterIndex++, user.getGivenName());
-//                    ps.setString(parameterIndex++, user.getFamilyName());
-//                    ps.setString(parameterIndex++, user.getNickname());
-//                    ps.setTimestamp(parameterIndex++, user.getCreateDate());
-//
-//                    try (ResultSet rs = ps.executeQuery()) {
-//                        return rs.next()
-//                                ? rs.getLong(1)
-//                                : null;
-//                    }
-//                }
-//            });
-//        } catch (ZaimuGenericRepositoryException e) {
-//            logger.error("Error creating user: {}", user, e);
-//            return null;
-//        }
-        return 1L;
+    public Transaction create (Transaction transaction, Long userId) throws ZaimuGenericRepositoryException {
+        try (Session session = getSession()) {
+            String query = """
+                        INSERT INTO zadm.user_transaction (
+                            ID_USER, DS_TITLE, VL_AMOUNT, ID_CATEGORY, ID_TYPE, DT_TRANSACTION
+                        ) VALUES (
+                            ?, ?, ?, ?, ?, ?
+                        ) RETURNING ID_TRANSACTION;
+                    """;
+
+            Long generatedId = session.doReturningWork(connection -> {
+                try (PreparedStatement ps = connection.prepareStatement(query)) {
+                    int parameterIndex = 1;
+
+                    ps.setObject(parameterIndex++, userId);
+                    ps.setString(parameterIndex++, transaction.getTitle());
+                    ps.setBigDecimal(parameterIndex++, transaction.getAmount());
+                    ps.setLong(parameterIndex++, transaction.getIdCategory());
+                    ps.setLong(parameterIndex++, transaction.getIdType());
+                    ps.setTimestamp(parameterIndex++, transaction.getTransactionDate());
+
+                    try (ResultSet rs = ps.executeQuery()) {
+                        return rs.next() ? rs.getLong(1) : null;
+                    }
+                }
+            });
+
+            if (generatedId != null) {
+                transaction.setId(generatedId);
+                transaction.setIdUser(userId);
+                return transaction;
+            } else {
+                throw new ZaimuGenericRepositoryException("Failed to insert transaction.");
+            }
+        } catch (ZaimuGenericRepositoryException e) {
+            logger.error("Error creating transaction: {}", transaction, e);
+            return null;
+        }
     }
 
     public List<Transaction> getUserTransactions(

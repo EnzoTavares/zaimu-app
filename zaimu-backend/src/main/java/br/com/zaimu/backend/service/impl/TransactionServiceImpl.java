@@ -31,12 +31,7 @@ public class TransactionServiceImpl extends RequestScopeService implements Trans
         }
     }
 
-    public Long createTransaction(Transaction transaction) {
-        if (transaction.getTitle().isEmpty() || transaction.getAmount() == null
-                || transaction.getIdCategory() == null || transaction.getIdType() == null || transaction.getTransactionDate() == null
-        ) {
-//            throw new
-        }
-        return 2L;
+    public Transaction createTransaction(Transaction transaction) {
+        return transactionRepository.create(transaction, getUserId());
     }
 }
