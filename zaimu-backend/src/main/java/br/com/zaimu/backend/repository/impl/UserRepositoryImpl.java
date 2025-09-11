@@ -41,9 +41,9 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = getSession()) {
             String query = """
                         INSERT INTO zadm.user (
-                            ID_USER, CD_COGNITO_SUB, DS_EMAIL, NM_GIVEN_NAME, NM_FAMILY_NAME, CD_NICKNAME, DT_CREATED, FL_STATUS
+                            CD_COGNITO_SUB, DS_EMAIL, NM_GIVEN_NAME, NM_FAMILY_NAME, CD_NICKNAME, DT_CREATED, FL_STATUS
                         ) VALUES (
-                            nextval('zadm.sq_user_id'), ?, ?, ?, ?, ?, ?, 'A'
+                            ?, ?, ?, ?, ?, ?, 'A'
                         ) RETURNING ID_USER;
                     """;
 
