@@ -83,8 +83,6 @@ const ScreenTransactions = () => {
             transactionDate: timestamp,
         }
 
-        console.log(newTransaction);
-
         try {
             const response = await transactionsService.createUserTransactions(newTransaction)
 
@@ -95,7 +93,13 @@ const ScreenTransactions = () => {
 
             setTransactions([...transactions, response.object]);
 
-            handleCloseAddTransactionModal();
+            setNewTransactionTitle('');
+            setNewTransactionAmount(0);
+            setNewTransactionCategory('');
+            setNewTransactionDate('');
+            setNewTransactionType('');
+
+            setAddTransactionModalVisible(false);
         } catch (e) {
             console.error("Login error: ", e);
             Alert.alert("Login Failed", "Please try again later");
@@ -185,173 +189,171 @@ const ScreenTransactions = () => {
         ? addTransactionPrompt
         : transactionCards;
 
-    if (isLoading) {
-        return (
-            <LoadingOverlay visible={isLoading} />
-        );
-    }
-
     return (
-        <KeyboardAwareScrollView
-            contentContainerStyle={[
-                styles.container,
-                transactions.length === 0 && {flex: 1}
-            ]}
-            keyboardShouldPersistTaps="handled"
-        >
-            <ActionHeader
-                onPress={() => setAddTransactionModalVisible(true)}
-                buttonIcon={'whitePlusLg'}
-                buttonText={transactionsTexts.add}
+        <View style={{flex: 1}}>
+            <KeyboardAwareScrollView
+                contentContainerStyle={[
+                    styles.container,
+                    transactions.length === 0 && {flex: 1}
+                ]}
+                keyboardShouldPersistTaps="handled"
             >
+                <ActionHeader
+                    onPress={() => setAddTransactionModalVisible(true)}
+                    buttonIcon={'whitePlusLg'}
+                    buttonText={transactionsTexts.add}
+                >
 
-                <Text style={styles.transactionsText}>
-                    {transactionsTexts.transactions}
-                </Text>
-                <Text style={styles.subtitle}>
-                    {transactionsTexts.manage}
-                </Text>
+                    <Text style={styles.transactionsText}>
+                        {transactionsTexts.transactions}
+                    </Text>
+                    <Text style={styles.subtitle}>
+                        {transactionsTexts.manage}
+                    </Text>
 
 
-            </ActionHeader>
+                </ActionHeader>
 
-            <ActionHeader
-                onPress={() => setFilterModalVisible(true)}
-                buttonIcon={'whiteFilterCircle'}
-                buttonText={transactionsTexts.filter}
-            >
-                <CustomTextInput
-                    placeholder={filterTexts.placeholderTransaction}
-                    value={searchTransaction}
-                    setValue={setSearchTransaction}
-                />
-            </ActionHeader>
+                <ActionHeader
+                    onPress={() => setFilterModalVisible(true)}
+                    buttonIcon={'whiteFilterCircle'}
+                    buttonText={transactionsTexts.filter}
+                >
+                    <CustomTextInput
+                        placeholder={filterTexts.placeholderTransaction}
+                        value={searchTransaction}
+                        setValue={setSearchTransaction}
+                    />
+                </ActionHeader>
 
-            <ModalBottom
-                visible={addTransactionModalVisible}
-                onRequestClose={handleCloseAddTransactionModal}
-                header={
-                    <Text style={styles.modalTitle}>{transactionsTexts.addTransaction}</Text>
-                }
-            >
-                <CustomTextInput
-                    label={transactionsInputTexts.labelTitle}
-                    placeholder={transactionsInputTexts.placeholderTitle}
-                    value={newTransactionTitle}
-                    setValue={setNewTransactionTitle} />
+                <ModalBottom
+                    visible={addTransactionModalVisible}
+                    onRequestClose={handleCloseAddTransactionModal}
+                    header={
+                        <Text style={styles.modalTitle}>{transactionsTexts.addTransaction}</Text>
+                    }
+                >
+                    <CustomTextInput
+                        label={transactionsInputTexts.labelTitle}
+                        placeholder={transactionsInputTexts.placeholderTitle}
+                        value={newTransactionTitle}
+                        setValue={setNewTransactionTitle} />
 
-                <View style={styles.twoInputsContainer}>
-                    <View style={{ flex: 1 }}>
-                        <DecimalInput
-                            label={transactionsInputTexts.labelAmount}
-                            placeholder={transactionsInputTexts.placeholderAmount}
-                            value={String(newTransactionAmount)}
-                            setValue={(text: string) => setNewTransactionAmount(Number(text))}
-                        />
+                    <View style={styles.twoInputsContainer}>
+                        <View style={{ flex: 1 }}>
+                            <DecimalInput
+                                label={transactionsInputTexts.labelAmount}
+                                placeholder={transactionsInputTexts.placeholderAmount}
+                                value={String(newTransactionAmount)}
+                                setValue={(text: string) => setNewTransactionAmount(Number(text))}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <DropdownInput
+                                label={transactionsInputTexts.labelCategory}
+                                value={newTransactionCategory}
+                                setValue={setNewTransactionCategory}
+                                data={categoryDropdownData}
+                            />
+                        </View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                        <DropdownInput
-                            label={transactionsInputTexts.labelCategory}
-                            value={newTransactionCategory}
-                            setValue={setNewTransactionCategory}
-                            data={categoryDropdownData}
-                        />
-                    </View>
-                </View>
 
-                <View style={styles.twoInputsContainer}>
-                    <View style={{ flex: 1 }}>
-                        <CustomTextInput
-                            label={transactionsInputTexts.labelDate}
-                            placeholder={transactionsInputTexts.placeholderDate}
-                            value={newTransactionDate}
-                            setValue={setNewTransactionDate} />
+                    <View style={styles.twoInputsContainer}>
+                        <View style={{ flex: 1 }}>
+                            <CustomTextInput
+                                label={transactionsInputTexts.labelDate}
+                                placeholder={transactionsInputTexts.placeholderDate}
+                                value={newTransactionDate}
+                                setValue={setNewTransactionDate} />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <DropdownInput
+                                label={transactionsInputTexts.labelType}
+                                value={newTransactionType}
+                                setValue={setNewTransactionType}
+                                data={transactionTypeDropdownData}
+                                searchable={false}
+                            />
+                        </View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                        <DropdownInput
-                            label={transactionsInputTexts.labelType}
-                            value={newTransactionType}
-                            setValue={setNewTransactionType}
-                            data={transactionTypeDropdownData}
-                            searchable={false}
-                        />
+
+                    <View style={styles.clearButtonRow}>
+                        <TouchableOpacity onPress={handleClearNewTransactionForm}>
+                            <Text style={styles.clearFormText}>
+                                {transactionsTexts.clearForm}
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                </View>
 
-                <View style={styles.clearButtonRow}>
-                    <TouchableOpacity onPress={handleClearNewTransactionForm}>
-                        <Text style={styles.clearFormText}>
-                            {transactionsTexts.clearForm}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                    <ThickFilledButton
+                        label={transactionsInputTexts.labelConfirmButton}
+                        onPress={submitNewTransaction}
+                    />
+                </ModalBottom>
 
-                <ThickFilledButton
-                    label={transactionsInputTexts.labelConfirmButton}
-                    onPress={submitNewTransaction}
-                />
-            </ModalBottom>
-
-            <ModalBottom
-                visible={filterModalVisible}
-                onRequestClose={handleCloseFilterModal}
-                header={
-                    <Text style={styles.modalTitle}>{transactionsTexts.filter}</Text>
-                }
-            >
-                <View style={styles.twoInputsContainer}>
-                    <View style={{ flex: 1 }}>
-                        <CustomTextInput
-                            label={transactionsInputTexts.labelCategory}
-                            placeholder={transactionsInputTexts.placeholderCategory}
-                            value={categoryFilter}
-                            setValue={setCategoryFilter}
-                        />
+                <ModalBottom
+                    visible={filterModalVisible}
+                    onRequestClose={handleCloseFilterModal}
+                    header={
+                        <Text style={styles.modalTitle}>{transactionsTexts.filter}</Text>
+                    }
+                >
+                    <View style={styles.twoInputsContainer}>
+                        <View style={{ flex: 1 }}>
+                            <CustomTextInput
+                                label={transactionsInputTexts.labelCategory}
+                                placeholder={transactionsInputTexts.placeholderCategory}
+                                value={categoryFilter}
+                                setValue={setCategoryFilter}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <CustomTextInput
+                                label={transactionsInputTexts.labelType}
+                                placeholder={transactionsInputTexts.placeholderType}
+                                value={typeFilter}
+                                setValue={setTypeFilter}
+                            />
+                        </View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                        <CustomTextInput
-                            label={transactionsInputTexts.labelType}
-                            placeholder={transactionsInputTexts.placeholderType}
-                            value={typeFilter}
-                            setValue={setTypeFilter}
-                        />
-                    </View>
-                </View>
 
-                <View style={styles.twoInputsContainer}>
-                    <View style={{ flex: 1 }}>
-                        <DecimalInput
-                            label={transactionsInputTexts.labelMinAmount}
-                            placeholder={transactionsInputTexts.placeholderMinAmount}
-                            value={minAmountFilter}
-                            setValue={setMinAmountFilter}
-                        />
+                    <View style={styles.twoInputsContainer}>
+                        <View style={{ flex: 1 }}>
+                            <DecimalInput
+                                label={transactionsInputTexts.labelMinAmount}
+                                placeholder={transactionsInputTexts.placeholderMinAmount}
+                                value={minAmountFilter}
+                                setValue={setMinAmountFilter}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <DecimalInput
+                                label={transactionsInputTexts.labelMaxAmount}
+                                placeholder={transactionsInputTexts.placeholderMaxAmount}
+                                value={maxAmountFilter}
+                                setValue={setMaxAmountFilter}
+                            />
+                        </View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                        <DecimalInput
-                            label={transactionsInputTexts.labelMaxAmount}
-                            placeholder={transactionsInputTexts.placeholderMaxAmount}
-                            value={maxAmountFilter}
-                            setValue={setMaxAmountFilter}
-                        />
+
+                    <View style={styles.clearButtonRow}>
+                        <TouchableOpacity onPress={handleClearFilterForm}>
+                            <Text style={styles.clearFormText}>
+                                {transactionsTexts.clearForm}
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                </View>
 
-                <View style={styles.clearButtonRow}>
-                    <TouchableOpacity onPress={handleClearFilterForm}>
-                        <Text style={styles.clearFormText}>
-                            {transactionsTexts.clearForm}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                    <ThickFilledButton
+                        label={transactionsInputTexts.labelFilterButton}
+                        onPress={submitFilter}
+                    />
+                </ModalBottom>
+                {elementToShow}
+            </KeyboardAwareScrollView>
 
-                <ThickFilledButton
-                    label={transactionsInputTexts.labelFilterButton}
-                    onPress={submitFilter}
-                />
-            </ModalBottom>
-            {elementToShow}
-        </KeyboardAwareScrollView>
+            <LoadingOverlay visible={isLoading} />
+        </View>
     );
 
 }
