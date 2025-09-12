@@ -14,7 +14,10 @@ import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigati
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {useNavigation} from "@react-navigation/native";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {
+    KeyboardAwareScrollView,
+    KeyboardToolbar
+} from "react-native-keyboard-controller";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 import PasswordInput from "@/src/components/inputs/PasswordInput";
@@ -83,6 +86,7 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
             </View>
 
             <KeyboardAwareScrollView
+                bottomOffset={62}
                 contentContainerStyle={styles.scrollContainer}
                 keyboardShouldPersistTaps="handled"
             >
@@ -136,6 +140,10 @@ export function ScreenForgotPasswordSecond ({ route }: Props) {
                 />
             </KeyboardAwareScrollView>
 
+            <KeyboardToolbar
+                doneText={'Concluído'}
+            />
+
             <LoadingOverlay visible={isLoading} />
         </View>
     );
@@ -152,7 +160,7 @@ const styles = StyleSheet.create({
         zIndex: 10,
     },
     scrollContainer: {
-        flexGrow: 1,
+        flex: 1,
         alignItems: "center",
         justifyContent: "center",
         gap: spacing.xxl,

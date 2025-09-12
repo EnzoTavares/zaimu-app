@@ -7,7 +7,7 @@ const transactionsInputTexts = {
     labelType: 'Tipo',
 
     placeholderTitle: 'Ex: Salário',
-    placeholderAmount: 'Ex: 1000,00',
+    placeholderAmount: 'Ex: 1000.00',
     placeholderCategory: 'Categoria',
     placeholderDate: 'Ex: 23/09/2025',
     placeholderType: 'Tipo',
@@ -16,8 +16,8 @@ const transactionsInputTexts = {
     labelMaxAmount: 'Valor máximo',
     labelFilterButton: 'Filtrar',
 
-    placeholderMinAmount: 'Ex: 1000,00',
-    placeholderMaxAmount: 'Ex: 2000,00',
+    placeholderMinAmount: 'Ex: 1000.00',
+    placeholderMaxAmount: 'Ex: 2000.00',
 }
 
 export default transactionsInputTexts

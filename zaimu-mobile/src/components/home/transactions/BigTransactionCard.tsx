@@ -30,7 +30,10 @@ const BigTransactionCard = (props: BigTransactionCardProps) => {
     return (
         <Card shadowed={true} style={styles.transactionCard}>
             <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>
+                <Text
+                    style={styles.titleText}
+                    numberOfLines={1}
+                >
                     {props.title}
                 </Text>
                 <View style={styles.iconsTopContainer}>
@@ -54,7 +57,10 @@ const BigTransactionCard = (props: BigTransactionCardProps) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <Text style={props.type === TransactionType.Receita ? styles.income : styles.expense}>
+            <Text
+                style={props.type === TransactionType.Receita ? styles.income : styles.expense}
+                numberOfLines={1}
+            >
                 {label}
             </Text>
             <View style={styles.bottomContainer}>

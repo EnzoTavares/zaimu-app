@@ -44,6 +44,7 @@ const CustomTextInput = (props: CustomTextInputProps) => {
                     onChangeText={(newText: string) => props.setValue(newText)}
                     defaultValue={props.value}
                     style={styles.input}
+                    autoFocus={false}
                 />
             </TouchableOpacity>
         </View>

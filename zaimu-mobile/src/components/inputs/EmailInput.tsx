@@ -45,6 +45,7 @@ const EmailInput = (props: EmailInputProps) => {
                     defaultValue={props.value}
                     style={styles.input}
                     inputMode={'email'}
+                    autoFocus={false}
                 />
             </TouchableOpacity>
         </View>

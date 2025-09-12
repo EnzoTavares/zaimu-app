@@ -12,7 +12,10 @@ import BlackChevronLeft from "@/src/components/buttons/BlackChevronLeft";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {
+    KeyboardAwareScrollView,
+    KeyboardToolbar
+} from "react-native-keyboard-controller";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'ForgotPasswordFirst'>;
@@ -81,6 +84,10 @@ const ScreenForgotPasswordFirst = () => {
                 />
             </KeyboardAwareScrollView>
 
+            <KeyboardToolbar
+                doneText={'Concluído'}
+            />
+
             <LoadingOverlay visible={isLoading} />
         </View>
     );
@@ -99,7 +106,7 @@ const styles = StyleSheet.create({
         zIndex: 10,
     },
     scrollContainer: {
-        flexGrow: 1,
+        flex: 1,
         alignItems: "center",
         justifyContent: "center",
         gap: spacing.xxl,

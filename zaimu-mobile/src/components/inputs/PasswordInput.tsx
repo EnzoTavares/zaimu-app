@@ -47,6 +47,7 @@ const PasswordInput = (props: PasswordInputProps) => {
                     defaultValue={props.value}
                     style={styles.input}
                     secureTextEntry={!isPasswordVisible}
+                    autoFocus={false}
                 />
 
                 <TouchableOpacity

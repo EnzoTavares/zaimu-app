@@ -18,8 +18,10 @@ import * as loginService from "./service";
 import {useNavigation} from '@react-navigation/native';
 import {ParamList} from "@/src/domain/accounts/login/StackLogin";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {AuthContext} from "@/src/domain/accounts/AuthStack";
+import {
+  KeyboardAwareScrollView,
+  KeyboardToolbar
+} from "react-native-keyboard-controller";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import EmailInput from "@/src/components/inputs/EmailInput";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
@@ -36,8 +38,6 @@ const ScreenLogin = () => {
     const [passwordText, setPasswordText] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
-
-    const { signIn } = useContext(AuthContext);
 
      async function submitLogin(){
          setIsLoading(true);
@@ -147,6 +147,10 @@ const ScreenLogin = () => {
                 </Card>
             </KeyboardAwareScrollView>
 
+            <KeyboardToolbar
+                doneText={'Concluído'}
+            />
+
             <LoadingOverlay visible={isLoading} />
         </View>
     );
@@ -165,7 +169,7 @@ const styles = StyleSheet.create({
         ...fontStyles.main
     },
     container: {
-        flexGrow: 1,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         gap: spacing.md,

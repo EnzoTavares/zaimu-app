@@ -22,6 +22,7 @@ const CustomOtpInput = (props: CustomOtpInputProps) => {
                 pinCodeTextStyle: styles.pinCodeText,
                 focusedPinCodeContainerStyle: styles.activePinCodeContainer,
             }}
+            autoFocus={false}
         />
     );
 }

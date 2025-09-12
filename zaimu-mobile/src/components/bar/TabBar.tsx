@@ -59,7 +59,7 @@ export default function TabBar({ state, descriptors, navigation }: BottomTabBarP
                         <TouchableOpacity
                             key={route.key}
                             onPress={onPress}
-                            style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
+                            style={{ alignItems: 'center', justifyContent: 'center', flex: 1, height: '100%' }}
                         >
                             {!isFocused && (
                                 <Image

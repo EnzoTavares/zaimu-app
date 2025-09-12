@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Alert, Keyboard, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import transactionsTexts from "@/src/constants/texts/domain/home/tabs/Transactions";
 import {fontFamily, fontStyles} from "@/src/themes/typography";
 import ActionHeader from "@/src/components/common/ActionHeader";
@@ -7,7 +7,10 @@ import {spacing} from "@/src/themes/dimensions";
 import colors from "@/src/themes/colors";
 import CustomTextInput from "@/src/components/inputs/TextInput";
 import filterTexts from "@/src/constants/texts/inputs/Filter";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {
+    KeyboardAwareScrollView,
+    KeyboardToolbar
+} from "react-native-keyboard-controller";
 import BigTransactionCard from "@/src/components/home/transactions/BigTransactionCard";
 import ModalBottom from "@/src/components/modals/ModalBottom";
 import transactionsInputTexts from "@/src/constants/texts/inputs/Transaction";
@@ -17,16 +20,15 @@ import {useTransactions} from "@/src/context/TransactionsContext";
 import GradientIconButton from "@/src/components/buttons/GradientIconButton";
 import DropdownInput from "@/src/components/inputs/DropdownInput";
 import {Category, categoryDropdownData} from "@/src/constants/enums/Category";
-import {TransactionType, transactionTypeDropdownData} from "@/src/constants/enums/TransactionType";
+import {transactionTypeDropdownData} from "@/src/constants/enums/TransactionType";
 import {Transaction} from "@/src/types/Transaction";
 import * as transactionsService from "../transactions/service";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
-import { format, parse } from "date-fns";
+import { parse } from "date-fns";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
+import DateInput from "@/src/components/inputs/DateInput";
 
 const ScreenTransactions = () => {
-
-
     const [isLoading, setIsLoading] = useState(false);
     const { transactions, setTransactions } = useTransactions();
 
@@ -35,9 +37,9 @@ const ScreenTransactions = () => {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
 
     const [newTransactionTitle, setNewTransactionTitle] = useState('');
-    const [newTransactionAmount, setNewTransactionAmount] = useState(0);
+    const [newTransactionAmount, setNewTransactionAmount] = useState('');
     const [newTransactionCategory, setNewTransactionCategory] = useState('');
-    const [newTransactionDate, setNewTransactionDate] = useState('');
+    const [newTransactionDate, setNewTransactionDate] = useState(new Date());
     const [newTransactionType, setNewTransactionType] = useState('');
 
     const [categoryFilter, setCategoryFilter] = useState('');
@@ -46,70 +48,12 @@ const ScreenTransactions = () => {
     const [minAmountFilter, setMinAmountFilter] = useState('');
     const [maxAmountFilter, setMaxAmountFilter] = useState('');
 
-
-
     function handleCloseAddTransactionModal() {
         setAddTransactionModalVisible(false);
     }
 
-    function handleCloseFilterModal() {
-        setFilterModalVisible(false);
-    }
-
-    async function submitNewTransaction() {
-        if (newTransactionTitle === '' || newTransactionAmount === 0 || newTransactionCategory === '' || newTransactionDate === '' || newTransactionType === '') {
-            Alert.alert('Erro', 'Preencha todos os campos para adicionar uma nova transação.');
-            return;
-        }
-
-        const dateFormat = 'dd/MM/yyyy';
-
-        const dateObject = parse(newTransactionDate, dateFormat, new Date());
-
-        if (isNaN(dateObject.getTime())) {
-            Alert.alert('Data Inválida', 'Por favor, insira a data no formato DD/MM/AAAA.');
-            return;
-        }
-
-        const timestamp = dateObject.getTime();
-
-        setIsLoading(true);
-
-        const newTransaction:Transaction = {
-            title: newTransactionTitle,
-            amount: newTransactionAmount,
-            idCategory: Number(newTransactionCategory),
-            idType: Number(newTransactionType),
-            transactionDate: timestamp,
-        }
-
-        try {
-            const response = await transactionsService.createUserTransactions(newTransaction)
-
-            if (response.status === HttpStatusEnum.FAIL) {
-                Alert.alert("Falha ao criar a transação", response.message);
-                return;
-            }
-
-            setTransactions([...transactions, response.object]);
-
-            setNewTransactionTitle('');
-            setNewTransactionAmount(0);
-            setNewTransactionCategory('');
-            setNewTransactionDate('');
-            setNewTransactionType('');
-
-            setAddTransactionModalVisible(false);
-        } catch (e) {
-            console.error("Login error: ", e);
-            Alert.alert("Login Failed", "Please try again later");
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
-    function submitFilter() {
-
+    function handleOpenAddTransactionModal() {
+        setAddTransactionModalVisible(true);
     }
 
     function handleClearNewTransactionForm () {
@@ -128,14 +72,22 @@ const ScreenTransactions = () => {
                     text: 'Limpar',
                     onPress: () => {
                         setNewTransactionTitle('');
-                        setNewTransactionAmount(0);
+                        setNewTransactionAmount('');
                         setNewTransactionCategory('');
-                        setNewTransactionDate('');
+                        setNewTransactionDate(new Date());
                         setNewTransactionType('');
                     },
                 }
             ]
         )
+    }
+
+    function handleCloseFilterModal() {
+        setFilterModalVisible(false);
+    }
+
+    function handleOpenFilterModal() {
+        setFilterModalVisible(true);
     }
 
     function handleClearFilterForm () {
@@ -163,6 +115,68 @@ const ScreenTransactions = () => {
             ]
         )
     }
+
+    async function submitNewTransaction() {
+        setIsLoading(true);
+
+        const amount = newTransactionAmount === '' ? 0 : Number(newTransactionAmount);
+
+        if (
+            newTransactionTitle === '' ||
+            amount === 0 ||
+            newTransactionCategory === '' ||
+            newTransactionType === ''
+        ) {
+            Alert.alert('Erro', 'Preencha todos os campos para adicionar uma nova transação.');
+            return;
+        }
+
+        const dateObject = newTransactionDate;
+
+        if (!(dateObject instanceof Date) || isNaN(dateObject.getTime())) {
+            Alert.alert('Data Inválida', 'Por favor, selecione uma data válida.');
+            return;
+        }
+
+        const newTransaction:Transaction = {
+            title: newTransactionTitle,
+            amount: amount,
+            idCategory: Number(newTransactionCategory),
+            idType: Number(newTransactionType),
+            transactionDate: dateObject.getTime(),
+        }
+
+        try {
+            const response = await transactionsService.createUserTransactions(newTransaction)
+
+            if (response.status === HttpStatusEnum.FAIL) {
+                Alert.alert("Falha ao criar a transação", response.message);
+                return;
+            }
+
+            setTransactions([...transactions, response.object]);
+            setNewTransactionTitle('');
+            setNewTransactionAmount('');
+            setNewTransactionCategory('');
+            setNewTransactionDate(new Date());
+            setNewTransactionType('');
+
+            setAddTransactionModalVisible(false);
+        } catch (e) {
+            console.error("Create transaction error: ", e);
+            Alert.alert("Erro", "Tente novamente mais tarde");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    function submitFilter() {
+
+    }
+
+    const handleInputFocusLoss = () => {
+        Keyboard.dismiss();
+    };
 
     const transactionCards = transactions.map((transaction, index) => (
         <BigTransactionCard
@@ -199,7 +213,7 @@ const ScreenTransactions = () => {
                 keyboardShouldPersistTaps="handled"
             >
                 <ActionHeader
-                    onPress={() => setAddTransactionModalVisible(true)}
+                    onPress={handleOpenAddTransactionModal}
                     buttonIcon={'whitePlusLg'}
                     buttonText={transactionsTexts.add}
                 >
@@ -215,7 +229,7 @@ const ScreenTransactions = () => {
                 </ActionHeader>
 
                 <ActionHeader
-                    onPress={() => setFilterModalVisible(true)}
+                    onPress={handleOpenFilterModal}
                     buttonIcon={'whiteFilterCircle'}
                     buttonText={transactionsTexts.filter}
                 >
@@ -244,30 +258,34 @@ const ScreenTransactions = () => {
                             <DecimalInput
                                 label={transactionsInputTexts.labelAmount}
                                 placeholder={transactionsInputTexts.placeholderAmount}
-                                value={String(newTransactionAmount)}
-                                setValue={(text: string) => setNewTransactionAmount(Number(text))}
+                                value={newTransactionAmount}
+                                setValue={setNewTransactionAmount}
                             />
                         </View>
                         <View style={{ flex: 1 }}>
-                            <DropdownInput
-                                label={transactionsInputTexts.labelCategory}
-                                value={newTransactionCategory}
-                                setValue={setNewTransactionCategory}
-                                data={categoryDropdownData}
-                            />
-                        </View>
-                    </View>
-
-                    <View style={styles.twoInputsContainer}>
-                        <View style={{ flex: 1 }}>
-                            <CustomTextInput
+                            <DateInput
                                 label={transactionsInputTexts.labelDate}
                                 placeholder={transactionsInputTexts.placeholderDate}
                                 value={newTransactionDate}
                                 setValue={setNewTransactionDate} />
                         </View>
+                    </View>
+
+                    <View style={styles.twoInputsContainer}>
                         <View style={{ flex: 1 }}>
                             <DropdownInput
+                                onOpenRequest={handleInputFocusLoss}
+                                label={transactionsInputTexts.labelCategory}
+                                value={newTransactionCategory}
+                                setValue={setNewTransactionCategory}
+                                data={categoryDropdownData}
+                                position={'top'}
+                                searchable={false}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <DropdownInput
+                                onOpenRequest={handleInputFocusLoss}
                                 label={transactionsInputTexts.labelType}
                                 value={newTransactionType}
                                 setValue={setNewTransactionType}

@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {View, TextInput, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity} from 'react-native';
+import {View, TextInput, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity, Keyboard} from 'react-native';
 import {Image} from "expo-image";
 import icons from "@/src/constants/icons";
 import {IconName} from "@/src/types/Icon";
@@ -18,6 +18,14 @@ type DecimalInputProps = {
 
 const DecimalInput = (props: DecimalInputProps) => {
     const inputRef = useRef<TextInput>(null);
+
+    const handleTextChange = (text) => {
+        const normalized = text.replace(',', '.');
+        const cleaned = normalized
+            .replace(/[^0-9.]/g, '')
+            .replace(/(\..*)\./g, '$1');
+        props.setValue(cleaned === '' ? '' : cleaned);
+    };
 
     return (
         <View style={[styles.container, props.style]}>
@@ -41,10 +49,12 @@ const DecimalInput = (props: DecimalInputProps) => {
                     ref={inputRef}
                     placeholder={props.placeholder}
                     placeholderTextColor={colors.greyMiddle}
-                    onChangeText={(newText: string) => props.setValue(newText)}
-                    defaultValue={props.value}
+                    value={props.value ? props.value.toString() : ''}
                     style={styles.input}
                     inputMode={'decimal'}
+                    keyboardType="decimal-pad"
+                    autoFocus={false}
+                    onChangeText={handleTextChange}
                 />
             </TouchableOpacity>
         </View>

@@ -20,13 +20,17 @@ import { registerUser } from './service';
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {ParamList} from "@/src/domain/accounts/register/StackRegister";
 import {useNavigation} from "@react-navigation/native";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {
+    KeyboardAwareScrollView,
+    KeyboardToolbar
+} from "react-native-keyboard-controller";
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {ConfirmEmailParameters} from "@/src/types/ConfirmEmailParameters";
 import EmailInput from "@/src/components/inputs/EmailInput";
 import {HttpStatusEnum} from "@/src/constants/enums/HttpStatusEnum";
 import PasswordInput from "@/src/components/inputs/PasswordInput";
+import {useTransactions} from "@/src/context/TransactionsContext";
 
 type NavigationProp = NativeStackNavigationProp<ParamList, 'Register'>;
 
@@ -39,6 +43,24 @@ const ScreenRegister = () => {
     const [email, setEmail] = useState("");
     const [passwordText, setPasswordText] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+
+    // const OFFSET = 20;
+    //
+    // const useGradualAnimation =() => {
+    //     const height = useSharedValue(OFFSET);
+    //
+    //     useKeyboardHandler(
+    //         {
+    //             onMove: (e) => {
+    //                 "worklet";
+    //                 height.value = Math.max(e.height, OFFSET);
+    //             }
+    //         },
+    //         []
+    //     );
+    //     return { height };
+    // }
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -90,6 +112,7 @@ const ScreenRegister = () => {
     return (
         <View style={{flex: 1}}>
             <KeyboardAwareScrollView
+                bottomOffset={62}
                 contentContainerStyle={[
                     styles.container,
                     {
@@ -103,7 +126,7 @@ const ScreenRegister = () => {
                     height={68}
                     width={68}
                 />
-                
+
                 <Text style={styles.welcomeText}>
                     {brandTexts.welcome}
                     <Text style={styles.brandName}>
@@ -194,6 +217,10 @@ const ScreenRegister = () => {
                 </Card>
             </KeyboardAwareScrollView>
 
+            <KeyboardToolbar
+                doneText={'Concluído'}
+            />
+
             <LoadingOverlay visible={isLoading} />
         </View>
     );
@@ -212,7 +239,6 @@ const styles = StyleSheet.create({
         ...fontStyles.main
     },
     container: {
-        flexGrow: 1,
         alignItems: 'center',
         gap: spacing.md,
         width: "100%",
@@ -239,3 +265,6 @@ const styles = StyleSheet.create({
         gap: spacing.lg,
     }
 })
+
+
+

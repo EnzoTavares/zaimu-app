@@ -1,9 +1,8 @@
 import React, {useRef, useState} from 'react';
-import {StyleProp, StyleSheet, Text, TextInput, TouchableOpacity, View, ViewStyle} from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import {Image} from "expo-image";
+import {StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle, Keyboard, Text, TextInput} from 'react-native';
+import {Dropdown, IDropdownRef} from 'react-native-element-dropdown';
 import icons from "@/src/constants/icons";
+import {Image} from 'expo-image'
 import colors from "@/src/themes/colors";
 import {spacing} from "@/src/themes/dimensions";
 import {fontStyles} from "@/src/themes/typography";
@@ -18,21 +17,27 @@ type DropdownInputProps = {
     setValue: (text: string) => void;
     data: { label: string; value: string }[];
     searchable?: boolean;
+    position?: 'auto' | 'top' | 'bottom';
+    onOpenRequest?: () => void;
 }
 
 const DropdownInput = (props: DropdownInputProps) => {
     const [isFocus, setIsFocus] = useState(false);
-    const inputRef = useRef<any>(null);
+    const dropdownRef = useRef<IDropdownRef>(null);
 
-    const renderLabel = () => {
-        if (props.value || isFocus) {
-            return (
-                <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-                    Dropdown label
-                </Text>
-            );
+    const handleOpenDropdown = () => {
+        if (Keyboard.isVisible()) {
+            props.onOpenRequest?.();
+            const sub = Keyboard.addListener("keyboardDidHide", () => {
+                setIsFocus(true);
+                dropdownRef.current?.open();
+                sub.remove();
+            });
+        } else {
+            props.onOpenRequest?.();
+            setIsFocus(true);
+            dropdownRef.current?.open();
         }
-        return null;
     };
 
     return (
@@ -46,7 +51,7 @@ const DropdownInput = (props: DropdownInputProps) => {
             <TouchableOpacity
                 style={styles.inputContainer}
                 activeOpacity={1}
-                onPress={() => inputRef.current?.focus()}
+                onPress={handleOpenDropdown}
             >
                 {props.icon && (
                     <Image
@@ -55,17 +60,23 @@ const DropdownInput = (props: DropdownInputProps) => {
                     />
                 )}
                 <Dropdown
-                    style={[styles.dropdown, isFocus && { borderColor: colors.primary }]}
+                    ref={dropdownRef}
+                    style={styles.dropdown}
                     data={props.data}
+                    dropdownPosition={props.position || 'auto'}
                     search={props.searchable}
+                    renderInputSearch={!props.searchable ? () => null : undefined}
+
                     maxHeight={300}
                     labelField="label"
                     valueField="value"
                     placeholder={!isFocus ? 'Selecione' : '...'}
                     searchPlaceholder="Buscar..."
                     value={props.value}
-                    onFocus={() => setIsFocus(true)}
-                    onBlur={() => setIsFocus(false)}
+                    pointerEvents="none"
+                    onBlur={() => {
+                        setIsFocus(false)
+                    }}
                     onChange={item => {
                         props.setValue(item.value);
                         setIsFocus(false);
@@ -73,17 +84,6 @@ const DropdownInput = (props: DropdownInputProps) => {
                 />
             </TouchableOpacity>
         </View>
-
-
-        // <View style={[styles.container, props.style]}>
-        //     {props.label && (
-        //         <Text style={styles.label}>{props.label}</Text>
-        //     )}
-        //     <View style={styles.inputWrapper}>
-
-        //     </View>
-        // </View>
-
     );
 };
 

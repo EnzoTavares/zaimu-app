@@ -13,6 +13,8 @@ const icons = {
     greyHouseFill: require('../assets/icons/grey-house-fill.svg'),
     greyWalletFill: require('../assets/icons/grey-wallet-fill.svg'),
 
+    calendarOutlined: require('../assets/icons/calendar-outlined.svg'),
+
     blackChevronLeft: require('../assets/icons/black-chevron-left.svg'),
     blackXLg: require('../assets/icons/black-x-lg.svg'),
 

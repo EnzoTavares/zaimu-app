@@ -80,15 +80,6 @@ const ScreenHome = () => {
         fetchData();
     }, []);
 
-
-
-    if (isLoading) {
-        return (
-            <LoadingOverlay visible={isLoading} />
-        );
-    }
-
-
     if (transactions.length === 0) {
         return(
             <View style={[styles.contentContainer, { flex: 1, justifyContent: 'center', width: '100%' }]}>
