@@ -40,7 +40,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public HttpResponse login(
-            @Valid @RequestBody LoginParameters loginParameters
+            @RequestBody LoginParameters loginParameters
     ) {
         try{
             LoginResponseView loginResponseView = authService.signInUser(loginParameters);

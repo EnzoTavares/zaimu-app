@@ -102,14 +102,9 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
         userAttributes.put("family_name", registerParameters.getFamilyName());
         userAttributes.put("nickname", registerParameters.getNickname());
 
-        ListUsersRequest emailRequest = ListUsersRequest.builder()
-                .userPoolId(userPoolId)
-                .filter("email = \"" + registerParameters.getEmail() + "\"")
-                .limit(1)
-                .build();
-
-        if (!cognitoClient.listUsers(emailRequest).users().isEmpty())
-            throw new ZaimuUserAlreadyExistsException("Email já cadastrado.");
+        if (verifyIfEmailExists(registerParameters.getEmail())) {
+            throw new ZaimuUserAlreadyExistsException("Email já cadastrado");
+        }
 
         List<AttributeType> attributes = userAttributes.entrySet().stream()
                 .map(entry -> AttributeType.builder()
@@ -382,5 +377,15 @@ public class AuthServiceImpl extends RequestUser implements AuthService {
 
             return response.payload().asUtf8String();
         }
+    }
+
+    private boolean verifyIfEmailExists(String email) {
+        ListUsersRequest emailRequest = ListUsersRequest.builder()
+                .userPoolId(userPoolId)
+                .filter("email = \"" + email + "\"")
+                .limit(1)
+                .build();
+
+        return !cognitoClient.listUsers(emailRequest).users().isEmpty();
     }
 }
